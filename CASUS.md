@@ -24,20 +24,20 @@ Zoals gezegd zijn de beheerders van Stichting Accessibility de poortwachters van
 
 ## Proces in detail
 ![proces_overzicht.png](docs%2Fimages%2Fproces_overzicht.png)
+
 Het proces om ervaringsdeskundigen te werven en te selecteren voor onderzoeken is als volgt:
-1. Een *ervaringsdeskundige* meldt zich aan op het platform. Deze nieuwe gebruiker registreert een uitgebreid profiel met onder andere hun beperking(en), hulpmiddelen, type onderzoek waar ze aan willen deelnemen (telefonisch, op locatie, via internet) en voorkeur voor benadering.   
-2. Een *beheerder* van Stichting Accessibility controleert de aanmelding en geeft toegang tot de webapplicatie.
-3. Daarna kan de *ervaringsdeskundige* inloggen en het overzicht van geschikte onderzoeken bekijken. Deze onderzoeken zijn goedgekeurd door een beheerder en passen bij de filters van de ervaringsdeskundige. 
+- 1: Een *ervaringsdeskundige* meldt zich aan op het platform. Deze nieuwe gebruiker registreert een uitgebreid profiel met onder andere hun beperking(en), hulpmiddelen, type onderzoek waar ze aan willen deelnemen (telefonisch, op locatie, via internet) en voorkeur voor benadering.   
+- 2: Een *beheerder* van Stichting Accessibility controleert de aanmelding en geeft toegang tot de webapplicatie. Daarna kan de *ervaringsdeskundige* inloggen en het overzicht van geschikte onderzoeken bekijken. Deze onderzoeken zijn goedgekeurd door een beheerder en passen bij de filters van de ervaringsdeskundige. 
 
 Daarnaast is er een proces om onderzoeken aan te bieden:
-3. Een bedrijf of organisatie wil een onderzoek uitvoeren en meldt dit aan bij Stichting Accessibility. Een *beheerder* neemt hun gegevens aan (buiten het systeem) en registreert het bedrijf. De organisatie krijgt een API sleutel om zich te authenticeren bij de API. 
-4. De *organisatie* maakt een onderzoek aan. Dit onderzoek krijgt een aantal verwachte attributen zoals omschrijving, soort onderzoek en dergelijk, maar ook een aantal filters. Deze filters kunnen een leeftijd bevatten, type beperking, type onderzoek (telefonisch, op locatie of via internet) en tijdstip van onderzoek. 
-5. Een *beheerder* keurt het onderzoek goed en het onderzoek wordt zichtbaar voor de ervaringsdeskundigen die voldoen aan de filters.
+- 3: Een bedrijf of organisatie wil een onderzoek uitvoeren en meldt dit aan bij Stichting Accessibility. Een *beheerder* neemt hun gegevens aan (buiten het systeem) en registreert het bedrijf. De organisatie krijgt een API sleutel om zich te authenticeren bij de API.
+- 4: De *organisatie* maakt een onderzoek aan. Dit onderzoek krijgt een aantal verwachte attributen zoals omschrijving, soort onderzoek en dergelijk, maar ook een aantal filters. Deze filters kunnen een leeftijd bevatten, type beperking, type onderzoek (telefonisch, op locatie of via internet) en tijdstip van onderzoek. 
+- 5: Een *beheerder* keurt het onderzoek goed en het onderzoek wordt zichtbaar voor de ervaringsdeskundigen die voldoen aan de filters.
 
 Het kernproces is om ervaringsdeskundigen te koppelen aan onderzoeken:
-6. De *ervaringsdeskundigen* zien bij login welke onderzoeksvragen er open staan op basis van hun voorkeuren en de "filters" van het onderzoek. Zij kunnen de details bekijken en zich opgeven voor een onderzoek.
-7. Een *beheerder* ziet welke ervaringsdeskundigen interesse aangeven voor een onderzoek en keurt de deelname goed. De beheerder neemt contact op met het bedrijf en geeft de details van de ervaringsdeskundige door. Deze actie vindt buiten de applicatie plaats, alleen de status van de onderzoeksinschrijving wordt aangepast.
-8. Daarnaast kunnen *organisaties* een HTTP verzoek naar de API doen om voor hun onderzoeken een lijst van ingeschreven ervaringsdeskundigen op te halen. Eventueel kan de organisatie ook een API call doen om de status van een onderzoek aan te passen en te sluiten. Het is dan niet meer mogelijk voor ervaringsdeskundigen om zich in te schrijven.
+- 6: De *ervaringsdeskundigen* zien bij login welke onderzoeksvragen er open staan op basis van hun voorkeuren en de "filters" van het onderzoek. Zij kunnen de details bekijken en zich opgeven voor een onderzoek.
+- 7: Een *beheerder* ziet welke ervaringsdeskundigen interesse aangeven voor een onderzoek en keurt de deelname goed. De beheerder neemt contact op met het bedrijf en geeft de details van de ervaringsdeskundige door. Deze actie vindt buiten de applicatie plaats, alleen de status van de onderzoeksinschrijving wordt aangepast.
+- 8: Daarnaast kunnen *organisaties* een HTTP verzoek naar de API doen om voor hun onderzoeken een lijst van ingeschreven ervaringsdeskundigen op te halen. Eventueel kan de organisatie ook een API call doen om de status van een onderzoek aan te passen en te sluiten. Het is dan niet meer mogelijk voor ervaringsdeskundigen om zich in te schrijven.
 
 ## Processtatus
 We werken voor het eerst met processen - belangrijk is het besef dat we ergens de status van een proces moeten bijhouden. 
@@ -79,8 +79,9 @@ Het daadwerkelijk contact tussen de beheerders van Accessibility en de organisat
 
 ### Portal ervaringsdeskundigen
 1. **Registratie en authenticatie:** 
-   - Ervaringsdeskundigen moeten zich kunnen registreren op de site en een profiel kunnen aanmaken. Een minimale verzameling attributen is te vinden in de bijlage achterin deze casus. Ook de lijst met beperkingen is te vinden in de bijlages.
-   - Het profiel moet in het geval van een voogd of een ervaringsdeskundige met een toezichthouder ook de contactgegevens van dit persoon bevatten. Een voogd of toezichthouder is verplicht voor ervaringsdeskundigen jonger dan 18 jaar. Gebruik javascript om de juiste velden te tonen en het invullen van een profiel zo eenvoudig mogelijk te maken. 
+   - Ervaringsdeskundigen moeten zich kunnen registreren op de site en een profiel kunnen aanmaken. Een minimale verzameling attributen is te vinden in de bijlage achterin deze casus. Ook de lijst met beperkingen is te vinden in de bijlages. Leg duidelijk uit per veld wat er van de ervaringsdeskundige wordt verwacht. 
+   - Het profiel moet in het geval van een voogd of een ervaringsdeskundige met een toezichthouder ook de contactgegevens van dit persoon bevatten. Een voogd of toezichthouder is verplicht voor ervaringsdeskundigen jonger dan 18 jaar. Gebruik javascript om de juiste velden te tonen en het invullen van een profiel zo eenvoudig mogelijk te maken.
+   - Tijdens registratie moeten ervaringsdeskundigen aangeven akkoord te gaan met de voorwaarden van de website. Daarbij zou je een link naar de voorwaarden moeten geven, deze zijn bijgesloten in dit project als [PDF document](docs/voorwaarden/accessibilitynl_voorwaarden_gegevens-01012025.pdf). 
    - Na registratie heeft het account nog géén toegang tot de site. Een beheerder moet het account eerst goedkeuren. Stel dat een ervaringsdeskundige eerder probeert in te loggen dan moet dit geweigerd worden met een duidelijke uitleg.
    
 
@@ -203,25 +204,29 @@ Voor de details van het inleveren verwijzen we naar de introductie presentatie. 
 ## Gegevens ervaringsdeskundigen
 De profielpagina van een ervaringsdeskundige / ervaringsdeskundige bevat de volgende velden. Een aantal daarvan zijn gemarkeerd als "filterveld" - dit zijn de attributen waar naar gekeken moet worden als een onderzoek wordt aangeboden:
 
-| Attribuut                             | Type       | Toelichting                                                                    |
-|---------------------------------------|------------|--------------------------------------------------------------------------------|
-| Voornaam                              | String     |                                                                                |
-| Achternaam                            | String     |                                                                                |
-| Postcode                              | String     |                                                                                |
-| Geslacht                              | String     |                                                                                |  
-| Emailadres                            | String     |                                                                                |
-| Telefoonnummer                        | String     |                                                                                |
-| Geboortedatum                         | Date       | Filterveld.                                                                    |
-| Type beperking                        | Verwijzing | Keuze uit een lijst, meerdere mogelijk. Filterveld.                            |
-| Gebruikte hulpmiddelen                | Tekstveld  |                                                                                |
-| Bijzonderheden                        | Tekstveld  |                                                                                |
-| Toezichthouder                        | Boolean    | Standaard: Nee                                                                 |
-| Naam voogd of toezichthouder          | String     | Indien toezichthouder                                                          |
-| E-mailadres voogd of toezichthouder   | String     | Indien toezichthouder                                                          |
-| Telefoonnummer voogd of toezichthouder | String     | Indien toezichthouder                                                          |
-| Voorkeur benadering                   | Keuze      | Keuze uit telefonisch of email                                                 |
-| Type onderzoek                        | Keuze      | Meerdere mogelijk. Keuze uit telefonisch, internet of op locatie.  Filterveld. |
-| Bijzonderheden beschikbaarheid        | Tekstveld  |                                                                                |
+| Attribuut                              | Type       | Toelichting                                                                                     |
+|----------------------------------------|------------|-------------------------------------------------------------------------------------------------|
+| Voornaam                               | String     |                                                                                                 |
+| Achternaam                             | String     |                                                                                                 |
+| Postcode                               | String     |                                                                                                 |
+| Geslacht                               | String     |                                                                                                 |  
+| Emailadres                             | String     |                                                                                                 |
+| Telefoonnummer                         | String     |                                                                                                 |
+| Geboortedatum                          | Date       | Filterveld.                                                                                     |
+| Type beperking                         | Verwijzing | Keuze uit een lijst, meerdere mogelijk. Filterveld.                                             |
+| Gebruikte hulpmiddelen                 | Tekstveld  |                                                                                                 |
+| Kort voorstellen                       | Tekstveld | Een korte tekst waarin de ervaringsdeskundige zich voorstelt.                                   | 
+|                                        |            |                                                                                                 | 
+| Bijzonderheden                         | Tekstveld  | Een tekst waarin de ervaringsdeskundige eventuele extra uitleg over hun beperking(en) kan geven |
+| Akkoord met voorwaarden                | Boolean    | Standaard: Nee                                                                                  
+|                                        |            |                                                                                                 | 
+| Toezichthouder                         | Boolean    | Standaard: Nee                                                                                  |
+| Naam voogd of toezichthouder           | String     | Indien toezichthouder                                                                           |
+| E-mailadres voogd of toezichthouder    | String     | Indien toezichthouder                                                                           |
+| Telefoonnummer voogd of toezichthouder | String     | Indien toezichthouder                                                                           |
+| Voorkeur benadering                    | Keuze      | Keuze uit telefonisch of email                                                                  |
+| Type onderzoek                         | Keuze      | Meerdere mogelijk. Keuze uit telefonisch, internet of op locatie.  Filterveld.                  |
+| Bijzonderheden beschikbaarheid         | Tekstveld  |                                                                                                 |
 
 ## Gegevens onderzoek
 Een aantal gegevens van een onderzoek zijn gemarkeerd als "filterveld" - dit zijn de attributen waarop wordt bepaald wanneer het onderzoek aan een ervaringsdeskundige wordt getoond:
@@ -283,6 +288,8 @@ De volgende beperkingen zijn van belang voor de applicatie. Waar een gebruiker o
 **Cognitieve / neurologische beperkingen**
 - ADHD
 - Autisme
+- Dyslexie
+- Dyscalculie
 - Leerstoornis
 - Geheugen beperking
 - Multiple Sclerose
