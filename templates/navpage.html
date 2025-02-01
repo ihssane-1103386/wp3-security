@@ -1,0 +1,14 @@
+<!DOCTYPE html> 
+<html lang="nl"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>Navigatie</title> 
+    <nav> 
+        {% for item in nav.top %} 
+        <li class="{{ 'active' if item.is_active else '' }}"> 
+            <a href="{{ item.url }}">{{ item.label }}</a> 
+        </li> 
+        {% endfor %} 
+    </nav>
+</head> 
+</html>
