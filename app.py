@@ -16,4 +16,5 @@ def notFound(e):
 def onderzoeksvragen():
     return render_template("onderzoeksvragen.html")
 
-app.run()
+if __name__ == '__main__':
+    app.run(debug=True)

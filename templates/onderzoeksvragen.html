@@ -4,19 +4,38 @@
     <h1>Onderzoeksvragen</h1>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onderzoeksvragen</title>
+    <title>Onderzoeken</title>
+    <link rel="stylesheet" href="../static/onderzoeksvragen_overzicht.css"/>
 </head>
 <body>
-    <table>
-        <tr>
-            <th>Onderzoeksvragen</th>
-            <th>Aantal</th>
-        </tr>
-        <tr>
-            <td>Onderzoeksvraag 1 -</td>
-            <td> 0/15 gevonden</td>
-        </tr>
+<div class="search-container">
+    <form>
+        <label>
+            <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input">
+        </label>
+        <button type="submit" class="search-button">Zoeken</button>
+    </form>
+</div>
+<table>
+    <tr>
+        <th>Onderzoek</th>
+        <th>Doelgroep</th>
+        <th>Deelnemers</th>
+    </tr>
+    <tr>
+        <td>Onderzoek 1</td>
+        <td>Visueel beperkt</td>
+        <td>0/10</td>
+    </tr>
+</table>
+<div class="navigation-buttons">
+    <a id="prev">
+        <button>Vorige 10</button>
+    </a>
 
-    </table>
+    <a id="next">
+        <button>Volgende 10</button>
+    </a>
+</div>
 </body>
 </html>

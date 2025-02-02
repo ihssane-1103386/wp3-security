@@ -1,0 +1,27 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: #DEEBf6;
+}
+
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    color: #000000;
+    background-color: #FFFFFF;
+}
+
+th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    background-color: #172152;
+    color: #FFFFFF;
+}
