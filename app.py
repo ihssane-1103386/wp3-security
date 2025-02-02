@@ -16,4 +16,8 @@ def notFound(e):
 def onderzoeksvragen():
     return render_template("onderzoeksvragen.html")
 
+@app.route("/registraties")
+def registraties():
+    return render_template("registraties.html")
+
 app.run()
