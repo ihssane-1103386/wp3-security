@@ -13,3 +13,20 @@ body {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.registratie-lijst {
+    display: flex;
+    flex-direction: column;
+}
+
+.registratie {
+    background: #e0e0e0;
+    padding: 10px;
+    margin: 5px 0;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.registratie:hover {
+    background: #d0d0d0;
+}
