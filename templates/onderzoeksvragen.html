@@ -6,41 +6,50 @@
     <title>Onderzoeken</title>
     <link rel="stylesheet" href="../static/onderzoeksvragen_overzicht.css"/>
 </head>
-
 <body>
-<h1>Onderzoeken</h1>
+    <header>
+        <nav>
+            <!-- Hier komt de nav-bar -->
+        </nav>
+    </header>
 
-<label class="search-container">
-    <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input">
-    <button type="submit" class="search-button">Zoeken</button>
-</label>
+    <main>
+        <h1>Onderzoeken</h1>
+        <div class="search-container">
+            <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input">
+            <button type="submit" class="search-button">Zoeken</button>
+        </div>
 
-<table>
-    <tr>
-        <th>Onderzoek</th>
-        <th>Doelgroep</th>
-        <th>Deelnemers</th>
-    </tr>
-    <tr>
-        <td>Onderzoek 1</td>
-        <td>Visueel beperkt</td>
-        <td>0/10</td>
-    </tr>
-    <tr>
-        <td>Onderzoek 2</td>
-        <td>Slechthorend</td>
-        <td>0/5</td>
-    </tr>
-</table>
+        <table>
+            <tr>
+                <th>Onderzoek</th>
+                <th>Doelgroep</th>
+                <th>Deelnemers</th>
+            </tr>
+            <tr>
+                <td>Onderzoek 1</td>
+                <td>Visueel beperkt</td>
+                <td>0/10</td>
+            </tr>
+            <tr>
+                <td>Onderzoek 2</td>
+                <td>Slechthorend</td>
+                <td>0/5</td>
+            </tr>
+        </table>
 
-<div class="nav-button">
-    <a id="prev">
-        <button>Vorige 10</button>
-    </a>
+        <div class="nav-button">
+            <a id="prev">
+                <button>Vorige 10</button>
+            </a>
+            <a id="next">
+                <button>Volgende 10</button>
+            </a>
+        </div>
+    </main>
 
-    <a id="next">
-        <button>Volgende 10</button>
-    </a>
-</div>
+    <footer>
+        <!-- Hier komt de footer -->
+    </footer>
 </body>
 </html>
