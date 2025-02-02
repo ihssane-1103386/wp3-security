@@ -9,22 +9,27 @@ body {
     background-color: #DEEBf6;
 }
 
-table td,
-table th {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
 td {
+    border: solid #ddd;
+    padding: 8px;
     color: #000000;
     background-color: #FFFFFF;
+    text-align: center;
 }
 
 th {
+    border: 1px solid #ddd;
+    padding: 8px;
     font-weight: bold;
     background-color: #172152;
     color: #FFFFFF;
+    text-align: center;
 }
 
 .search-container {
