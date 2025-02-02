@@ -16,5 +16,9 @@ def notFound(e):
 def onderzoeksvragen():
     return render_template("onderzoeksvragen.html")
 
+@app.route("/aanmaken-onderzoeksvraag")
+def aanmaken_onderzoeksvraag():
+    return render_template("onderzoeksvraag_aanmaken.html")
+
 if __name__ == '__main__':
     app.run(debug=True)
