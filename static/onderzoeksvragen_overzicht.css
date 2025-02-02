@@ -1,5 +1,5 @@
 html, body {
-    height: 100%;
+    height: auto;
 }
 
 body {
@@ -9,19 +9,30 @@ body {
     background-color: #DEEBf6;
 }
 
-td {
+table td,
+table th {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
+}
+
+td {
     color: #000000;
     background-color: #FFFFFF;
 }
 
 th {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
     font-weight: bold;
     background-color: #172152;
     color: #FFFFFF;
+}
+
+.search-container {
+    margin: 7px 20px;
+    text-align: right;
+}
+
+.nav-button{
+    margin-top: 7px;
+    text-align: center;
 }
