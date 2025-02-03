@@ -59,3 +59,18 @@ textarea {
     box-sizing: border-box;
     resize: none;
 }
+
+.leeftijd {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.leeftijd div {
+    flex: 1;
+}
+
+#aantal-deelnemers {
+    width: 50px;
+    margin-left: 10px;
+}

@@ -22,8 +22,16 @@
         <label for="omschrijving">Omschrijving</label>
         <textarea name="omschrijving" id="omschrijving"></textarea>
 
-        <label for="doelgroep">Doelgroep:</label><br>
-        <input type="text" name="doelgroep" id="doelgroep"/>
+        <div class="leeftijd">
+            <div>
+                <label for="min-leeftijd">Minimale Leeftijd:</label>
+                <input type="number" name="min-leeftijd" id="min-leeftijd" min="0"/>
+            </div>
+            <div>
+                <label for="max-leeftijd">Maximale Leeftijd:</label>
+                <input type="number" name="max-leeftijd" id="max-leeftijd" min="0"/>
+            </div>
+        </div>
 
         <label for="plaats">Plaats</label>
         <input type="text" name="plaats" id="plaats"/>
@@ -42,7 +50,7 @@
         <input type="text" name="beperking" id="beperking"/>
 
         <label for="aantal-deelnemers">Aantal deelnemers nodig:</label>
-        <input type="text" name="aantal-deelnemers" id="aantal-deelnemers"/>
+        <input type="number" name="aantal-deelnemers" id="aantal-deelnemers"/>
     </form>
 </main>
 
