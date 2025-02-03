@@ -3,48 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onderzoeken</title>
+    <title>Onderzoeksvraag aanmaken</title>
+    <link rel="stylesheet" href="../static/onderzoeksvragen_aanmaken.css"/>
 </head>
 <body>
-    <header>
-        <nav>
-            <!-- Hier komt de nav-bar -->
-        </nav>
-    </header>
+<header>
+    <nav>
+        <!-- Hier komt de nav-bar -->
+    </nav>
+</header>
 
-    <main>
-        <h1>Onderzoeksvraag aanmaken</h1>
-        <form>
-            <label for="onderzoekstitel">Onderzoekstitel</label><br>
-            <input type="text" name="onderzoekstitel" id="onderzoekstitel"/><br>
+<main>
+    <h1>Onderzoeksvraag aanmaken</h1>
+    <form>
+        <label for="onderzoekstitel">Onderzoekstitel</label>
+        <input type="text" name="onderzoekstitel" id="onderzoekstitel"/>
 
-            <label for="omschrijving">Omschrijving</label><br>
-            <input type="text" name="omschrijving" id="omschrijving"/><br>
+        <label for="omschrijving">Omschrijving</label>
+        <input type="text" name="omschrijving" id="omschrijving"/>
 
-            <label for="doelgroep">Doelgroep:</label><br>
-            <input type="text" name="doelgroep" id="doelgroep"/><br>
+        <label for="doelgroep">Doelgroep:</label><br>
+        <input type="text" name="doelgroep" id="doelgroep"/>
 
-            <label for="plaats">Plaats</label><br>
-            <input type="text" name="plaats" id="plaats"/><br>
+        <label for="plaats">Plaats</label>
+        <input type="text" name="plaats" id="plaats"/>
 
-            <label for="begeleiders">Begeleiders:</label><br>
-                <label>
-                   <input type="radio" name="begeleiders" value="ja"/> ja
-                </label>
-                <label>
-                        <input type="radio" name="begeleiders" value="nee"/> nee
-                </label><br>
+        <label for="begeleiders">Mogen eventuele begeleiders mee?</label>
+        <div class="radio-button">
+            <label>
+                <input type="radio" name="begeleiders" value="ja"/> Ja
+            </label>
+            <label>
+                <input type="radio" name="begeleiders" value="nee"/> Nee
+            </label>
+        </div>
 
-            <label for="beperking">Beperking</label><br>
-            <input type="text" name="beperking" id="beperking"/><br>
+        <label for="beperking">Beperking</label>
+        <input type="text" name="beperking" id="beperking"/>
 
-            <label for="aantal-deelnemers">Aantal deelnemers nodig:</label><br>
-            <input type="text" name="aantal-deelnemers" id="aantal-deelnemers"/><br>
-        </form>
-    </main>
+        <label for="aantal-deelnemers">Aantal deelnemers nodig:</label>
+        <input type="text" name="aantal-deelnemers" id="aantal-deelnemers"/>
+    </form>
+</main>
 
-    <footer>
-        <!-- Hier komt de footer -->
-    </footer>
+<footer>
+    <!-- Hier komt de footer -->
+</footer>
 </body>
 </html>
