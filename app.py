@@ -20,4 +20,4 @@ def onderzoeksvragen():
 def registraties():
     return render_template("registraties.html")
 
-app.run()
+app.run(debug=True)
