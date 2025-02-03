@@ -20,7 +20,7 @@
 
     <div id="newRegistrationPopup" class="popup">
         <div class="popup-content">
-            <span class="close" onclick="sluitPopup()">&times;</span>
+            <span class="close" onclick="sluitPopup('newRegistrationPopup')">&times;</span>
             <h3>Nieuwe Registratie</h3>
             <form id="registratieForm">
                 <label for="naam">Naam:</label>
@@ -35,7 +35,7 @@
 
     <div id="popup" class="popup">
         <div class="popup-content">
-            <span class="close" onclick="sluitPopup()">&times;</span>
+            <span class="close" onclick="sluitPopup('popup')">&times;</span>
             <h3 id="popupNaam"></h3>
             <p id="popupEmail"></p>
             <button class="accept" onclick="verwerkRegistratie(true)">Accepteren</button>
@@ -45,22 +45,29 @@
 
     <script>
         function toonPopup(naam, email) {
-            document.getElementById('popupNaam').textContent = naam;
-            document.getElementById('popupEmail').textContent = email;
-            document.getElementById('popup').style.display = 'block';
+            if (document.getElementById('newRegistrationPopup').style.display != "block"){
+                document.getElementById('popupNaam').textContent = naam;
+                document.getElementById('popupEmail').textContent = email;
+                document.getElementById('popup').style.display = 'block';
+            }
+
         }
 
         function toonRegistratiePopup() {
-            document.getElementById('newRegistrationPopup').style.display = 'block';
+            if (document.getElementById('popup').style.display != "block"){
+                document.getElementById('newRegistrationPopup').style.display = 'block';
+
+            }
+
         }
 
-        function sluitPopup() {
-            document.getElementById('popup').style.display = 'none';
+        function sluitPopup(id) {
+            document.getElementById(`${id}`).style.display = 'none';
         }
 
         function verwerkRegistratie(goedkeuren) {
             alert(goedkeuren ? "Registratie geaccepteerd!" : "Registratie geweigerd!");
-            sluitPopup();
+            sluitPopup("newRegistrationPopup");
         }
     </script>
 
