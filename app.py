@@ -20,8 +20,6 @@ def onderzoeksvragen():
 def aanmaken_onderzoeksvraag():
     return render_template("onderzoeksvraag_aanmaken.html")
 
-if __name__ == '__main__':
-    app.run(debug=True)
 @app.route("/registraties")
 def registraties():
     return render_template("registraties.html")
