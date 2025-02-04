@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registratie als ervaringsdeskundige</title>
+    <link rel="stylesheet" href="../static/css/stylesheet.css">
+    <script defer src="../static/js/registratie_script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2 id="form-title">Registratie als ervaringsdeskundige</h2>
+        <form aria-labelledby="form-title">
+            <div class="form-group">
+                <label for="naam">Naam</label>
+                <input type="text" id="naam" name="naam" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="geboortedatum">Geboortedatum</label>
+                <input type="date" id="geboortedatum" name="geboortedatum" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="geslacht">Geslacht</label>
+                <select id="geslacht" name="geslacht" required aria-required="true">
+                    <option value="">Selecteer...</option>
+                    <option value="man">Man</option>
+                    <option value="vrouw">Vrouw</option>
+                    <option value="anders">Anders</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="adres">Adres</label>
+                <input type="text" id="adres" name="adres" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="mobiel">Mobiel nummer</label>
+                <input type="tel" id="mobiel" name="mobiel" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" required aria-required="true">
+            </div>
+            <div class="form-group">
+                <label for="beperkingen">Beperkingen</label>
+                <textarea id="beperkingen" name="beperkingen" rows="3" required aria-required="true"></textarea>
+            </div>
+            <div class="buttons">
+                <button type="reset" class="btn btn-cancel" aria-label="Annuleren">Annuleren</button>
+                <button type="submit" class="btn btn-register" aria-label="Registreren">Registreren</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

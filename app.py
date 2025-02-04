@@ -24,4 +24,8 @@ def aanmaken_onderzoeksvraag():
 def registraties():
     return render_template("registraties.html")
 
+@app.route("/rd")
+def registratie_deskundige():
+    return render_template("registratie_pagina.html")
+
 app.run(debug=True)
