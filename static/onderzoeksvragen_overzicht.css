@@ -9,6 +9,10 @@ body {
     background-color: #DEEBf6;
 }
 
+h1{
+    text-align: center;
+}
+
 table {
     width: 100%;
     table-layout: fixed;
@@ -30,11 +34,6 @@ th {
     background-color: #172152;
     color: #FFFFFF;
     text-align: center;
-}
-
-.search-container {
-    margin: 7px 20px;
-    text-align: right;
 }
 
 .nav-button{

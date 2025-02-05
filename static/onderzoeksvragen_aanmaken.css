@@ -1,0 +1,76 @@
+html, body {
+    height: auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    background-color: #DEEBf6;
+}
+
+h1 {
+    text-align: center;
+}
+
+label {
+    color: #041F74;
+}
+
+.radio-button {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.radio-button label {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 5px;
+}
+
+form {
+    text-align: left;
+    font-size: 17px;
+    background-color: #FFFFFF;
+    padding: 30px;
+    border-radius: 8px;
+    max-width: 50%;
+    margin: 50px auto;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    margin-top: 5px;
+    border: 1px solid Black;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    margin-top: 5px;
+    padding: 12px 20px;
+    border: 1px solid Black;
+    border-radius: 4px;
+    box-sizing: border-box;
+    resize: none;
+}
+
+.leeftijd {
+    display: flex;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.leeftijd div {
+    flex: 1;
+}
+
+#aantal-deelnemers {
+    width: 50px;
+    margin-left: 10px;
+}
