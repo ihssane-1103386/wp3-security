@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registraties Beheer</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Registraties</h2>
+        <button class="add-btn" onclick="toonRegistratiePopup()">+</button>
+        <div class="registratie-lijst" id="registratieLijst">
+            <div class="registratie" onclick="toonPopup('Jan Jansen', 'jan@example.com')">Jan Jansen</div>
+            <div class="registratie" onclick="toonPopup('Piet Pietersen', 'piet@example.com')">Piet Pietersen</div>
+            <div class="registratie" onclick="toonPopup('Lisa de Vries', 'lisa@example.com')">Lisa de Vries</div>
+        </div>
+    </div>
+
+
+    <div id="newRegistrationPopup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="sluitPopup('newRegistrationPopup')">&times;</span>
+            <h3>Nieuwe Registratie</h3>
+            <form id="registratieForm">
+                <label for="naam">Naam:</label>
+                <input type="text" id="naam" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                <button type="submit" class="accept">Opslaan</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="sluitPopup('popup')">&times;</span>
+            <h3 id="popupNaam"></h3>
+            <p id="popupEmail"></p>
+            <button class="accept" onclick="verwerkRegistratie(true)">Accepteren</button>
+            <button class="reject" onclick="verwerkRegistratie(false)">Weigeren</button>
+        </div>
+    </div>
+
+    <script>
+        function toonPopup(naam, email) {
+            if (document.getElementById('newRegistrationPopup').style.display != "block"){
+                document.getElementById('popupNaam').textContent = naam;
+                document.getElementById('popupEmail').textContent = email;
+                document.getElementById('popup').style.display = 'block';
+            }
+
+        }
+
+        function toonRegistratiePopup() {
+            if (document.getElementById('popup').style.display != "block"){
+                document.getElementById('newRegistrationPopup').style.display = 'block';
+
+            }
+
+        }
+
+        function sluitPopup(id) {
+            document.getElementById(`${id}`).style.display = 'none';
+        }
+
+        function verwerkRegistratie(goedkeuren) {
+            alert(goedkeuren ? "Registratie geaccepteerd!" : "Registratie geweigerd!");
+            sluitPopup("newRegistrationPopup");
+        }
+    </script>
+
+</body>
+</html>

@@ -41,3 +41,6 @@ th {
     text-align: center;
 }
 
+.clickable{
+    cursor: pointer;
+}

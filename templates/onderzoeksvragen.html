@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onderzoeken</title>
     <link rel="stylesheet" href="../static/onderzoeksvragen_overzicht.css"/>
+
+    {% include '_global_imports.html' %}
 </head>
 <body>
     <header>
@@ -15,6 +17,11 @@
 
     <main>
         <h1>Onderzoeken</h1>
+        <div class="search-container">
+            <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input">
+            <button type="submit" class="search-button">Zoeken</button>
+            <button><a style="text-decoration: none " class="add-btn" href="/aanmaken-onderzoeksvraag" >+</a></button>
+        </div>
 
         <table>
             <tr>
@@ -22,12 +29,12 @@
                 <th>Doelgroep</th>
                 <th>Deelnemers</th>
             </tr>
-            <tr>
+            <tr class="clickable" onclick="onderzoekPopup('test')">
                 <td>Onderzoek 1</td>
                 <td>Visueel beperkt</td>
                 <td>0/10</td>
             </tr>
-            <tr>
+            <tr class="clickable" onclick="onderzoekPopup('test 2')">
                 <td>Onderzoek 2</td>
                 <td>Slechthorend</td>
                 <td>0/5</td>
