@@ -14,14 +14,6 @@ h1{
 
 }
 
-header {
-    width: 100%;
-    background-color: #005a9c;
-    padding: 15px;
-    text-align: center;
-    color: white;
-    font-size: 1.5em;
-}
 
 .container {
     width: 100%;
@@ -66,18 +58,33 @@ th {
     color: white;
 }
 
+.nav-button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.nav-left {
+    text-align: left;
+}
+
+.nav-right {
+    text-align: right;
+}
+
 button {
     margin: 5px;
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    background-color: #007BFF;
+    background-color: #005a9c;
     color: white;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #004a86;
 }
 
 .accept {
