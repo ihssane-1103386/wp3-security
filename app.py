@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+import json
+from flask import Flask, jsonify, render_template
+from models.inschrijvingen import Inschrijvingen
 
 app = Flask(__name__)
 
@@ -9,7 +11,7 @@ def homepagina():
 
 @app.errorhandler(404)
 def notFound(e):
-    return render_template("pagina-niet-gevonden.html")
+    return render_template("pagina-niet-gevonden.html"), 404
 
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
@@ -27,5 +29,11 @@ def registraties():
 @app.route("/rd")
 def registratie_deskundige():
     return render_template("registratie_pagina.html")
+
+
+# Api Routes
+@app.route("/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
+def getInschrijvingen(id):
+    return Inschrijvingen.getInschrijvingen(id)
 
 app.run(debug=True)
