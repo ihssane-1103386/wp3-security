@@ -1,6 +1,7 @@
 import json
-from flask import Flask, jsonify, render_template
+from flask import Flask, jsonify, render_template, request
 from models.inschrijvingen import Inschrijvingen
+from models.onderzoeksvragen import Onderzoeksvragen
 
 app = Flask(__name__)
 
@@ -18,8 +19,10 @@ def notFound(e):
 def onderzoeksvragen():
     return render_template("onderzoeksvragen.html")
 
-@app.route("/aanmaken-onderzoeksvraag")
+@app.route("/api/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
+    if request.method == "POST":
+        return Onderzoeksvragen.add_onderzoeksvraag(request.form)
     return render_template("onderzoeksvraag_aanmaken.html")
 
 @app.route("/registraties")
