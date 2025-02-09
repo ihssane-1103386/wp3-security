@@ -5,20 +5,38 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    font-family: Arial, sans-serif;
-    background-color: #DEEBf6;
+    font-family: lexend-deca, sans-serif;
+    background-color: #192848;
+    color: white;
 }
 
 h1 {
     text-align: center;
+    font-family: atkinson-hyperlegible, sans-serif;
+    margin-bottom: 10px;
 }
 
 label {
     color: #041F74;
 }
 
+button {
+    display: block;
+    margin: 20px auto;
+    font-family: poppins, sans-serif;
+    font-weight: bold;
+    color: white;
+    background-color: #3258a0;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
 .radio-button {
     display: flex;
+    font-weight: normal;
     gap: 10px;
     align-items: center;
 }
@@ -32,6 +50,7 @@ label {
 form {
     text-align: left;
     font-size: 17px;
+    font-weight: bold;
     background-color: white;
     padding: 30px;
     border-radius: 8px;
@@ -74,22 +93,31 @@ textarea::placeholder {
     flex: 1;
 }
 
-.plaatsdatumrow {
+.plaatsdatumrow,
+.datum {
     display: flex;
     gap: 10px;
 }
 
-.plaatsdatum {
+.plaatsdatum,
+.starteinddatum{
     flex: 1;
 }
 
 #aantal-deelnemers,
 #max-leeftijd,
 #min-leeftijd {
-    max-width: 50px;
+    max-width: 60px;
+    margin-left: 10px;
+}
+
+#startdatum,
+#einddatum {
+    max-width: 120px;
     margin-left: 10px;
 }
 
 #plaats {
     max-width: 200px;
+    margin-left: 10px;
 }
