@@ -17,19 +17,20 @@
     <h1>Onderzoeksvraag aanmaken</h1>
     <form action="/api/aanmaken-onderzoeksvraag" method="POST">
         <label for="onderzoekstitel">Onderzoekstitel</label>
-        <input type="text" name="onderzoekstitel" id="onderzoekstitel"/>
+        <input type="text" name="onderzoekstitel" id="onderzoekstitel" required/>
 
         <label for="omschrijving">Omschrijving</label>
-        <textarea name="omschrijving" id="omschrijving" placeholder="Beschrijf hier uw onderzoek in detail. Vermeld de onderzoeksvraag, relevante context en eventuele beloningen of deelnamevoorwaarden."></textarea>
+        <textarea name="omschrijving" id="omschrijving"
+                  placeholder="Beschrijf hier uw onderzoek in detail. Vermeld de onderzoeksvraag, relevante context en eventuele beloningen of deelnamevoorwaarden." required></textarea>
 
         <div class="plaatsdeelnemersrow">
             <div class="plaatsdeelnemers">
                 <label for="plaats">Plaats</label>
-                <input type="text" name="plaats" id="plaats"/>
+                <input type="text" name="plaats" id="plaats" required/>
             </div>
             <div class="plaatsdeelnemers">
                 <label for="aantal-deelnemers">Aantal deelnemers nodig</label>
-                <input type="number" name="aantal-deelnemers" id="aantal-deelnemers"/>
+                <input type="number" name="aantal-deelnemers" id="aantal-deelnemers" required/>
             </div>
         </div>
 
@@ -37,24 +38,24 @@
         <div class="leeftijd">
             <div>
                 <label for="min-leeftijd">Minimale Leeftijd</label>
-                <input type="number" name="min-leeftijd" id="min-leeftijd" min="0"/>
+                <input type="number" name="min-leeftijd" id="min-leeftijd" min="0" required/>
             </div>
             <div>
                 <label for="max-leeftijd">Maximale Leeftijd</label>
-                <input type="number" name="max-leeftijd" id="max-leeftijd" min="0"/>
+                <input type="number" name="max-leeftijd" id="max-leeftijd" min="0" required/>
             </div>
         </div>
 
         <label for="beperking">Beperking</label>
-        <input type="text" name="beperking" id="beperking"/>
+        <input type="text" name="beperking" id="beperking" required/>
 
 
         <label for="begeleiders">Mogen eventuele begeleiders mee?</label>
         <div class="radio-button">
-            <label>
-                <input type="radio" name="begeleiders" value="ja"/> Ja
+            <label for="begeleiders-ja">
+                <input type="radio" name="begeleiders" value="ja" required/> Ja
             </label>
-            <label>
+            <label for="begeleiders-nee">
                 <input type="radio" name="begeleiders" value="nee"/> Nee
             </label>
         </div>
@@ -62,20 +63,20 @@
         <div class="datum">
             <div class="starteinddatum">
                 <label for="startdatum">Startdatum</label>
-                <input type="date" name="startdatum" id="startdatum"/>
+                <input type="date" name="startdatum" id="startdatum" required/>
             </div>
             <div class="starteinddatum">
                 <label for="einddatum">Einddatum</label>
-                <input type="date" name="einddatum" id="einddatum"/>
+                <input type="date" name="einddatum" id="einddatum" required/>
             </div>
         </div>
 
         <label for="beloning">Beloning</label>
         <div class="radio-button">
-            <label>
-                <input type="radio" name="beloning" value="ja"/> Ja
+            <label for="beloning-ja">
+                <input type="radio" name="beloning" value="ja" required/> Ja
             </label>
-            <label>
+            <label for="beloning-nee">
                 <input type="radio" name="beloning" value="nee"/> Nee
             </label>
         </div>
