@@ -34,6 +34,10 @@ button {
     cursor: pointer;
 }
 
+button:hover {
+    background-color: #294d8b;
+}
+
 .radio-button {
     display: flex;
     font-weight: normal;

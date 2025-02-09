@@ -6,6 +6,11 @@ class Onderzoeksvragen:
     @staticmethod
     def add_onderzoeksvraag(form):
         try:
+            # placeholders voor nu, omdat de database nog leeg is.
+            organisatie_id = 1
+            status = 1
+            type_onderzoek_id = 1
+
             titel = form.get("onderzoekstitel")
             omschrijving = form.get("omschrijving")
             plaats = form.get("plaats")
@@ -20,6 +25,9 @@ class Onderzoeksvragen:
 
             query = """
                        INSERT INTO onderzoeken (
+                           organisatie_id,
+                           status,
+                           type_onderzoek_id,
                            titel, 
                            beschrijving, 
                            plaats, 
@@ -36,6 +44,9 @@ class Onderzoeksvragen:
                    """
 
             Database.runQuery(query, (
+                organisatie_id,
+                status,
+                type_onderzoek_id,
                 titel,
                 omschrijving,
                 plaats,
