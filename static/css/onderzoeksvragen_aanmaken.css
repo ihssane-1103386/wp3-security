@@ -17,7 +17,7 @@ h1 {
 }
 
 label {
-    color: #041F74;
+    color: #192848;
 }
 
 button {
@@ -26,7 +26,7 @@ button {
     font-family: poppins, sans-serif;
     font-weight: bold;
     color: white;
-    background-color: #3258a0;
+    background-color: #294d8b;
     padding: 10px;
     border: none;
     border-radius: 8px;
@@ -35,20 +35,7 @@ button {
 }
 
 button:hover {
-    background-color: #294d8b;
-}
-
-.radio-button {
-    display: flex;
-    font-weight: normal;
-    gap: 10px;
-    align-items: center;
-}
-
-.radio-button label {
-    display: inline-flex;
-    align-items: center;
-    margin: 0 5px;
+    background-color: #3258a0;
 }
 
 form {
@@ -85,7 +72,7 @@ textarea {
 }
 
 textarea::placeholder {
-  color: #949196;
+    color: #949196;
 }
 
 .leeftijd {
@@ -97,6 +84,21 @@ textarea::placeholder {
     flex: 1;
 }
 
+
+.radio-button {
+    display: flex;
+    font-weight: normal;
+    gap: 10px;
+    align-items: center;
+}
+
+.radio-button label {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 5px;
+}
+
+
 .plaatsdeelnemersrow,
 .datum {
     display: flex;
@@ -105,7 +107,7 @@ textarea::placeholder {
 }
 
 .plaatsdeelnemers,
-.starteinddatum{
+.starteinddatum {
     flex: 1;
 }
 
