@@ -4,26 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registraties Beheer</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+    {% include '_global_imports.html' %}
 </head>
 <body>
-    <div class="container">
-        <h2>Registraties</h2>
-        <button class="add-btn" onclick="toonRegistratiePopup()">+</button>
-        <div class="registratie-lijst" id="registratieLijst">
-            <div class="registratie" onclick="toonPopup('Jan Jansen', 'jan@example.com')">Jan Jansen</div>
-            <div class="registratie" onclick="toonPopup('Piet Pietersen', 'piet@example.com')">Piet Pietersen</div>
-            <div class="registratie" onclick="toonPopup('Lisa de Vries', 'lisa@example.com')">Lisa de Vries</div>
-        </div>
+
+    <header>
+        <nav>
+            <!-- Hier komt de nav-bar -->
+        </nav>
+    </header>
+
+<main>
+
+    <h1>Registraties</h1>
+    <button class="add-btn" onclick="toonRegistratiePopup()">Nieuwe registratie</button>
+
+    <table>
+        <thead>
+            <tr>
+
+                <th>#</th>
+                <th>Naam</th>
+                <th>Email</th>
+                <th>Actie</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr>
+
+                <th>1</th>
+                <td>Jan Jansen</td>
+                <td>jan@example.com</td>
+                <td><button onclick="toonPopup('Jan Jansen', 'jan@example.com')">Bekijk</button></td>
+
+            </tr>
+
+            <tr>
+
+                <th>2</th>
+                <td>Piet Pietersen</td>
+                <td>piet@example.com</td>
+                <td><button onclick="toonPopup('Piet Pietersen', 'piet@example.com')">Bekijk</button></td>
+
+            </tr>
+
+            <tr>
+
+                <th>3</th>
+                <td>Lisa de Vries</td>
+                <td>lisa@example.com</td>
+                <td><button onclick="toonPopup('Lisa de Vries', 'lisa@example.com')">Bekijk</button></td>
+
+            </tr>
+
+        </tbody>
+    </table>
+
+     <div class="nav-button">
+        <a id="prev" class="nav-left">
+            <button>Vorige 10</button>
+        </a>
+
+        <a id="next" class="nav-right">
+            <button>Volgende 10</button>
+        </a>
     </div>
 
 
     <div id="newRegistrationPopup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="sluitPopup('newRegistrationPopup')">&times;</span>
-            <h3>Nieuwe Registratie</h3>
+            <h2>Nieuwe Registratie</h2>
             <form id="registratieForm">
-                <label for="naam">Naam:</label>
+                 <label for="naam">Naam:</label>
                 <input type="text" id="naam" required>
                 <label for="email">Email:</label>
                 <input type="email" id="email" required>
@@ -36,7 +94,7 @@
     <div id="popup" class="popup">
         <div class="popup-content">
             <span class="close" onclick="sluitPopup('popup')">&times;</span>
-            <h3 id="popupNaam"></h3>
+            <h2 id="popupNaam"></h2>
             <p id="popupEmail"></p>
             <button class="accept" onclick="verwerkRegistratie(true)">Accepteren</button>
             <button class="reject" onclick="verwerkRegistratie(false)">Weigeren</button>
@@ -70,6 +128,8 @@
             sluitPopup("newRegistrationPopup");
         }
     </script>
+
+</main>
 
 </body>
 </html>
