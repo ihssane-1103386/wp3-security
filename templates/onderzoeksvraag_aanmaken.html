@@ -15,7 +15,7 @@
 
 <main>
     <h1>Onderzoeksvraag aanmaken</h1>
-    <form action="/api/aanmaken-onderzoeksvraag" method="POST">
+    <form id= "aanvraag-form" action="/api/aanmaken-onderzoeksvraag" method="POST">
         <label for="onderzoekstitel">Onderzoekstitel</label>
         <input type="text" name="onderzoekstitel" id="onderzoekstitel" required/>
 
@@ -88,6 +88,6 @@
 <footer>
     <!-- Hier komt de footer -->
 </footer>
-<script src="{{ url_for('static', filename='js/onderzoeksvragen_aanmaken.js') }}"></script>
+<script src="../static/js/onderzoeksvragen_aanmaken.js"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@ class Onderzoeksvragen:
             aantal_deelnemers = form.get("aantal-deelnemers")
             min_leeftijd = form.get("min-leeftijd")
             max_leeftijd = form.get("max-leeftijd")
-            beperking = form.get("beperking")
+            beperking_id = form.get("beperking")
             begeleider = form.get("begeleider")
             startdatum = form.get("startdatum")
             einddatum = form.get("einddatum")
@@ -34,7 +34,7 @@ class Onderzoeksvragen:
                            max_deelnemers, 
                            min_leeftijd, 
                            max_leeftijd, 
-                           beperking,
+                           beperking_id,
                            begeleider,
                            datum, 
                            datum_tot, 
@@ -53,7 +53,7 @@ class Onderzoeksvragen:
                 aantal_deelnemers,
                 min_leeftijd,
                 max_leeftijd,
-                beperking,
+                beperking_id,
                 begeleider,
                 startdatum,
                 einddatum,
