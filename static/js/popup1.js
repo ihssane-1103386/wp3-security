@@ -1,42 +1,37 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const onderzoeksvragen = document.querySelectorAll("");
-    const popup = document.getElementById("");
-    const popupTitel = document.getElementById("");
-    const popupInfo = document.getElementById("");
-    const popupDeelnemers = document.getElementById("");
-    const Join = document.getElementById("");
-    const cancel = document.getElementById("");
-    const close = document.querySelectorAll(".close");
-    const button = document.getElementById("");
+    const onderzoeksvragen = document.querySelectorAll(".clickable");
+    const popup = document.getElementById("popup");
+    const popupTitel = document.getElementById("popup-titel");
+    const popupInfo = document.getElementById("popup-info");
+    const popupDeelnemers = document.getElementById("popup-deelnemers");
+    const joinButton = document.getElementById("join");
+    const cancelButton = document.getElementById("cancel");
+    const closeButton = document.querySelector(".close");
 
     onderzoeksvragen.forEach(vraag => {
         vraag.addEventListener("click", function () {
-            const popupTitel = this.dataset.title;
-            const popupInfo = this.dataset.info;
-            const popupDeelnemers = this.dataset.deelnemers;
-
-            document.getElementById("popup-titel").textContent = title;
-            document.getElementById("popup-info").textContent = info;
-            document.getElementById("popup-deelnemers").textContent = deelnemers;
-
-            popup.style.display = "block";
-        })
+            popupTitel.textContent = this.dataset.title;
+            popupInfo.textContent = this.dataset.info;
+            popupDeelnemers.textContent = this.dataset.deelnemers;
+            popup.style.display = "flex";
+        });
     });
 
-    close.addEventListener("click", function () {
+    closeButton.addEventListener("click", function () {
         popup.style.display = "none";
     });
 
-    cancel.addEventListener("click", function() {
-        popup.style.display="none";
+    cancelButton.addEventListener("click", function () {
+        popup.style.display = "none";
     });
 
-    join.addEventListener("click", function (){
+    joinButton.addEventListener("click", function () {
         window.location.href = "";
     });
 
-    window.addEventListener("click", function(event){
+    window.addEventListener("click", function (event) {
         if (event.target === popup) {
             popup.style.display = "none";
         }
     });
+});

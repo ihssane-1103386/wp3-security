@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onderzoeken</title>
     <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
+    <script defer src="../static/js/popup1.js"></script>
 
     {% include '_global_imports.html' %}
 </head>
@@ -29,12 +30,12 @@
                 <th>Doelgroep</th>
                 <th>Deelnemers</th>
             </tr>
-            <tr class="clickable" onclick="onderzoekPopup('1')">
+            <tr class="clickable" data-title="Onderzoek 1" data-info="Visueel beperkt" data-deelnemers="0/10">
                 <td>Onderzoek 1</td>
                 <td>Visueel beperkt</td>
                 <td>0/10</td>
             </tr>
-            <tr class="clickable" onclick="onderzoekPopup('2')">
+            <tr class="clickable" data-title="Onderzoek 2" data-info="slechthorend" data-deelnemers="0/5">
                 <td>Onderzoek 2</td>
                 <td>Slechthorend</td>
                 <td>0/5</td>
@@ -49,10 +50,26 @@
                 <button>Volgende 10</button>
             </a>
         </div>
+
+        <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2 id="popup-titel">Onderzoeksvraag</h2>
+            <p id="popup-info">Informatie over de onderzoeksvraag.</p>
+
+            <hr>
+
+            <p><strong>Deelnemers: </strong><span id="popup-deelnemers">0/10</span></p>
+            <button id="join" class="popup-button">deelnemen</button>
+            <button id="cancel" class="popup-button">niet deelnemen</button>
+        </div>
+    </div>
+
     </main>
 
     <footer>
         <!-- Hier komt de footer -->
     </footer>
+
 </body>
 </html>
