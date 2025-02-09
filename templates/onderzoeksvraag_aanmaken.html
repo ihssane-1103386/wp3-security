@@ -15,12 +15,12 @@
 
 <main>
     <h1>Onderzoeksvraag aanmaken</h1>
-    <form>
+    <form action="/api/aanmaken-onderzoeksvraag" method="POST">
         <label for="onderzoekstitel">Onderzoekstitel</label>
         <input type="text" name="onderzoekstitel" id="onderzoekstitel"/>
 
         <label for="omschrijving">Omschrijving</label>
-        <textarea name="omschrijving" id="omschrijving"></textarea>
+        <textarea name="omschrijving" id="omschrijving" placeholder="Beschrijf hier uw onderzoek in detail. Vermeld de onderzoeksvraag, relevante context en eventuele beloningen of deelnamevoorwaarden."></textarea>
 
         <div class="leeftijd">
             <div>
@@ -51,11 +51,28 @@
 
         <label for="aantal-deelnemers">Aantal deelnemers nodig:</label>
         <input type="number" name="aantal-deelnemers" id="aantal-deelnemers"/>
+
+        <div class="datum">
+            <div>
+                <label for="startdatum">Startdatum:</label>
+                <input type="date" name="startdatum" id="startdatum"/>
+            </div>
+            <div>
+                <label for="einddatum">Einddatum:</label>
+                <input type="date" name="einddatum" id="einddatum"/>
+            </div>
+        </div>
+
+        <label for="beloning">Beloning</label>
+        <input type="text" name="beloning" id="beloning"/>
+
+        <button type="submit">Aanmaken</button>
     </form>
 </main>
 
 <footer>
     <!-- Hier komt de footer -->
 </footer>
+<script src="{{ url_for('static', filename='js/onderzoeksvragen_aanmaken.js') }}"></script>
 </body>
 </html>

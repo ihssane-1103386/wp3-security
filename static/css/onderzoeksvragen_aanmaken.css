@@ -32,7 +32,7 @@ label {
 form {
     text-align: left;
     font-size: 17px;
-    background-color: #FFFFFF;
+    background-color: white;
     padding: 30px;
     border-radius: 8px;
     max-width: 50%;
@@ -54,10 +54,15 @@ textarea {
     height: 150px;
     margin-top: 5px;
     padding: 12px 20px;
-    border: 1px solid Black;
+    border: 1px solid black;
     border-radius: 4px;
     box-sizing: border-box;
     resize: none;
+    color: black;
+}
+
+textarea::placeholder {
+  color: #949196;
 }
 
 .leeftijd {
