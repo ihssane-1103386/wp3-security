@@ -22,19 +22,32 @@
         <label for="omschrijving">Omschrijving</label>
         <textarea name="omschrijving" id="omschrijving" placeholder="Beschrijf hier uw onderzoek in detail. Vermeld de onderzoeksvraag, relevante context en eventuele beloningen of deelnamevoorwaarden."></textarea>
 
+        <div class="plaatsdatumrow">
+            <div class="plaatsdatum">
+                <label for="plaats">Plaats</label>
+                <input type="text" name="plaats" id="plaats"/>
+            </div>
+            <div class="plaatsdatum">
+                <label for="aantal-deelnemers">Aantal deelnemers nodig</label>
+                <input type="number" name="aantal-deelnemers" id="aantal-deelnemers"/>
+            </div>
+        </div>
+
+
         <div class="leeftijd">
             <div>
-                <label for="min-leeftijd">Minimale Leeftijd:</label>
+                <label for="min-leeftijd">Minimale Leeftijd</label>
                 <input type="number" name="min-leeftijd" id="min-leeftijd" min="0"/>
             </div>
             <div>
-                <label for="max-leeftijd">Maximale Leeftijd:</label>
+                <label for="max-leeftijd">Maximale Leeftijd</label>
                 <input type="number" name="max-leeftijd" id="max-leeftijd" min="0"/>
             </div>
         </div>
 
-        <label for="plaats">Plaats</label>
-        <input type="text" name="plaats" id="plaats"/>
+        <label for="beperking">Beperking</label>
+        <input type="text" name="beperking" id="beperking"/>
+
 
         <label for="begeleiders">Mogen eventuele begeleiders mee?</label>
         <div class="radio-button">
@@ -46,25 +59,26 @@
             </label>
         </div>
 
-        <label for="beperking">Beperking</label>
-        <input type="text" name="beperking" id="beperking"/>
-
-        <label for="aantal-deelnemers">Aantal deelnemers nodig:</label>
-        <input type="number" name="aantal-deelnemers" id="aantal-deelnemers"/>
-
         <div class="datum">
             <div>
-                <label for="startdatum">Startdatum:</label>
+                <label for="startdatum">Startdatum</label>
                 <input type="date" name="startdatum" id="startdatum"/>
             </div>
             <div>
-                <label for="einddatum">Einddatum:</label>
+                <label for="einddatum">Einddatum</label>
                 <input type="date" name="einddatum" id="einddatum"/>
             </div>
         </div>
 
         <label for="beloning">Beloning</label>
-        <input type="text" name="beloning" id="beloning"/>
+        <div class="radio-button">
+            <label>
+                <input type="radio" name="beloning" value="ja"/> Ja
+            </label>
+            <label>
+                <input type="radio" name="beloning" value="nee"/> Nee
+            </label>
+        </div>
 
         <button type="submit">Aanmaken</button>
     </form>

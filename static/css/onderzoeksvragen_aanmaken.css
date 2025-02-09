@@ -67,15 +67,29 @@ textarea::placeholder {
 
 .leeftijd {
     display: flex;
-    gap: 20px;
-    margin-top: 10px;
+    gap: 10px;
 }
 
 .leeftijd div {
     flex: 1;
 }
 
-#aantal-deelnemers {
-    width: 50px;
+.plaatsdatumrow {
+    display: flex;
+    gap: 10px;
+}
+
+.plaatsdatum {
+    flex: 1;
+}
+
+#aantal-deelnemers,
+#max-leeftijd,
+#min-leeftijd {
+    max-width: 50px;
     margin-left: 10px;
+}
+
+#plaats {
+    max-width: 200px;
 }
