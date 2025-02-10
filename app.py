@@ -32,6 +32,10 @@ def aanmaken_onderzoeksvraag():
 def registraties():
     return render_template("registraties.html")
 
+@app.route("/api/registraties", methods=["GET"])
+def getRegistraties():
+    return registraties.getRegistraties()
+
 @app.route("/rd")
 def registratie_deskundige():
     return render_template("registratie_pagina.html")
