@@ -88,3 +88,26 @@ link {
     color: #AA2532; /* Alertkleur */
     font-weight: bold;
 }
+
+#suggestions {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    background: #fff;
+    position: absolute;
+    width: 100%;
+}
+
+#suggestions li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+#suggestions li:hover {
+    background: #F3D531;
+    color: #202C4C;
+}
+
