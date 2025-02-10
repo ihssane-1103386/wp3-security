@@ -2,6 +2,7 @@ import json
 from flask import Flask, jsonify, render_template, request
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
+from models.onderzoeken import onderzoeken
 
 app = Flask(__name__)
 
@@ -38,5 +39,9 @@ def registratie_deskundige():
 @app.route("/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getInschrijvingen(id):
     return Inschrijvingen.getInschrijvingen(id)
+
+@app.route("/onderzoeken", methods=["GET"])
+def getOnderzoeken(id):
+    return onderzoeken.getInschrijvingen()
 
 app.run(debug=True)
