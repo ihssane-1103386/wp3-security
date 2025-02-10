@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const submitButton = document.querySelector(".btn-register");
     const cancelButton = document.querySelector(".btn-cancel");
 
-    // Form validation
     form.addEventListener("submit", function(event) {
         event.preventDefault();
 
@@ -27,10 +26,36 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Cancel button clears the form
     cancelButton.addEventListener("click", function() {
         form.reset();
         const inputs = form.querySelectorAll("input, select, textarea");
         inputs.forEach(input => input.style.border = "1px solid #ccc");
     });
 });
+
+function fetchSuggestions() {
+    let input = document.getElementById("beperkingen").value;
+
+    if (input.length < 2) {
+        document.getElementById("suggestions").innerHTML = "";
+        return;
+    }
+
+    fetch(`/api/beperkingen?query=${input}`)
+        .then(response => response.json())
+        .then(data => {
+            let suggestionsList = document.getElementById("suggestions");
+            suggestionsList.innerHTML = "";
+
+            data.forEach(item => {
+                let listItem = document.createElement("li");
+                listItem.textContent = item;
+                listItem.onclick = function() {
+                    document.getElementById("beperkingen").value = item;
+                    suggestionsList.innerHTML = "";
+                };
+                suggestionsList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error("Error fetching suggestions:", error));
+}
