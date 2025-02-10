@@ -48,7 +48,8 @@
 
             <div class="form-group">
                 <label for="beperkingen">Beperkingen</label>
-                <textarea id="beperkingen" name="beperkingen" rows="3" placeholder="Beschrijf je beperkingen" required aria-required="true"></textarea>
+                <input type="text" id="beperkingen" name="beperkingen" placeholder="Beschrijf je beperkingen" autocomplete="off" required aria-required="true" onkeyup="fetchSuggestions()">
+                <ul id="suggestions"></ul>
             </div>
 
             <div class="buttons">
