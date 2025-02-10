@@ -33,36 +33,10 @@
             </tr>
         </thead>
 
-        <tbody>
-
-            <tr>
-
-                <th>1</th>
-                <td>Jan Jansen</td>
-                <td>jan@example.com</td>
-                <td><button onclick="toonPopup('Jan Jansen', 'jan@example.com')">Bekijk</button></td>
-
-            </tr>
-
-            <tr>
-
-                <th>2</th>
-                <td>Piet Pietersen</td>
-                <td>piet@example.com</td>
-                <td><button onclick="toonPopup('Piet Pietersen', 'piet@example.com')">Bekijk</button></td>
-
-            </tr>
-
-            <tr>
-
-                <th>3</th>
-                <td>Lisa de Vries</td>
-                <td>lisa@example.com</td>
-                <td><button onclick="toonPopup('Lisa de Vries', 'lisa@example.com')">Bekijk</button></td>
-
-            </tr>
+        <tbody id="registratiesTabel">
 
         </tbody>
+
     </table>
 
      <div class="nav-button">
@@ -102,6 +76,31 @@
     </div>
 
     <script>
+
+       function laadRegistraties() {
+           fetch("/api/registraties")
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById("registratiesTabel");
+                    tbody.innerHTML = "";
+
+                    data.forEach((registratie, index) => {
+                        const row = document.createElement("tr");
+
+                        row.innerHTML = `
+                            <th>${index + 1}</th>
+                            <td>${registratie.naam}</td>
+                            <td>${registratie.email}</td>
+                            <td><button onclick="toonPopup('${registratie.naam}', '${registratie.email}')">Bekijk</button></td>
+                        `;
+
+                        tbody.appendChild(row);
+                     });
+                  })
+                  .catch(error => console.error("Fout bij ophalen registraties:", error));
+       }
+
+
         function toonPopup(naam, email) {
             if (document.getElementById('newRegistrationPopup').style.display != "block"){
                 document.getElementById('popupNaam').textContent = naam;
@@ -127,6 +126,8 @@
             alert(goedkeuren ? "Registratie geaccepteerd!" : "Registratie geweigerd!");
             sluitPopup("newRegistrationPopup");
         }
+
+        document.addEventListener("DOMContentLoaded", laadRegistraties);
     </script>
 
 </main>

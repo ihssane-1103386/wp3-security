@@ -3,6 +3,8 @@ from flask import Flask, jsonify, render_template, request
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
+from models.registraties import Registraties
+
 
 app = Flask(__name__)
 
@@ -29,6 +31,10 @@ def aanmaken_onderzoeksvraag():
 @app.route("/registraties")
 def registraties():
     return render_template("registraties.html")
+
+@app.route("/api/registraties", methods=["GET"])
+def getRegistraties(id):
+    return registraties.getRegistraties(id)
 
 @app.route("/rd")
 def registratie_deskundige():
