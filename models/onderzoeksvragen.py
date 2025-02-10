@@ -8,9 +8,10 @@ class Onderzoeksvragen:
         try:
             # placeholders voor nu, omdat de database nog leeg is.
             organisatie_id = 1
-            status = 1
             type_onderzoek_id = 1
 
+            status = 0  # 0 = nieuw
+            beschikbaar = 1  # 1 is beschikbaar
             titel = form.get("onderzoekstitel")
             omschrijving = form.get("omschrijving")
             plaats = form.get("plaats")
@@ -27,6 +28,7 @@ class Onderzoeksvragen:
                        INSERT INTO onderzoeken (
                            organisatie_id,
                            status,
+                           beschikbaar,
                            type_onderzoek_id,
                            titel, 
                            beschrijving, 
@@ -40,12 +42,13 @@ class Onderzoeksvragen:
                            datum_tot, 
                            beloning
                        )
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                    """
 
             Database.runQuery(query, (
                 organisatie_id,
                 status,
+                beschikbaar,
                 type_onderzoek_id,
                 titel,
                 omschrijving,
