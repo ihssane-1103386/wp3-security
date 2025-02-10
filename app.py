@@ -6,6 +6,7 @@ from models.onderzoeken import onderzoeken
 from models.registraties import Registraties
 
 
+
 app = Flask(__name__)
 
 # Default Route
