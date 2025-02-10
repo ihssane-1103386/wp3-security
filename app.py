@@ -3,6 +3,8 @@ from flask import Flask, jsonify, render_template, request
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
+from models.registraties import Registraties
+
 
 app = Flask(__name__)
 
