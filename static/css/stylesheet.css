@@ -2,8 +2,8 @@
 
 body {
     font-family: 'Lexend Deca', sans-serif;
-    background-color: #004D40;
-    color: #FAFAFA;
+    background-color: #202C4C; /* Achtergrondkleur uit styleguide */
+    color: #FFFFFF; /* Primaire tekstkleur */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -12,8 +12,8 @@ body {
 }
 
 .container {
-    background: #FAFAFA;
-    color: #004D40;
+    background: #FFFFFF;
+    color: #202C4C;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
@@ -21,9 +21,20 @@ body {
 }
 
 h2 {
-    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-family: 'Atkinson Hyperlegible', sans-serif; /* Primaire koppen */
     text-align: center;
-    color: #FFD700;
+}
+
+.dark_bg {
+    color: #FFFFFF;
+}
+
+.light_bg {
+    color: #202C4C;
+}
+
+.accent {
+    color: #F3D531; /* Accentkleur*/
 }
 
 .form-group {
@@ -33,7 +44,7 @@ h2 {
 .form-group label {
     display: block;
     font-weight: bold;
-    color: #004D40;
+    color: #202C4C;
 }
 
 .form-group input, .form-group select, .form-group textarea {
@@ -41,8 +52,8 @@ h2 {
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    background-color: #FAFAFA;
-    color: #004D40;
+    background-color: #FFFFFF;
+    color: #202C4C;
 }
 
 .buttons {
@@ -55,25 +66,25 @@ h2 {
     border: none;
     cursor: pointer;
     font-size: 16px;
-    font-family: 'Poppins', sans-serif;
-    color: #FAFAFA;
+    font-family: 'Poppins', sans-serif; /* Knoppen */
+    color: #FFFFFF;
 }
 
 .btn-cancel {
-    background-color: #C62828;
+    background-color: #AA2532; /* Alertkleur */
 }
 
 .btn-register {
-    background-color: #00897B;
+    background-color: #31579F; /* Knoppenkleur */
 }
 
-a {
-    color: #FF7043;
+link {
+    color: #DD8A2E; /* Link kleur */
     text-decoration: none;
     font-weight: bold;
 }
 
 .alert {
-    color: #C62828;
+    color: #AA2532; /* Alertkleur */
     font-weight: bold;
 }
