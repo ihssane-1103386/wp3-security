@@ -3,6 +3,7 @@ from flask import Flask, jsonify, render_template, request
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
+from database.database_queries import DatabaseQueries
 from models.registraties import Registraties
 
 app = Flask(__name__)
@@ -28,6 +29,15 @@ def aanmaken_onderzoeksvraag():
     beperkingen = Onderzoeksvragen.getbeperkingen()
     return render_template("onderzoeksvraag_aanmaken.html", beperkingen=beperkingen)
 
+@app.route("/api/beperkingen")
+def beperkingen():
+    query = request.args.get("query", "")
+
+    if not query:
+        return jsonify([]), 400
+
+    return DatabaseQueries.get_beperkingen(query)
+
 @app.route("/registraties")
 def registraties():
     return render_template("registraties.html")
@@ -38,7 +48,7 @@ def getRegistraties(id):
 
 @app.route("/rd")
 def registratie_deskundige():
-    return render_template("registratie_pagina.html")
+    return render_template("registratie_pagina_ervaringsdeskundige.html")
 
 
 # Api Routes
