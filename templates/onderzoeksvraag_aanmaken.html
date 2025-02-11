@@ -16,13 +16,14 @@
 
 <main>
     <h1>Onderzoeksvraag aanmaken</h1>
-    <form id= "aanvraag-form" action="/api/aanmaken-onderzoeksvraag" method="POST">
+    <form id="aanvraag-form" action="/api/aanmaken-onderzoeksvraag" method="POST">
         <label for="onderzoekstitel">Onderzoekstitel</label>
         <input type="text" name="onderzoekstitel" id="onderzoekstitel" required/>
 
         <label for="omschrijving">Omschrijving</label>
         <textarea name="omschrijving" id="omschrijving"
-                  placeholder="Beschrijf hier uw onderzoek in detail. Vermeld de onderzoeksvraag, relevante context en eventuele beloningen of deelnamevoorwaarden." required></textarea>
+                  placeholder="Beschrijf hier uw onderzoek in detail. Vermeld de onderzoeksvraag, relevante context en eventuele beloningen of deelnamevoorwaarden."
+                  required></textarea>
 
         <div class="plaatsdeelnemersrow">
             <div class="plaatsdeelnemers">
@@ -46,11 +47,24 @@
                 <input type="number" name="max-leeftijd" id="max-leeftijd" min="0" required/>
             </div>
         </div>
-
-        <label for="beperking">Beperking</label>
-        <input type="text" name="beperking" id="beperking" required/>
-
-
+        <div class="beperking-type-row">
+            <div class="beperking-type">
+                <label for="beperking">Beperking</label>
+                <select name="beperking" id="beperking" required>
+                    {% for beperking in beperkingen %}
+                        <option value="{{ beperking.beperkingen_id }}">{{ beperking.beperking }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="beperking-type">
+                <label for="type-onderzoek">Type onderzoek</label>
+                <select name="type-onderzoek" id="type-onderzoek" required>
+                    <option value="1">locatie</option>
+                    <option value="2">telefonisch</option>
+                    <option value="3">online</option>
+                </select>
+            </div>
+        </div>
         <label for="begeleiders">Mogen eventuele begeleiders mee?</label>
         <div class="radio-button">
             <label for="begeleiders-ja">
@@ -60,7 +74,6 @@
                 <input type="radio" name="begeleiders" value="nee"/> Nee
             </label>
         </div>
-
         <div class="datum">
             <div class="starteinddatum">
                 <label for="startdatum">Startdatum</label>

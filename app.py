@@ -5,8 +5,6 @@ from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
 from models.registraties import Registraties
 
-
-
 app = Flask(__name__)
 
 # Default Route
@@ -27,7 +25,8 @@ def onderzoeksvragen():
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
-    return render_template("onderzoeksvraag_aanmaken.html")
+    beperkingen = Onderzoeksvragen.getbeperkingen()
+    return render_template("onderzoeksvraag_aanmaken.html", beperkingen=beperkingen)
 
 @app.route("/registraties")
 def registraties():
