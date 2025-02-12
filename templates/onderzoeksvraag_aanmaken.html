@@ -51,7 +51,7 @@
             <div class="beperking-type">
                 <label for="beperking">Beperking</label>
                 <select name="beperking" id="beperking" required>
-                    {% for beperking in beperkingen %}
+                    {% for beperking in beperking %}
                         <option value="{{ beperking.beperkingen_id }}">{{ beperking.beperking }}</option>
                     {% endfor %}
                 </select>

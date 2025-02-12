@@ -28,8 +28,8 @@ def onderzoeksvragen():
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
-    beperkingen = Onderzoeksvragen.getbeperkingen()
-    return render_template("onderzoeksvraag_aanmaken.html", beperkingen=beperkingen)
+    beperking = Onderzoeksvragen.getbeperkingen()
+    return render_template("onderzoeksvraag_aanmaken.html", beperking=beperking)
 
 @app.route("/api/beperkingen")
 def beperkingen():

@@ -29,7 +29,10 @@ class RawDatabase(Database):
                 cursor = conn.cursor()
                 cursor.execute(query, params)
                 result = cursor.fetchall()
-                return result
+                if result:
+                    return result
+                else:
+                    return None
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return None
