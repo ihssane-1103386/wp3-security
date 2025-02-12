@@ -87,9 +87,10 @@
                     data.forEach((registratie, index) => {
                         const row = document.createElement("tr");
 
+                        let naam = `${registratie.voornaam} ${registratie.tussenvoegsel ? registratie.tussenvoegsel + ' ' : ''}${registratie.achternaam}`;
                         row.innerHTML = `
                             <th>${index + 1}</th>
-                            <td>${registratie.naam}</td>
+                            <td>${naam}</td>
                             <td>${registratie.email}</td>
                             <td><button onclick="toonPopup('${registratie.naam}', '${registratie.email}')">Bekijk</button></td>
                         `;

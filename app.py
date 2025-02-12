@@ -20,7 +20,9 @@ def notFound(e):
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
 def onderzoeksvragen():
-    return render_template("onderzoeksvragen.html")
+    vragen = Onderzoeksvragen.get_vragen()
+    # return jsonify(vragen), 200
+    return render_template("onderzoeksvragen.html", vragen=vragen)
 
 @app.route("/api/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
@@ -43,8 +45,8 @@ def registraties():
     return render_template("registraties.html")
 
 @app.route("/api/registraties", methods=["GET"])
-def getRegistraties(id):
-    return registraties.getRegistraties(id)
+def getRegistraties():
+    return Registraties.getRegistraties()
 
 @app.route("/rd")
 def registratie_deskundige():
@@ -52,12 +54,12 @@ def registratie_deskundige():
 
 
 # Api Routes
-@app.route("/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
+@app.route("/api/onderzoeken", methods=["GET"])
+def getOnderzoeken():
+    return onderzoeken.getOnderzoeken()
+
+@app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getInschrijvingen(id):
     return Inschrijvingen.getInschrijvingen(id)
-
-@app.route("/onderzoeken", methods=["GET"])
-def getOnderzoeken(id):
-    return onderzoeken.getInschrijvingen()
 
 app.run(debug=True)

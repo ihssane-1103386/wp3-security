@@ -2,19 +2,55 @@ document.addEventListener("DOMContentLoaded", function () {
     const onderzoeksvragen = document.querySelectorAll(".clickable");
     const popup = document.getElementById("popup");
     const popupTitel = document.getElementById("popup-titel");
-    const popupInfo = document.getElementById("popup-info");
-    const popupDeelnemers = document.getElementById("popup-deelnemers");
+    const popupInfo = document.getElementById("popup-info-text");
+    const readMore = document.getElementById("read-more");
+    const readLess = document.getElementById("read-less");
+    const popupDeelnemers = document.getElementById("popup-max_deelnemers");
+    const popupBeschikbaar = document.getElementById("popup-beschikbaar");
     const joinButton = document.getElementById("join");
     const cancelButton = document.getElementById("cancel");
     const closeButton = document.querySelector(".close");
 
+    let fullText = '';
+    let shortText = '';
+
+
     onderzoeksvragen.forEach(vraag => {
         vraag.addEventListener("click", function () {
             popupTitel.textContent = this.dataset.title;
-            popupInfo.textContent = this.dataset.info;
-            popupDeelnemers.textContent = this.dataset.deelnemers;
-            popup.style.display = "flex";
+
+            let fullText = this.dataset.info;
+            let shortText = fullText.length > 100 ? fullText.substring(0, 100) + "..." : fullText;
+
+            popupInfo.textContent = shortText;
+            readMore.style.display = fullText.length > 100 ? "inline" : "none";
+            readLess.style.display = "none";
+
+            readMore.onclick = function () {
+                popupInfo.textContent = fullText;
+                readMore.style.display = "none";
+                readLess.style.display = "inline";
+
+                joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            };
+
+            readLess.onclick = function () {
+                popupInfo.textContent = shortText;
+                readLess.style.display = "none";
+                readMore.style.display = "inline";
+
+                joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+            };
+            popup.style.display = "block";
         });
+    });
+
+    popup.addEventListener("click", function (event) {
+        if (event.target.classList.contains("lees-meer")) {
+            popupInfo.textContent = onderzoeksvragen[0].dataset.info;
+        } else if (event.target === popup || event.target === closeButton || event.target === cancelButton) {
+            popup.style.display = "none";
+        }
     });
 
     closeButton.addEventListener("click", function () {

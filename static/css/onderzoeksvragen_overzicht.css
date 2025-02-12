@@ -60,13 +60,14 @@ th {
 
 .popup-content {
   background-color: #fff;
-  font-size: 25px;
+  font-size: 19px;
+  font-family: Atkison Hyperlegible;
   text-align: center;
   margin: 10% auto;
   padding: 30px;
   width: 90%;
   max-width: 500px;
-  border-radius: 10px;
+  border-radius: 50px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   animation: fadeIn 0.5s ease-in-out;
 }
@@ -75,6 +76,43 @@ th {
     width: 100%;
     border-top: 2px solid black;
 }
+
+.read-less {
+    color: #31579f;
+    cursor: pointer;
+    font-weight: bold;
+    display: none;
+}
+
+.read-less:hover {
+    text-decoration: underline;
+}
+
+.read-more {
+    color: #31579f;
+    cursor: pointer;
+    font-weight: bold;
+}
+.read-more:hover {
+    text-decoration: underline;
+}
+
+.popup-content {
+    background-color: #fff;
+    font-size: 19px;
+    font-family: Atkison Hyperlegible;
+    text-align: center;
+    margin: 10% auto;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.5s ease-in-out;
+    overflow-y: auto;
+    max-height: 80vh;
+}
+
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-50px); }
@@ -95,7 +133,7 @@ th {
 
 .popup-button {
   padding: 10px 20px;
-  margin: 100px 5px 0 5px;
+  margin: 50px 5px 0 5px;
   border: none;
   font-size: 20px;
   border-radius: 4px;
@@ -103,15 +141,15 @@ th {
 }
 
 .popup-content #join {
-  background-color: #28a745;
+  background-color: #31579f;
   color: #fff;
-  float: left;
+  float: right;
 }
 
 .popup-content #cancel {
-  background-color: #dc3545;
+  background-color: #aa2532;
   color: #fff;
-  float: right;
+  float: left;
 }
 
 button:hover {
