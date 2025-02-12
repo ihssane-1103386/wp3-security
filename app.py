@@ -43,8 +43,8 @@ def registraties():
     return render_template("registraties.html")
 
 @app.route("/api/registraties", methods=["GET"])
-def getRegistraties(id):
-    return registraties.getRegistraties(id)
+def getRegistraties():
+    return Registraties.getRegistraties()
 
 @app.route("/rd")
 def registratie_deskundige():
