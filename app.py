@@ -54,12 +54,12 @@ def registratie_deskundige():
 
 
 # Api Routes
-@app.route("/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
+@app.route("/api/onderzoeken", methods=["GET"])
+def getOnderzoeken():
+    return onderzoeken.getOnderzoeken()
+
+@app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getInschrijvingen(id):
     return Inschrijvingen.getInschrijvingen(id)
-
-@app.route("/onderzoeken", methods=["GET"])
-def getOnderzoeken(id):
-    return onderzoeken.getInschrijvingen()
 
 app.run(debug=True)
