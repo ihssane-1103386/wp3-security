@@ -12,9 +12,9 @@ class Database:
                 result = cursor.fetchall()
 
                 if result:
-                    return jsonify(result), 200
+                    return jsonify(result)
                 else:
-                    return jsonify({"error": "No data found"}), 404
+                    return jsonify({"error": "No data found"})
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return jsonify({"error": "Something went wrong"}), 500
@@ -29,7 +29,10 @@ class RawDatabase(Database):
                 cursor = conn.cursor()
                 cursor.execute(query, params)
                 result = cursor.fetchall()
-                return result
+                if result:
+                    return result
+                else:
+                    return None
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return None
@@ -45,3 +48,4 @@ class RawDatabase(Database):
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return None
+            return jsonify({"error": "Something went wrong"})
