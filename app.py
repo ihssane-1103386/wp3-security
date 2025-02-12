@@ -20,7 +20,9 @@ def notFound(e):
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
 def onderzoeksvragen():
-    return render_template("onderzoeksvragen.html")
+    vragen = Onderzoeksvragen.get_vragen()
+    # return jsonify(vragen), 200
+    return render_template("onderzoeksvragen.html", vragen=vragen)
 
 @app.route("/api/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():

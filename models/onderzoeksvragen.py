@@ -76,3 +76,25 @@ class Onderzoeksvragen:
     def getbeperkingen():
         beperkingen = RawDatabase.runRawQuery("SELECT * FROM beperkingen")
         return beperkingen
+
+    @staticmethod
+    def get_vragen():
+        query = """ 
+            SELECT onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
+            JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
+            JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
+        """
+
+        results = RawDatabase.runRawQuery(query)
+        vragen = []
+        for row in results:
+            row = dict(row)
+            record = {
+                'titel': row["titel"],
+                'beschrijving': row["beschrijving"],
+                'beperking': row["beperking"],
+                'max_deelnemers': row["max_deelnemers"],
+                'beschikbaar': row["beschikbaar"]
+            }
+            vragen.append(record)
+        return vragen

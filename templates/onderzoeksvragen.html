@@ -28,18 +28,18 @@
             <tr>
                 <th>Onderzoek</th>
                 <th>Doelgroep</th>
-                <th>Deelnemers</th>
+                <th>maximaal aantal deelnemers</th>
             </tr>
-            <tr class="clickable" data-title="Onderzoek 1" data-info="Visueel beperkt" data-deelnemers="0/10">
-                <td>Onderzoek 1</td>
-                <td>Visueel beperkt</td>
-                <td>0/10</td>
+
+            {% for vraag in vragen %}
+
+            <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}"
+                data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}">
+                <td>{{ vraag.titel }}</td>
+                <td>{{ vraag.beperking }}</td>
+                <td>{{ vraag.max_deelnemers }}</td>
             </tr>
-            <tr class="clickable" data-title="Onderzoek 2" data-info="slechthorend" data-deelnemers="0/5">
-                <td>Onderzoek 2</td>
-                <td>Slechthorend</td>
-                <td>0/5</td>
-            </tr>
+            {% endfor %}
         </table>
 
         <div class="nav-button">
@@ -55,20 +55,25 @@
         <div class="popup-content">
             <span class="close">&times;</span>
             <h2 id="popup-titel">Onderzoeksvraag</h2>
-            <p id="popup-info">Informatie over de onderzoeksvraag.</p>
+            <p class="popup-info-short" id="popup-info">
+                <span id="popup-info-text"></span>
+                <span class="read-more" id="read-more">Lees meer</span>
+                <span class="read-less" id="read-less">Lees minder</span>
+            </p>
 
             <hr>
 
-            <p><strong>Deelnemers: </strong><span id="popup-deelnemers">0/10</span></p>
-            <button id="join" class="popup-button">deelnemen</button>
+            <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">0/10</span></p>
+            <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">0/10</span></p>
             <button id="cancel" class="popup-button">niet deelnemen</button>
+            <button id="join" class="popup-button">deelnemen</button>
         </div>
     </div>
 
     </main>
 
     <footer>
-        <!-- Hier komt de footer -->
+        <!-- Hier komt de footer thanks-->
     </footer>
 
 </body>
