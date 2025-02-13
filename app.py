@@ -42,11 +42,11 @@ def beperkingen():
 
     return DatabaseQueries.get_beperkingen(query)
 
-@app.route("/registraties")
+@app.route("/registrations")
 def registraties():
     return render_template("registraties.html")
 
-@app.route("/api/registraties", methods=["GET"])
+@app.route("/api/registrations", methods=["GET"])
 def getRegistration():
     return Registrations.getRegistration()
 
@@ -54,9 +54,20 @@ def getRegistration():
 def getRegistrationDetails(id):
     return Registrations.getRegistrationDetails(id)
 
-@app.route("/api/registrations/status", methods=["POST"])
+
+@app.route("/api/registrations/status", methods=["PATCH"])
 def updateRegistrationStatus():
-    return Registrations.updateRegistrationStatus(request.get_json())
+    data = request.get_json()
+    registration_id = data.get('id')
+    status = data.get('status')
+    if status not in [1, 2]:  # Ensure status is either accepted (1) or rejected (2)
+        return jsonify({"message": "Invalid status"}), 400
+
+    updated = Registrations.updateRegistrationStatus(registration_id, status)
+    if updated:
+        return jsonify({"message": "Status updated successfully"}), 200
+    else:
+        return jsonify({"message": "Error updating status"}), 400
 
 
 
