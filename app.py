@@ -54,6 +54,10 @@ def getRegistration():
 def getRegistrationDetails(id):
     return Registrations.getRegistrationDetails(id)
 
+@app.route("/api/registrations/status", methods=["POST"])
+def updateRegistrationStatus():
+    return Registrations.updateRegistrationStatus(request.get_json())
+
 
 
 @app.route("/rd")
