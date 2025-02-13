@@ -4,7 +4,9 @@ from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
-from models.registraties import Registraties
+from models.registraties import Registrations
+
+
 
 app = Flask(__name__)
 
@@ -45,8 +47,8 @@ def registraties():
     return render_template("registraties.html")
 
 @app.route("/api/registraties", methods=["GET"])
-def getRegistraties():
-    return Registraties.getRegistraties()
+def getRegistration():
+    return Registrations.getRegistration()
 
 @app.route("/rd")
 def registratie_deskundige():
