@@ -50,6 +50,12 @@ def registraties():
 def getRegistration():
     return Registrations.getRegistration()
 
+@app.route("/api/registrations/<int:id>", methods=["GET"])
+def getRegistrationDetails(id):
+    return Registrations.getRegistrationDetails(id)
+
+
+
 @app.route("/rd")
 def registratie_deskundige():
     return render_template("registratie_pagina_ervaringsdeskundige.html")
