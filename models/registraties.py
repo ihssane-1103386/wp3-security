@@ -23,3 +23,15 @@ class Registrations:
         WHERE ervaringsdeskundige_id = %s;
         """
         return DatabaseQueries.run_query(query, (id,))
+
+    @staticmethod
+    def updateRegistrationStatus(data):
+        registration_id = data.get("id")
+        status = data.get("status")
+
+        query = """
+        UPDATE ervaringsdeskundigen 
+        SET status = %s 
+        WHERE ervaringsdeskundige_id = %s;
+        """
+        return DatabaseQueries.run_query(query, (status, registration_id))
