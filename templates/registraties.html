@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registraties Beheer</title>
+    <title>Registratiebeheer</title>
     <link rel="stylesheet" href="/static/css/styles.css">
-
-    {% include '_global_imports.html' %}
+    <script src="/static/js/registrations.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -16,122 +16,48 @@
         </nav>
     </header>
 
-<main>
-
-    <h1>Registraties</h1>
-    <button class="add-btn" onclick="toonRegistratiePopup()">Nieuwe registratie</button>
-
-    <table>
-        <thead>
-            <tr>
-
-                <th>#</th>
-                <th>Naam</th>
-                <th>Email</th>
-                <th>Actie</th>
-
-            </tr>
-        </thead>
-
-        <tbody id="registratiesTabel">
-
-        </tbody>
-
-    </table>
-
-     <div class="nav-button">
-        <a id="prev" class="nav-left">
-            <button>Vorige 10</button>
-        </a>
-
-        <a id="next" class="nav-right">
-            <button>Volgende 10</button>
-        </a>
-    </div>
+    <main>
+        <h1>Registraties</h1>
+        <button class="add-btn"> <a href="/rd" class="add-btn-link">Nieuwe Registratie</a> </button>
 
 
-    <div id="newRegistrationPopup" class="popup">
-        <div class="popup-content">
-            <span class="close" onclick="sluitPopup('newRegistrationPopup')">&times;</span>
-            <h2>Nieuwe Registratie</h2>
-            <form id="registratieForm">
-                 <label for="naam">Naam:</label>
-                <input type="text" id="naam" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" required>
-                <button type="submit" class="accept">Opslaan</button>
-            </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Naam</th>
+                    <th>Email</th>
+                    <th>Actie</th>
+                </tr>
+            </thead>
+            <tbody id="registrationsTable">
+                <!-- Dynamische inhoud komt hier -->
+            </tbody>
+        </table>
+
+        <div class="nav-button">
+            <a id="prev" class="nav-left">
+                <button>Vorige</button>
+            </a>
+            <a id="next" class="nav-right">
+                <button>Volgende</button>
+            </a>
         </div>
-    </div>
 
-
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <span class="close" onclick="sluitPopup('popup')">&times;</span>
-            <h2 id="popupNaam"></h2>
-            <p id="popupEmail"></p>
-            <button class="accept" onclick="verwerkRegistratie(true)">Accepteren</button>
-            <button class="reject" onclick="verwerkRegistratie(false)">Weigeren</button>
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <button class="close-btn" onclick="closePopup('popup')">&times;</button>
+                <h2 id="popupName"></h2>
+                <p id="popupBirthdate"></p>
+                <p id="popupGender"></p>
+                <p id="popupEmail"></p>
+                <p id="popupPhoneNumber"></p>
+                <button id="acceptButton" class="accept">Accepteren</button>
+                <button id="rejectButton" class="reject">Weigeren</button>
+            </div>
         </div>
-    </div>
-
-    <script>
-
-       function laadRegistraties() {
-           fetch("/api/registraties")
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.getElementById("registratiesTabel");
-                    tbody.innerHTML = "";
-
-                    data.forEach((registratie, index) => {
-                        const row = document.createElement("tr");
-
-                        let naam = `${registratie.voornaam} ${registratie.tussenvoegsel ? registratie.tussenvoegsel + ' ' : ''}${registratie.achternaam}`;
-                        row.innerHTML = `
-                            <th>${index + 1}</th>
-                            <td>${naam}</td>
-                            <td>${registratie.email}</td>
-                            <td><button onclick="toonPopup('${registratie.naam}', '${registratie.email}')">Bekijk</button></td>
-                        `;
-
-                        tbody.appendChild(row);
-                     });
-                  })
-                  .catch(error => console.error("Fout bij ophalen registraties:", error));
-       }
-
-
-        function toonPopup(naam, email) {
-            if (document.getElementById('newRegistrationPopup').style.display != "block"){
-                document.getElementById('popupNaam').textContent = naam;
-                document.getElementById('popupEmail').textContent = email;
-                document.getElementById('popup').style.display = 'block';
-            }
-
-        }
-
-        function toonRegistratiePopup() {
-            if (document.getElementById('popup').style.display != "block"){
-                document.getElementById('newRegistrationPopup').style.display = 'block';
-
-            }
-
-        }
-
-        function sluitPopup(id) {
-            document.getElementById(`${id}`).style.display = 'none';
-        }
-
-        function verwerkRegistratie(goedkeuren) {
-            alert(goedkeuren ? "Registratie geaccepteerd!" : "Registratie geweigerd!");
-            sluitPopup("newRegistrationPopup");
-        }
-
-        document.addEventListener("DOMContentLoaded", laadRegistraties);
-    </script>
-
-</main>
+    </main>
 
 </body>
 </html>
+
