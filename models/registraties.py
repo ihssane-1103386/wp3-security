@@ -5,6 +5,8 @@ from database.database_queries import DatabaseQueries
 
 
 
+
+
 class Registrations:
     @staticmethod
     def getRegistration():
@@ -26,8 +28,6 @@ class Registrations:
         """
         return DatabaseQueries.run_query(query, (id,))
 
-
-
     @staticmethod
     def updateRegistrationStatus(id, status):
         query = """ 
@@ -35,7 +35,17 @@ class Registrations:
         SET status = ?
         WHERE ervaringsdeskundige_id = ?;
         """
-        return DatabaseQueries.run_query(query, (status, id))
+        connection = DatabaseConnection.get_connection()
+        if connection is None:
+            return False
 
-
-
+        try:
+            cursor = connection.cursor()
+            cursor.execute(query, (status, id))
+            connection.commit()
+            return cursor.rowcount > 0
+        except Exception as e:
+            print("Fout bij het updaten van de status:", e)
+            return False
+        finally:
+            connection.close()

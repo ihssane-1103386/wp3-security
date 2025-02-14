@@ -60,7 +60,8 @@ def updateRegistrationStatus():
     data = request.get_json()
     registration_id = data.get('id')
     status = data.get('status')
-    if status not in [1, 2]:  # Ensure status is either accepted (1) or rejected (2)
+
+    if status not in [1, 2]:
         return jsonify({"message": "Invalid status"}), 400
 
     updated = Registrations.updateRegistrationStatus(registration_id, status)
@@ -68,7 +69,6 @@ def updateRegistrationStatus():
         return jsonify({"message": "Status updated successfully"}), 200
     else:
         return jsonify({"message": "Error updating status"}), 400
-
 
 
 @app.route("/rd")

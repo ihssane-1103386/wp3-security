@@ -5,7 +5,7 @@ function loadRegistrations() {
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById("registrationsTable");
-            tbody.innerHTML = "";  // Clear the table first
+            tbody.innerHTML = "";
 
             data.forEach((registration, index) => {
                 const row = document.createElement("tr");
@@ -60,7 +60,12 @@ function processRegistration(id, status) {
         if (data.message === "Status updated successfully") {
             const row = document.querySelector(`tr[data-id='${id}']`);
             if (row) {
-                row.remove();
+                row.style.transition = "opacity 0.5s";
+                row.style.opacity = "0";
+                setTimeout(() => {
+                    row.remove();
+                    loadRegistrations();
+                }, 500);
             }
             closePopup('popup');
         } else {
@@ -69,6 +74,7 @@ function processRegistration(id, status) {
     })
     .catch(error => console.error("Error:", error));
 }
+
 
 function closePopup(popupId) {
     document.getElementById(popupId).style.display = 'none';
