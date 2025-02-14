@@ -46,9 +46,11 @@ def beperkingen():
 def registraties():
     return render_template("registraties.html")
 
+
 @app.route("/api/registrations", methods=["GET"])
 def getRegistration():
     return Registrations.getRegistration()
+
 
 @app.route("/api/registrations/<int:id>", methods=["GET"])
 def getRegistrationDetails(id):
