@@ -16,7 +16,7 @@ function loadRegistrations() {
                     <td>${fullName}</td>
                     <td>${registration.email}</td>
                     <td>
-                        <button onclick="showPopup(${registration.ervaringsdeskundige_id})">View</button>
+                        <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
                     </td>`;
                 tbody.appendChild(row);
             });

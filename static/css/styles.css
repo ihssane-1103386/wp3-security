@@ -1,43 +1,41 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'lexend-deca', sans-serif;
     margin: 0;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: #192848;
+    color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
 }
 
-h1{
-    text-align: left;
-
-}
-
-
-.container {
-    width: 100%;
-    max-width: none;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    position: relative;
+h1 {
+    text-align: center;
+    font-family: 'atkinson-hyperlegible', sans-serif;
+    color: white;
+    margin-top: 20px;
+    margin-bottom: 100px;
 }
 
 .add-btn {
+    position: absolute;
+    top: 110px;
+    right: 176px;
     display: block;
-    margin-left: auto;
-    background-color: #005a9c;
+    margin: 10px auto;
+    background-color: #294d8b;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 10px 15px;
     cursor: pointer;
+    font-family: 'poppins', sans-serif;
+    font-weight: bold;
 }
 
 .add-btn:hover {
-    background-color: #004a86;
+    background-color: #3258a0;
 }
 
 table {
@@ -45,16 +43,17 @@ table {
     border-collapse: collapse;
     margin-top: 20px;
     background: white;
+    color: #192848;
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #192848;
     padding: 12px;
     text-align: left;
 }
 
 th {
-    background-color: #005a9c;
+    background-color: #294d8b;
     color: white;
 }
 
@@ -65,26 +64,20 @@ th {
     margin-top: 20px;
 }
 
-.nav-left {
-    text-align: left;
-}
-
-.nav-right {
-    text-align: right;
-}
-
 button {
     margin: 5px;
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
-    background-color: #005a9c;
+    background-color: #294d8b;
     color: white;
+    font-family: 'poppins', sans-serif;
+    font-weight: bold;
 }
 
 button:hover {
-    background-color: #004a86;
+    background-color: #3258a0;
 }
 
 .accept {
@@ -107,15 +100,24 @@ button:hover {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    color: #192848;
+    width: 400px;
+    height: 300px;
 }
 
 .popup-content {
     text-align: center;
+    margin-top: 50px;
 }
 
-.close {
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
     background: none;
     border: none;
     font-size: 20px;
     cursor: pointer;
+    color: #192848;
 }
+

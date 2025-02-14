@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registraties Beheer</title>
+    <title>Registratiebeheer</title>
     <link rel="stylesheet" href="/static/css/styles.css">
     <script src="/static/js/registrations.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -15,47 +16,47 @@
         </nav>
     </header>
 
-<main>
+    <main>
+        <h1>Registraties</h1>
+        <button class="add-btn" onclick="showRegistrationPopup()">Nieuwe Registratie</button>
 
-    <h1>Registraties</h1>
-    <button class="add-btn" onclick="showRegistrationPopup()">Nieuwe registratie</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Naam</th>
+                    <th>Email</th>
+                    <th>Actie</th>
+                </tr>
+            </thead>
+            <tbody id="registrationsTable">
+                <!-- Dynamische inhoud komt hier -->
+            </tbody>
+        </table>
 
-    <table>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Naam</th>
-                <th>Email</th>
-                <th>Actie</th>
-            </tr>
-        </thead>
-        <tbody id="registrationsTable">
-        </tbody>
-    </table>
-
-    <div class="nav-button">
-        <a id="prev" class="nav-left">
-            <button>Vorige 10</button>
-        </a>
-        <a id="next" class="nav-right">
-            <button>Volgende 10</button>
-        </a>
-    </div>
-
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <button class="close-btn" onclick="closePopup('popup')">&times;</button>
-            <h2 id="popupName"></h2>
-            <p id="popupBirthdate"></p>
-            <p id="popupGender"></p>
-            <p id="popupEmail"></p>
-            <p id="popupPhoneNumber"></p>
-            <button id="acceptButton" class="accept">Accepteren</button>
-            <button id="rejectButton" class="reject">weigeren</button>
+        <div class="nav-button">
+            <a id="prev" class="nav-left">
+                <button>Vorige</button>
+            </a>
+            <a id="next" class="nav-right">
+                <button>Volgende</button>
+            </a>
         </div>
-    </div>
 
-</main>
+        <div id="popup" class="popup">
+            <div class="popup-content">
+                <button class="close-btn" onclick="closePopup('popup')">&times;</button>
+                <h2 id="popupName"></h2>
+                <p id="popupBirthdate"></p>
+                <p id="popupGender"></p>
+                <p id="popupEmail"></p>
+                <p id="popupPhoneNumber"></p>
+                <button id="acceptButton" class="accept">Accepteren</button>
+                <button id="rejectButton" class="reject">Weigeren</button>
+            </div>
+        </div>
+    </main>
 
 </body>
 </html>
+
