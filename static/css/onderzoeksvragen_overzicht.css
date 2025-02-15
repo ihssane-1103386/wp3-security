@@ -1,5 +1,7 @@
 html, body {
     height: auto;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -11,6 +13,10 @@ body {
 
 h1{
     text-align: center;
+}
+
+main {
+    flex: 1;
 }
 
 table {

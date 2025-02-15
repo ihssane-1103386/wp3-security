@@ -1,21 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onderzoeken</title>
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
     <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
+    {% block head_scripts %}
     <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
-
+    {% endblock %}
     {% include '_global_imports.html' %}
-</head>
-<body>
-    <header>
-        <nav>
-            <!-- Hier komt de nav-bar -->
-        </nav>
-    </header>
+    <title>Onderzoeken</title>
+{% endblock %}
 
+{% block main %}
     <main>
         <h1>Onderzoeken</h1>
         <div class="search-container">
@@ -69,12 +64,5 @@
             <button id="join" class="popup-button">deelnemen</button>
         </div>
     </div>
-
     </main>
-
-    <footer>
-        <!-- Hier komt de footer thanks-->
-    </footer>
-
-</body>
-</html>
+{% endblock %}

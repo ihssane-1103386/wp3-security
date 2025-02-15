@@ -1,13 +1,15 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registratie als Ervaringsdeskundige</title>
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
     <link rel="stylesheet" href="../static/css/stylesheet.css">
+    {% block head_scripts %}
     <script defer src="../static/js/registratie_script.js"></script>
-</head>
-<body>
+    {% endblock %}
+    <title>Registratie als Ervaringsdeskundige</title>
+{% endblock %}
+
+{% block main %}
     <div class="container">
         <h2 id="form-title">Registratie als <span class="accent">Ervaringsdeskundige</span></h2>
         <form aria-labelledby="form-title">
@@ -70,5 +72,4 @@
             </div>
         </form>
     </div>
-</body>
-</html>
+{% endblock %}
