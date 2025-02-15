@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 
 {% block head %}
-    <title>Onderzoeksvraag aanmaken</title>
+    {{ super() }}
     <link rel="stylesheet" href="../static/css/onderzoeksvragen_aanmaken.css"/>
     {% include '_global_imports.html' %}
+    <title>Onderzoeksvraag aanmaken</title>
 {% endblock %}
 
 {% block main %}
 <main>
-    <h1>Onderzoeksvraag aanmaken</h1>
     <form id="aanvraag-form" action="/api/aanmaken-onderzoeksvraag" method="POST">
+        <h1>Onderzoeksvraag aanmaken</h1>
         <label for="onderzoekstitel">Onderzoekstitel</label>
         <input type="text" name="onderzoekstitel" id="onderzoekstitel" required/>
 

@@ -1,5 +1,7 @@
 html, body {
     height: auto;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -13,11 +15,12 @@ body {
 h1 {
     text-align: center;
     font-family: atkinson-hyperlegible, sans-serif;
-    margin-bottom: 10px;
+    margin: 10px auto 30px auto;
+    color: #192848;
 }
 
 label {
-    color: #192848;
+    color: #202c4c;
 }
 
 button {
@@ -26,7 +29,7 @@ button {
     font-family: poppins, sans-serif;
     font-weight: bold;
     color: white;
-    background-color: #294d8b;
+    background-color: #31579f;
     padding: 10px;
     border: none;
     border-radius: 8px;
@@ -35,7 +38,7 @@ button {
 }
 
 button:hover {
-    background-color: #3258a0;
+    background-color: #294d8b;
 }
 
 form {
@@ -49,30 +52,34 @@ form {
     margin: 50px auto;
 }
 
-input {
+input,
+textarea {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
-    margin-top: 5px;
+    margin: 10px 0;
     border: 1px solid Black;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
 textarea {
-    width: 100%;
     height: 150px;
-    margin-top: 5px;
-    padding: 12px 20px;
-    border: 1px solid black;
-    border-radius: 4px;
-    box-sizing: border-box;
     resize: none;
     color: black;
 }
 
 textarea::placeholder {
     color: #949196;
+}
+
+select {
+    width: 250px;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 7px;
+    border: 1px solid black;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .leeftijd {
@@ -84,12 +91,15 @@ textarea::placeholder {
     flex: 1;
 }
 
-
 .radio-button {
     display: flex;
     font-weight: normal;
     gap: 10px;
     align-items: center;
+}
+
+.radio-button input[type="radio"] {
+  margin-right: 5px;
 }
 
 .radio-button label {
@@ -98,20 +108,23 @@ textarea::placeholder {
     margin: 0 5px;
 }
 
-
 .plaatsdeelnemersrow,
 .datum,
 .beperking-type-row {
     display: flex;
     gap: 10px;
-    margin-top: 10px;
     margin-bottom: 15px;
 }
 
 .plaatsdeelnemers,
-.starteinddatum
+.starteinddatum,
 .beperking-type {
     flex: 1;
+}
+
+.beperking-type label {
+  display: block;
+  margin-bottom: 8px;
 }
 
 #aantal-deelnemers,
