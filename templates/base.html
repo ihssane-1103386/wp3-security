@@ -11,18 +11,25 @@
 
 <body>
     <header>
+        <img src="/images/accessibility_logo.png" alt="Accessibility logo"/>
         <nav>
             <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/about">About</a></li>
-                <li><a href="/contact">Contact</a></li>
+                <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
+                <li><a href="/registrations">Registraties</a></li>
             </ul>
         </nav>
     </header>
     {% block main %}
     {% endblock %}
     <footer>
-        <p>&copy; 2025 My Website. All rights reserved.</p>
+        <ul>
+            <li>© 2025 Stichting Accessibility</li>
+            <li><a href="https://www.accessibility.nl/disclaimer">Disclaimer</a></li>
+            <li><a href="https://www.accessibility.nl/colofon">Colofon</a></li>
+            <li><a href="https://www.accessibility.nl/privacy-en-cookieverklaring">Privacy en cookieverklaring</a></li>
+            <li><a href="https://www.accessibility.nl/sitemap">Sitemap</a></li>
+            <li><a href="https://www.accessibility.nl/toegankelijkheidsverklaring">Toegankelijkheidsverklaring</a></li>
+        </ul>
     </footer>
 
     {% block scripts %}
