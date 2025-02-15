@@ -38,9 +38,10 @@ class Onderzoeksvragen:
                     begeleider,
                     datum, 
                     datum_tot, 
-                    beloning
+                    beloning,
+                    creatie_datum
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
             """
             new_onderzoek_id = RawDatabase.runInsertQuery(query, (
                 organisatie_id,
