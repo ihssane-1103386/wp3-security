@@ -1,19 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+{% extends "base.html" %}
+
+{% block head %}
     <title>Onderzoeksvraag aanmaken</title>
     <link rel="stylesheet" href="../static/css/onderzoeksvragen_aanmaken.css"/>
     {% include '_global_imports.html' %}
-</head>
-<body>
-<header>
-    <nav>
-        <!-- Hier komt de nav-bar -->
-    </nav>
-</header>
+{% endblock %}
 
+{% block main %}
 <main>
     <h1>Onderzoeksvraag aanmaken</h1>
     <form id="aanvraag-form" action="/api/aanmaken-onderzoeksvraag" method="POST">
@@ -98,10 +91,8 @@
         <button type="submit">Aanmaken</button>
     </form>
 </main>
+{% endblock %}
 
-<footer>
-    <!-- Hier komt de footer -->
-</footer>
+{% block scripts %}
 <script src="../static/js/onderzoeksvragen_aanmaken.js"></script>
-</body>
-</html>
+{% endblock %}
