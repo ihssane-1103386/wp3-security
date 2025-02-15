@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const readLess = document.getElementById("read-less");
     const popupDeelnemers = document.getElementById("popup-max_deelnemers");
     const popupBeschikbaar = document.getElementById("popup-beschikbaar");
+    const popupInschrijvingButton = document.getElementById("bekijk-aanvragen");
     const joinButton = document.getElementById("join");
     const cancelButton = document.getElementById("cancel");
     const closeButton = document.querySelector(".close");
@@ -15,11 +16,15 @@ document.addEventListener("DOMContentLoaded", function () {
     let shortText = '';
 
 
+    let selectedOnderzoekID = null; // Store the selected ID globally
+
     onderzoeksvragen.forEach(vraag => {
         vraag.addEventListener("click", function () {
             popupTitel.textContent = this.dataset.title;
 
             let fullText = this.dataset.info;
+            selectedOnderzoekID = this.dataset.id; // Store the selected onderzoek ID
+
             let shortText = fullText.length > 100 ? fullText.substring(0, 100) + "..." : fullText;
 
             popupInfo.textContent = shortText;
@@ -45,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+
     popup.addEventListener("click", function (event) {
         if (event.target.classList.contains("lees-meer")) {
             popupInfo.textContent = onderzoeksvragen[0].dataset.info;
@@ -52,22 +58,37 @@ document.addEventListener("DOMContentLoaded", function () {
             popup.style.display = "none";
         }
     });
-
+    
     closeButton.addEventListener("click", function () {
         popup.style.display = "none";
     });
 
-    cancelButton.addEventListener("click", function () {
-        popup.style.display = "none";
-    });
+    if (cancelButton){
+        cancelButton.addEventListener("click", function () {
+            popup.style.display = "none";
+        });
+    }
 
-    joinButton.addEventListener("click", function () {
-        window.location.href = "";
-    });
+    if (joinButton){
+        joinButton.addEventListener("click", function () {
+            window.location.href = "";
+        });
+    }
+
+    if (popupInschrijvingButton) {
+        popupInschrijvingButton.addEventListener("click", function () {
+            if (selectedOnderzoekID) {
+                bekijkInschrijvingen(selectedOnderzoekID); // Use the stored ID
+            } else {
+                console.error("No data-id found on popup");
+            }
+        });
+    }
 
     window.addEventListener("click", function (event) {
         if (event.target === popup) {
             popup.style.display = "none";
         }
     });
+    
 });

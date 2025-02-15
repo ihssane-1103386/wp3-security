@@ -17,7 +17,7 @@ class Database:
                     return jsonify({"error": "No data found"})
         except sqlite3.Error as e:
             print("SQLite error:", e)
-            return jsonify({"error": "Something went wrong"}), 500
+            return jsonify({"error": "Something went wrong"})
 
 
 class RawDatabase(Database):

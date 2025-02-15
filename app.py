@@ -24,7 +24,12 @@ def notFound(e):
 def onderzoeksvragen():
     vragen = Onderzoeksvragen.get_vragen()
     # return jsonify(vragen), 200
-    return render_template("onderzoeksvragen.html", vragen=vragen)
+    return render_template("onderzoeksvragen.html", vragen=vragen, goedkeuren="0")
+
+@app.route("/inschrijvingen/goedkeuren")
+def onderzoeksvragen_goedkeuren():
+    vragen = Onderzoeksvragen.get_vragen()
+    return render_template("onderzoeksvragen.html", vragen=vragen, goedkeuren="1")
 
 @app.route("/api/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
