@@ -10,10 +10,16 @@ document.addEventListener("DOMContentLoaded", function () {
     const joinButton = document.getElementById("join");
     const cancelButton = document.getElementById("cancel");
     const closeButton = document.querySelector(".close");
+    const addButton = document.getElementById("add-button");
 
     let fullText = '';
     let shortText = '';
 
+    if (addButton) {
+        addButton.addEventListener("click", function () {
+            window.location.href = "/api/aanmaken-onderzoeksvraag";
+        });
+    }
 
     onderzoeksvragen.forEach(vraag => {
         vraag.addEventListener("click", function () {

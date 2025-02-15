@@ -47,6 +47,18 @@ th {
     text-align: center;
 }
 
+button {
+    margin-bottom: 8px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #294d8b;
+    color: white;
+    font-family: 'poppins', sans-serif;
+    font-weight: bold;
+}
+
 .clickable{
     cursor: pointer;
 }
@@ -160,5 +172,4 @@ th {
 
 button:hover {
   opacity: 0.8;
-  box-shadow: 0 0 15px rgba(23, 94, 152, 0.98);
 }
