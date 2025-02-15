@@ -4,7 +4,9 @@ from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
-from models.registraties import Registraties
+from models.registraties import Registrations
+
+
 
 app = Flask(__name__)
 
@@ -40,13 +42,36 @@ def beperkingen():
 
     return DatabaseQueries.get_beperkingen(query)
 
-@app.route("/registraties")
+@app.route("/registrations")
 def registraties():
     return render_template("registraties.html")
 
-@app.route("/api/registraties", methods=["GET"])
-def getRegistraties():
-    return Registraties.getRegistraties()
+
+@app.route("/api/registrations", methods=["GET"])
+def getRegistration():
+    return Registrations.getRegistration()
+
+
+@app.route("/api/registrations/<int:id>", methods=["GET"])
+def getRegistrationDetails(id):
+    return Registrations.getRegistrationDetails(id)
+
+
+@app.route("/api/registrations/status", methods=["PATCH"])
+def updateRegistrationStatus():
+    data = request.get_json()
+    registration_id = data.get('id')
+    status = data.get('status')
+
+    if status not in [1, 2]:
+        return jsonify({"message": "Invalid status"}), 400
+
+    updated = Registrations.updateRegistrationStatus(registration_id, status)
+    if updated:
+        return jsonify({"message": "Status updated successfully"}), 200
+    else:
+        return jsonify({"message": "Error updating status"}), 400
+
 
 @app.route("/rd")
 def registratie_deskundige():
