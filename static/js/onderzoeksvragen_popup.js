@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (addButton) {
         addButton.addEventListener("click", function () {
-            window.location.href = "/api/aanmaken-onderzoeksvraag";
+            window.location.href = "/aanmaken-onderzoeksvraag";
         });
     }
 
