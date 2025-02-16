@@ -76,7 +76,7 @@ class Onderzoeksvragen:
     @staticmethod
     def getbeperkingen():
         beperkingen = RawDatabase.runRawQuery("SELECT * FROM beperkingen")
-        return beperkingen
+        return [{"beperkingen_id": row[0], "beperking": row[1]} for row in beperkingen]
 
     @staticmethod
     def get_vragen():

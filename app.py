@@ -26,12 +26,16 @@ def onderzoeksvragen():
     # return jsonify(vragen), 200
     return render_template("onderzoeksvragen.html", vragen=vragen)
 
-@app.route("/api/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
+@app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
+    return render_template("onderzoeksvraag_aanmaken.html")
+
+@app.route("/api/get-beperkingen")
+def get_beperkingen():
     beperking = Onderzoeksvragen.getbeperkingen()
-    return render_template("onderzoeksvraag_aanmaken.html", beperking=beperking)
+    return jsonify(beperking)
 
 @app.route("/api/beperkingen")
 def beperkingen():
