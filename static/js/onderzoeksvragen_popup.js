@@ -72,6 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const formData = new FormData();
         formData.append("onderzoek_id", onderzoekId);
 
+
         fetch("/deelnemen", {
             method: "POST",
             body: formData
