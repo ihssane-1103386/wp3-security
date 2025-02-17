@@ -91,6 +91,7 @@ class Onderzoeksvragen:
         for row in results:
             row = dict(row)
             record = {
+                'onderzoek_id': row["onderzoek_id"],
                 'titel': row["titel"],
                 'beschrijving': row["beschrijving"],
                 'beperking': row["beperking"],

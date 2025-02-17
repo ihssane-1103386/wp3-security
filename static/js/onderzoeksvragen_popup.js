@@ -47,6 +47,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
+            joinButton.setAttribute("data-onderzoek-id", this.dataset.onderzoekId);
+
             popup.style.display = "block";
         });
     });
