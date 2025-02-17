@@ -94,10 +94,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (filterButton) {
         filterButton.addEventListener("click", function () {
+            console.log("Filterknop geklikt");
             if (beperkingFilter.style.display === "none" || beperkingFilter.style.display === "") {
                 beperkingFilter.style.display = "block";
+                console.log("Dropdown getoond");
             } else {
                 beperkingFilter.style.display = "none";
+                console.log("Dropdown verborgen");
             }
         });
     }
@@ -108,6 +111,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             onderzoeksvragen.forEach(vraag => {
                 const doelgroep = vraag.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
+
+                console.log("Doelgroep:", doelgroep);
 
                 if (geselecteerdeBeperking === "" || doelgroep.includes(geselecteerdeBeperking)) {
                     vraag.style.display = "";

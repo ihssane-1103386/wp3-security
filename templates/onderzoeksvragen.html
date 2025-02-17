@@ -24,7 +24,7 @@
             <select id="beperking-filter" class="filter-dropdown" style="display: none;">
                 <option value="">Alle beperkingen</option>
                 {% for beperking in beperkingen %}
-                    <option value="{{ beperking.beperking }}">{{ beperking.beperking }}</option>
+                    <option value="{{ beperking }}">{{ beperking }}</option>
                 {% endfor %}
             </select>
         </div>
