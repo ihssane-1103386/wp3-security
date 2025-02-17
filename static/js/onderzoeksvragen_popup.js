@@ -92,27 +92,32 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(error => console.error('Error:', error));
         });
 
-    filterButton.addEventListener("click", function () {
-        if (beperkingFilter.style.display === "none") {
-            beperkingFilter.style.display = "block";
-        } else {
-            beperkingFilter.style.display = "none";
-        }
-    });
-
-    beperkingFilter.addEventListener("change", function () {
-        const geselecteerdeBeperking = this.value;
-
-        onderzoeksvragen.forEach(vraag => {
-            const beperking = vraag.querySelector("td:nth-child(2)").textContent;
-
-            if (geselecteerdeBeperking === "" || beperking === geselecteerdeBeperking) {
-                vraag.style.display = ""; // Toon de rij
+    if (filterButton) {
+        filterButton.addEventListener("click", function () {
+            if (beperkingFilter.style.display === "none" || beperkingFilter.style.display === "") {
+                beperkingFilter.style.display = "block";
             } else {
-                vraag.style.display = "none"; // Verberg de rij
+                beperkingFilter.style.display = "none";
             }
         });
-    });
+    }
+
+    if (beperkingFilter) {
+        beperkingFilter.addEventListener("change", function () {
+            const geselecteerdeBeperking = this.value.trim().toLowerCase();
+
+            onderzoeksvragen.forEach(vraag => {
+                const beperking = vraag.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
+
+                if (geselecteerdeBeperking === "" || beperking === geselecteerdeBeperking) {
+                    vraag.style.display = "";
+                } else {
+                    vraag.style.display = "none";
+                }
+            });
+        });
+    }
+
 
     window.addEventListener("click", function (event) {
         if (event.target === popup) {
