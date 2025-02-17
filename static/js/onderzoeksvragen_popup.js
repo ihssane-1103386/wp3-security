@@ -107,9 +107,9 @@ document.addEventListener("DOMContentLoaded", function () {
             const geselecteerdeBeperking = this.value.trim().toLowerCase();
 
             onderzoeksvragen.forEach(vraag => {
-                const beperking = vraag.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
+                const doelgroep = vraag.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
 
-                if (geselecteerdeBeperking === "" || beperking === geselecteerdeBeperking) {
+                if (geselecteerdeBeperking === "" || doelgroep.includes(geselecteerdeBeperking)) {
                     vraag.style.display = "";
                 } else {
                     vraag.style.display = "none";
