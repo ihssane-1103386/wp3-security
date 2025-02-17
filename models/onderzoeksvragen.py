@@ -99,3 +99,27 @@ class Onderzoeksvragen:
             }
             vragen.append(record)
         return vragen
+
+
+    @staticmethod
+    def add_deelname(ervaringsdeskundige_id, onderzoek_id):
+        try:
+            query = """ 
+                INSERT INTO inschrijvingen (ervaringsdeskundige_id, onderzoek_id)
+                VALUES(?, ?)
+            """
+            RawDatabase.runInsertQuery(query, (ervaringsdeskundige_id, onderzoek_id))
+
+            update_query = """
+                UPDATE onderzoeken 
+                SET beschikbaar = 0
+                WHERE onderzoek_id = ?
+            """
+            RawDatabase.runInsertQuery(update_query, (onderzoek_id,))
+
+            return jsonify({"message": "Deelname geregistreerd!"}), 200
+
+        except Exception as errormsg:
+            print(f"Error: {errormsg}")
+            return jsonify({"error": "Er is iets mis gegaan, probeer het later opnieuw."}), 500
+

@@ -68,8 +68,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     joinButton.addEventListener("click", function () {
-        window.location.href = "";
-    });
+        const onderzoekId = joinButton.getAttribute("data-onderzoek-id");
+        const formData = new FormData();
+        formData.append("onderzoek_id", onderzoekId);
+
+        fetch("/deelnemen", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                } else {
+                    alert(data.error);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
 
     window.addEventListener("click", function (event) {
         if (event.target === popup) {

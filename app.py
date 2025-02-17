@@ -26,6 +26,17 @@ def onderzoeksvragen():
     # return jsonify(vragen), 200
     return render_template("onderzoeksvragen.html", vragen=vragen)
 
+
+@app.route("/deelnemen", methods=["POST"])
+def deelnemen():
+    ervaringsdeskundige_id = request.form.get("ervaringsdeskundige_id")
+    onderzoek_id = request.form.get("onderzoek_id")
+
+    if not ervaringsdeskundige_id or not onderzoek_id:
+        return jsonify({"error": "Ontbrekende gegevens"}), 400
+    return Onderzoeksvragen.add_deelname(ervaringsdeskundige_id, onderzoek_id)
+
+
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
