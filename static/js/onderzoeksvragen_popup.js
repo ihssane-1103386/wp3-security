@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const cancelButton = document.getElementById("cancel");
     const closeButton = document.querySelector(".close");
     const addButton = document.getElementById("add-button");
+    const filterButton = document.getElementById("filter-button");
+    const beperkingFilter = document.getElementById("beperking-filter");
 
     let fullText = '';
     let shortText = '';
@@ -89,6 +91,28 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch(error => console.error('Error:', error));
         });
+
+    filterButton.addEventListener("click", function () {
+        if (beperkingFilter.style.display === "none") {
+            beperkingFilter.style.display = "block";
+        } else {
+            beperkingFilter.style.display = "none";
+        }
+    });
+
+    beperkingFilter.addEventListener("change", function () {
+        const geselecteerdeBeperking = this.value;
+
+        onderzoeksvragen.forEach(vraag => {
+            const beperking = vraag.querySelector("td:nth-child(2)").textContent;
+
+            if (geselecteerdeBeperking === "" || beperking === geselecteerdeBeperking) {
+                vraag.style.display = ""; // Toon de rij
+            } else {
+                vraag.style.display = "none"; // Verberg de rij
+            }
+        });
+    });
 
     window.addEventListener("click", function (event) {
         if (event.target === popup) {

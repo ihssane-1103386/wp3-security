@@ -23,8 +23,10 @@ def notFound(e):
 @app.route("/onderzoeksvragen")
 def onderzoeksvragen():
     vragen = Onderzoeksvragen.get_vragen()
+    beperkingen = Onderzoeksvragen.getbeperkingen()
+    beperkingen_lijst = [beperking["beperking"] for beperking in beperkingen]
     # return jsonify(vragen), 200
-    return render_template("onderzoeksvragen.html", vragen=vragen)
+    return render_template("onderzoeksvragen.html", vragen=vragen, beperkingen=beperkingen_lijst)
 
 
 @app.route("/deelnemen", methods=["POST"])
