@@ -108,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (beperkingFilter) {
         beperkingFilter.addEventListener("change", function () {
             const geselecteerdeBeperking = this.value.trim().toLowerCase();
+            console.log("Geselecteerde beperking:", geselecteerdeBeperking);
 
             onderzoeksvragen.forEach(vraag => {
                 const doelgroep = vraag.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
@@ -116,8 +117,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (geselecteerdeBeperking === "" || doelgroep.includes(geselecteerdeBeperking)) {
                     vraag.style.display = "";
+                    console.log("Rij getoond:", vraag);
                 } else {
                     vraag.style.display = "none";
+                    console.log("Rij verborgen:", vraag);
                 }
             });
         });
