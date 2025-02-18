@@ -183,6 +183,8 @@ button:hover {
 .filter-btn {
     padding: 16px;
     width: 18%;
+    font-size: 15px;
+    font-weight: bold;
     background-color: #dd8a2e;
     color: white;
     border: none;
