@@ -105,6 +105,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    document.addEventListener("click", function (event) {
+        if (event.target !== filterButton && event.target !== beperkingFilter) {
+            beperkingFilter.style.display = "none";
+        }
+    });
+
     if (beperkingFilter) {
         beperkingFilter.addEventListener("change", function () {
             const geselecteerdeBeperking = this.value.trim().toLowerCase();

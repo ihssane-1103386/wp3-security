@@ -23,6 +23,7 @@ table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
+    margin-top: 4%;
 }
 
 td {
@@ -176,21 +177,22 @@ button:hover {
 
 .filter-container {
     margin: 10px 0;
-    position: page;
+    text-align: center;
 }
 
 .filter-btn {
     padding: 10px;
-    background-color: #007bff;
+    background-color: #dd8a2e;
     color: white;
     border: none;
     cursor: pointer;
 }
 
 .filter-dropdown {
-    display: block;
+    display: none;
     padding: 10px;
     margin-top: 10px;
+    margin-left: 42%;
     width: 200px;
     position: absolute;
     z-index: 1000;
