@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 beperkingFilter.style.display = "block";
                 console.log("Dropdown getoond");
             } else {
-                beperkingFilter.style.display = "none";
+                beperkingFilter.style.display = "block";
                 console.log("Dropdown verborgen");
             }
         });
