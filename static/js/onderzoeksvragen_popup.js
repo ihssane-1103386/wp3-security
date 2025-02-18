@@ -17,11 +17,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let fullText = '';
     let shortText = '';
 
+
     if (addButton) {
         addButton.addEventListener("click", function () {
             window.location.href = "/aanmaken-onderzoeksvraag";
         });
     }
+
 
     onderzoeksvragen.forEach(vraag => {
         vraag.addEventListener("click", function () {
@@ -54,6 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
             popup.style.display = "block";
         });
     });
+
 
     popup.addEventListener("click", function (event) {
         if (event.target.classList.contains("lees-meer")) {
@@ -131,6 +134,9 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
+
+    popupDeelnemers.textContent = this.dataset.deelnemers + "/10";
+    popupBeschikbaar.textContent = this.dataset.beschikbaar + "/10";
 
 
     window.addEventListener("click", function (event) {

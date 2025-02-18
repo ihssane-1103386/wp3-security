@@ -181,7 +181,8 @@ button:hover {
 }
 
 .filter-btn {
-    padding: 10px;
+    padding: 16px;
+    width: 18%;
     background-color: #dd8a2e;
     color: white;
     border: none;
@@ -191,12 +192,15 @@ button:hover {
 .filter-dropdown {
     display: none;
     padding: 10px;
-    margin-top: 10px;
-    margin-left: 42%;
+    font-size: 15px;
+    font-weight: bold;
+    color:#172152;
+    margin-top: 9px;
+    margin-left: 42.2%;
     width: 200px;
     position: absolute;
     z-index: 1000;
     background-color: white;
-    border: 1px solid #ccc;
+    border: 1px solid #31579f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
