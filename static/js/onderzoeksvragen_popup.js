@@ -36,6 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
             readMore.style.display = fullText.length > 100 ? "inline" : "none";
             readLess.style.display = "none";
 
+            popupDeelnemers.textContent = this.dataset.deelnemers + "/10";
+            popupBeschikbaar.textContent = this.dataset.beschikbaar + "/10";
+
             readMore.onclick = function () {
                 popupInfo.textContent = fullText;
                 readMore.style.display = "none";
@@ -134,10 +137,6 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-
-    popupDeelnemers.textContent = this.dataset.deelnemers + "/10";
-    popupBeschikbaar.textContent = this.dataset.beschikbaar + "/10";
-
 
     window.addEventListener("click", function (event) {
         if (event.target === popup) {
