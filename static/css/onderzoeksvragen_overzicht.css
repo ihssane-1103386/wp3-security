@@ -23,6 +23,7 @@ table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
+    margin-top: 4%;
 }
 
 td {
@@ -172,4 +173,34 @@ button {
 
 button:hover {
   opacity: 0.8;
+}
+
+.filter-container {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.filter-btn {
+    padding: 16px;
+    width: 18%;
+    background-color: #dd8a2e;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-dropdown {
+    display: none;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color:#172152;
+    margin-top: 9px;
+    margin-left: 42.2%;
+    width: 200px;
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #31579f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

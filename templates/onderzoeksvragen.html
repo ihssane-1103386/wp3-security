@@ -19,6 +19,16 @@
             <button id="add-button" class="add-btn">+</button>
         </div>
 
+    <div class="filter-container">
+            <button id="filter-button" class="filter-btn">Filter op beperking</button>
+            <select id="beperking-filter" class="filter-dropdown">
+                <option value="">Alle beperkingen</option>
+                {% for beperking in beperkingen %}
+                    <option value="{{ beperking }}">{{ beperking }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
         <table>
             <tr>
                 <th>Onderzoek</th>
@@ -59,8 +69,8 @@
 
             <hr>
 
-            <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">0/10</span></p>
-            <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">0/10</span></p>
+            <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">N/A</span></p>
+            <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
             <button id="cancel" class="popup-button">niet deelnemen</button>
             <button id="join" class="popup-button" data-onderzoek-id="">deelnemen</button>
         </div>
