@@ -1,11 +1,11 @@
+<head>
 {% extends "base.html" %}
 
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
-    <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
-
     {% include '_global_imports.html' %}
+    <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
 </head>
 <body>
     <header>
@@ -41,8 +41,8 @@
 
             {% for vraag in vragen %}
 
-            <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}" data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}" data-id="{{vraag.id}}"
-            data-onderzoek-id ="{{ vraag.onderzoek_id }}">
+            <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}" data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}"
+            data-onderzoek-id ="{{ vraag.onderzoek_id }}" data-id="{{ vraag.onderzoek_id }}">
                 <td>{{ vraag.titel }}</td>
                 <td>{{ vraag.beperking }}</td>
                 <td>{{ vraag.max_deelnemers }}</td>

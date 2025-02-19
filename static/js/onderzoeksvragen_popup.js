@@ -26,14 +26,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    let selectedOnderzoekID = null; // Store the selected ID globally
+    let selectedOnderzoekID = null;
 
     onderzoeksvragen.forEach(vraag => {
         vraag.addEventListener("click", function () {
             popupTitel.textContent = this.dataset.title;
 
             let fullText = this.dataset.info;
-            selectedOnderzoekID = this.dataset.id; // Store the selected onderzoek ID
+            selectedOnderzoekID = this.dataset.id;
 
             let shortText = fullText.length > 100 ? fullText.substring(0, 100) + "..." : fullText;
 
@@ -59,13 +59,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
-            joinButton.setAttribute("data-onderzoek-id", this.dataset.onderzoekId);
+            if (joinButton){
+                joinButton.setAttribute("data-onderzoek-id", this.dataset.onderzoekId);
+            }
 
             popup.style.display = "block";
         });
     });
-
-
 
     popup.addEventListener("click", function (event) {
         if (event.target.classList.contains("lees-meer")) {
@@ -147,7 +147,16 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-
+    
+    if (popupInschrijvingButton) {
+        popupInschrijvingButton.addEventListener("click", function () {
+            if (selectedOnderzoekID) {
+                bekijkInschrijvingen(selectedOnderzoekID);
+            } else {
+                console.error("No data-id found on popup");
+            }
+        });
+    }
     window.addEventListener("click", function (event) {
         if (event.target === popup) {
             popup.style.display = "none";
