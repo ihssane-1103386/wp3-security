@@ -1,5 +1,7 @@
 html, body {
     height: auto;
+    margin: 0;
+    padding: 0;
 }
 
 body {
@@ -13,10 +15,15 @@ h1{
     text-align: center;
 }
 
+main {
+    flex: 1;
+}
+
 table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
+    margin-top: 4%;
 }
 
 td {
@@ -39,6 +46,18 @@ th {
 .nav-button{
     margin-top: 7px;
     text-align: center;
+}
+
+button {
+    margin-bottom: 8px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #294d8b;
+    color: white;
+    font-family: 'poppins', sans-serif;
+    font-weight: bold;
 }
 
 .clickable{
@@ -154,5 +173,36 @@ th {
 
 button:hover {
   opacity: 0.8;
-  box-shadow: 0 0 15px rgba(23, 94, 152, 0.98);
+}
+
+.filter-container {
+    margin: 10px 0;
+    text-align: center;
+}
+
+.filter-btn {
+    padding: 16px;
+    width: 18%;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: #dd8a2e;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-dropdown {
+    display: none;
+    padding: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    color:#172152;
+    margin-top: 9px;
+    margin-left: 42.2%;
+    width: 200px;
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #31579f;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

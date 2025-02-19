@@ -11,9 +11,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const joinButton = document.getElementById("join");
     const cancelButton = document.getElementById("cancel");
     const closeButton = document.querySelector(".close");
+    const addButton = document.getElementById("add-button");
+    const filterButton = document.getElementById("filter-button");
+    const beperkingFilter = document.getElementById("beperking-filter");
 
     let fullText = '';
     let shortText = '';
+
+
+    if (addButton) {
+        addButton.addEventListener("click", function () {
+            window.location.href = "/aanmaken-onderzoeksvraag";
+        });
+    }
 
 
     let selectedOnderzoekID = null; // Store the selected ID globally
@@ -31,6 +41,9 @@ document.addEventListener("DOMContentLoaded", function () {
             readMore.style.display = fullText.length > 100 ? "inline" : "none";
             readLess.style.display = "none";
 
+            popupDeelnemers.textContent = this.dataset.deelnemers + "/10";
+            popupBeschikbaar.textContent = this.dataset.beschikbaar + "/10";
+
             readMore.onclick = function () {
                 popupInfo.textContent = fullText;
                 readMore.style.display = "none";
@@ -46,9 +59,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
+            joinButton.setAttribute("data-onderzoek-id", this.dataset.onderzoekId);
+
             popup.style.display = "block";
         });
     });
+
 
 
     popup.addEventListener("click", function (event) {
@@ -71,17 +87,64 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (joinButton){
         joinButton.addEventListener("click", function () {
-            window.location.href = "";
+            const onderzoekId = joinButton.getAttribute("data-onderzoek-id");
+            const formData = new FormData();
+            formData.append("onderzoek_id", onderzoekId);
+    
+    
+            fetch("/deelnemen", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        alert(data.message);
+                    } else {
+                        alert(data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+    }
+
+    if (filterButton) {
+        filterButton.addEventListener("click", function () {
+            console.log("Filterknop geklikt");
+            if (beperkingFilter.style.display === "none" || beperkingFilter.style.display === "") {
+                beperkingFilter.style.display = "block";
+                console.log("Dropdown getoond");
+            } else {
+                beperkingFilter.style.display = "block";
+                console.log("Dropdown verborgen");
+            }
         });
     }
 
-    if (popupInschrijvingButton) {
-        popupInschrijvingButton.addEventListener("click", function () {
-            if (selectedOnderzoekID) {
-                bekijkInschrijvingen(selectedOnderzoekID); // Use the stored ID
-            } else {
-                console.error("No data-id found on popup");
-            }
+    document.addEventListener("click", function (event) {
+        if (event.target !== filterButton && event.target !== beperkingFilter) {
+            beperkingFilter.style.display = "none";
+        }
+    });
+
+    if (beperkingFilter) {
+        beperkingFilter.addEventListener("change", function () {
+            const geselecteerdeBeperking = this.value.trim().toLowerCase();
+            console.log("Geselecteerde beperking:", geselecteerdeBeperking);
+
+            onderzoeksvragen.forEach(vraag => {
+                const doelgroep = vraag.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
+
+                console.log("Doelgroep:", doelgroep);
+
+                if (geselecteerdeBeperking === "" || doelgroep.includes(geselecteerdeBeperking)) {
+                    vraag.style.display = "";
+                    console.log("Rij getoond:", vraag);
+                } else {
+                    vraag.style.display = "none";
+                    console.log("Rij verborgen:", vraag);
+                }
+            });
         });
     }
 

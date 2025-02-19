@@ -8,8 +8,9 @@
 {% endblock %}
 
 {% block main %}
+
 <main>
-    <form id="aanvraag-form" action="/api/aanmaken-onderzoeksvraag" method="POST">
+    <form id="aanvraag-form" action="/aanmaken-onderzoeksvraag" method="POST">
         <h1>Onderzoeksvraag aanmaken</h1>
         <label for="onderzoekstitel">Onderzoekstitel</label>
         <input type="text" name="onderzoekstitel" id="onderzoekstitel" required/>
@@ -45,9 +46,6 @@
             <div class="beperking-type">
                 <label for="beperking">Beperking</label>
                 <select name="beperking" id="beperking" required>
-                    {% for beperking in beperking %}
-                        <option value="{{ beperking.beperkingen_id }}">{{ beperking.beperking }}</option>
-                    {% endfor %}
                 </select>
             </div>
             <div class="beperking-type">

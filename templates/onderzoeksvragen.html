@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onderzoeken</title>
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
     <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
-    {% include '_global_imports.html' %}
     <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
+
+    {% include '_global_imports.html' %}
 </head>
 <body>
     <header>
@@ -20,7 +19,17 @@
         <div class="search-container">
             <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input">
             <button type="submit" class="search-button">Zoeken</button>
-            <button><a style="text-decoration: none " class="add-btn" href="/aanmaken-onderzoeksvraag" >+</a></button>
+            <button id="add-button" class="add-btn">+</button>
+        </div>
+
+    <div class="filter-container">
+            <button id="filter-button" class="filter-btn">Filter op beperking</button>
+            <select id="beperking-filter" class="filter-dropdown">
+                <option value="">Alle beperkingen</option>
+                {% for beperking in beperkingen %}
+                    <option value="{{ beperking }}">{{ beperking }}</option>
+                {% endfor %}
+            </select>
         </div>
 
         <table>
@@ -32,7 +41,8 @@
 
             {% for vraag in vragen %}
 
-            <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}" data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}" data-id="{{vraag.id}}">
+            <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}" data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}" data-id="{{vraag.id}}"
+            data-onderzoek-id ="{{ vraag.onderzoek_id }}">
                 <td>{{ vraag.titel }}</td>
                 <td>{{ vraag.beperking }}</td>
                 <td>{{ vraag.max_deelnemers }}</td>
@@ -61,22 +71,15 @@
 
             <hr>
 
-            <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">0/10</span></p>
-            <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">0/10</span></p>
+            <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">N/A</span></p>
+            <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
             {% if goedkeuren == "1" %}
                 <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button">Bekijk aanmeldingen</button>
             {% else %}
                 <button id="cancel" class="popup-button">niet deelnemen</button>
-                <button id="join" class="popup-button">deelnemen</button>
+                <button id="join" class="popup-button" data-onderzoek-id="">deelnemen</button>
             {% endif %}
         </div>
     </div>
-
     </main>
-
-    <footer>
-        <!-- Hier komt de footer thanks-->
-    </footer>
-
-</body>
-</html>
+{% endblock %}

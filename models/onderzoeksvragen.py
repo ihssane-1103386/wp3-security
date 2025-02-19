@@ -38,9 +38,10 @@ class Onderzoeksvragen:
                     begeleider,
                     datum, 
                     datum_tot, 
-                    beloning
+                    beloning,
+                    creatie_datum
                 )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
             """
             new_onderzoek_id = RawDatabase.runInsertQuery(query, (
                 organisatie_id,
@@ -75,12 +76,12 @@ class Onderzoeksvragen:
     @staticmethod
     def getbeperkingen():
         beperkingen = RawDatabase.runRawQuery("SELECT * FROM beperkingen")
-        return beperkingen
+        return [{"beperking": row[1]} for row in beperkingen]
 
     @staticmethod
     def get_vragen():
         query = """ 
-            SELECT onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
+            SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
             JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
             JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
         """
@@ -90,7 +91,7 @@ class Onderzoeksvragen:
         for row in results:
             row = dict(row)
             record = {
-                'id': row["onderzoek_id"],
+                'onderzoek_id': row["onderzoek_id"],
                 'titel': row["titel"],
                 'beschrijving': row["beschrijving"],
                 'beperking': row["beperking"],
@@ -99,3 +100,27 @@ class Onderzoeksvragen:
             }
             vragen.append(record)
         return vragen
+
+
+    @staticmethod
+    def add_deelname(ervaringsdeskundige_id, onderzoek_id):
+        try:
+            query = """ 
+                INSERT INTO inschrijvingen (ervaringsdeskundige_id, onderzoek_id)
+                VALUES(?, ?)
+            """
+            RawDatabase.runInsertQuery(query, (ervaringsdeskundige_id, onderzoek_id))
+
+            update_query = """
+                UPDATE onderzoeken 
+                SET beschikbaar = 0
+                WHERE onderzoek_id = ?
+            """
+            RawDatabase.runInsertQuery(update_query, (onderzoek_id,))
+
+            return jsonify({"message": "Deelname geregistreerd!"}), 200
+
+        except Exception as errormsg:
+            print(f"Error: {errormsg}")
+            return jsonify({"error": "Er is iets mis gegaan, probeer het later opnieuw."}), 500
+
