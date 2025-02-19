@@ -30,3 +30,4 @@ dist/
 # Python dependency files
 pip-log.txt
 pip-delete-this-directory.txt
+/models/__pycache__
