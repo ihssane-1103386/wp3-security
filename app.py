@@ -7,7 +7,6 @@ from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
 
 
-
 app = Flask(__name__)
 
 # Default Route
@@ -69,14 +68,14 @@ def registraties():
     return render_template("registraties.html")
 
 
-@app.route("/api/registrations", methods=["GET"])
-def getRegistration():
-    return Registrations.getRegistration()
+@app.route("/api/registrations/<table_name>", methods=["GET"])
+def getRegistration(table_name):
+    return Registrations.getRegistration(table_name)
 
 
 @app.route("/api/registrations/<int:id>", methods=["GET"])
-def getRegistrationDetails(id):
-    return Registrations.getRegistrationDetails(id)
+def getRegistrationDetails(table_name, id):
+    return Registrations.getRegistrationDetails(table_name, id)
 
 
 @app.route("/api/registrations/status", methods=["PATCH"])

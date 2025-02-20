@@ -1,6 +1,40 @@
-document.addEventListener("DOMContentLoaded", loadRegistrations);
+document.addEventListener("DOMContentLoaded", function () {
+    loadRegistrations('registraties');
+});
+
+
+function updateTableHeader(tableName){
+    const thead = document.getElementById("tableHeader");
+    if (tableName === "registraties"){
+        thead.innerHTML = `
+            <tr>
+                <th>ID</th>
+                <th>Naam</th>
+                <th>Email</th>
+                <th>Acties</th>
+            </tr>`;
+    }
+    else if (tableName === "inschrijvingen") {
+        thead.innerHTML = `
+            <tr>
+                <th>Onderzoek</th>
+                <th>Ervaringsdeskundige</th>
+                <th>Datum</th>
+        `
+    }
+    else if (tableName === "onderzoeksaanvragen") {
+        thead.innerHTML = `
+            <tr>
+                <th>Titel</th>
+                <th>Organisatie</th>
+                <th>Datum</th>
+        `
+    }
+}
+
 
 function loadRegistrations(tableName) {
+    updateTableHeader(tableName);
     fetch(`/api/registrations/${tableName}`)
         .then(response => response.json())
         .then(data => {
@@ -23,14 +57,14 @@ function loadRegistrations(tableName) {
                 else if (tableName === "inschrijvingen") {
                     row.setAttribute('data-id', registration.onderzoek_id);
                     row.innerHTML = `
-                        <td>${index + 1}</td>
                         <td>${registration.onderzoek_id}</td>
+                        <td>${registration.ervaringsdeskundige_id}</td>
                         <td>${registration.datum}</td>`;
                 } else if (tableName === "onderzoeksaanvragen") {
                     row.setAttribute('data-id', registration.titel);
                     row.innerHTML = `
-                        <td>${index + 1}</td>
                         <td>${registration.titel}</td>
+                        <td>${registration.organisatie_id}</td>
                         <td>${registration.creatie_datum}</td>`;
                 }
                 tbody.appendChild(row);
