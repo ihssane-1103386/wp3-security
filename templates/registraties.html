@@ -17,12 +17,12 @@
         <button class="add-btn"> <a href="/rd" class="add-btn-link">Nieuwe Registratie</a> </button>
 
         <div class="tab-buttons">
-            <button> Registraties </button>
-            <button> Inschrijvingen </button>
-            <button> Onderzoeksaanvragen </button>
+            <button onclick="loadRegistrations('registraties')"> Registraties </button>
+            <button onclick="loadRegistrations('inschrijvingen')"> Inschrijvingen </button>
+            <button onclick="loadRegistrations('onderzoeksaanvragen')"> Onderzoeksaanvragen </button>
         </div>
 
-        <table>
+        <table id="tableHeader">
             <thead>
                 <tr>
                     <th>#</th>

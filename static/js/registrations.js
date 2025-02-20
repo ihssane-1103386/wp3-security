@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", loadRegistrations);
 
-function loadRegistrations() {
-    fetch("/api/registrations")
+function loadRegistrations(tableName) {
+    fetch(`/api/registrations/${tableName}`)
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById("registrationsTable");
@@ -9,15 +9,30 @@ function loadRegistrations() {
 
             data.forEach((registration, index) => {
                 const row = document.createElement("tr");
-                let fullName = `${registration.voornaam} ${registration.tussenvoegsel ? registration.tussenvoegsel + ' ' : ''}${registration.achternaam}`;
-                row.setAttribute('data-id', registration.ervaringsdeskundige_id);
-                row.innerHTML =
-                    `<td>${index + 1}</td>
-                    <td>${fullName}</td>
-                    <td>${registration.email}</td>
-                    <td>
-                        <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
-                    </td>`;
+                if (tableName === "registraties"){
+                   let fullName = `${registration.voornaam} ${registration.tussenvoegsel ? registration.tussenvoegsel + ' ' : ''}${registration.achternaam}`;
+                    row.setAttribute('data-id', registration.ervaringsdeskundige_id);
+                    row.innerHTML =
+                        `<td>${index + 1}</td>
+                        <td>${fullName}</td>
+                        <td>${registration.email}</td>
+                        <td>
+                            <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
+                        </td>`;
+                }
+                else if (tableName === "inschrijvingen") {
+                    row.setAttribute('data-id', registration.onderzoek_id);
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${registration.onderzoek_id}</td>
+                        <td>${registration.datum}</td>`;
+                } else if (tableName === "onderzoeksaanvragen") {
+                    row.setAttribute('data-id', registration.titel);
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${registration.titel}</td>
+                        <td>${registration.creatie_datum}</td>`;
+                }
                 tbody.appendChild(row);
             });
         })

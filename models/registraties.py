@@ -9,14 +9,24 @@ from database.database_queries import DatabaseQueries
 
 class Registrations:
     @staticmethod
-    def getRegistration():
-        query = """ 
-        SELECT ervaringsdeskundige_id, voornaam, tussenvoegsel, achternaam, email 
-        FROM ervaringsdeskundigen WHERE status = 0;
-        """
+    def getRegistration(table_name):
+        if table_name == "registraties":
+            query = """ 
+            SELECT ervaringsdeskundige_id, voornaam, tussenvoegsel, achternaam, email 
+            FROM ervaringsdeskundigen WHERE status = 0;
+            """
+        elif table_name == "inschrijvingen":
+            query = """
+            SELECT onderzoek_id, ervaringsdeskundige_id, datum
+            FROM inschrijvingen WHERE status = 0;
+            """
+        elif table_name == "onderzoeksaanvragen":
+            query = """
+            SELECT titel, organisatie_id, creatie_datum FROM onderzoeken WHERE status = 0;"""
         # Gebruik om data op te halen
+        else:
+            return jsonify({"error": "Onbekende tabel"}), 400
         return DatabaseQueries.run_query(query, ())
-
 
 
     @staticmethod
