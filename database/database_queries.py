@@ -1,3 +1,5 @@
+import sqlite3
+
 from database.database_connection import DatabaseConnection
 from flask import jsonify
 

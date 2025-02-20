@@ -64,7 +64,7 @@ function loadRegistrations(tableName) {
                     row.setAttribute('data-id', registration.titel);
                     row.innerHTML = `
                         <td>${registration.titel}</td>
-                        <td>${registration.organisatie_id}</td>
+                        <td>${registration.organisatie}</td>
                         <td>${registration.creatie_datum}</td>`;
                 }
                 tbody.appendChild(row);

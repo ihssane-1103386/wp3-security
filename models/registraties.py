@@ -22,7 +22,10 @@ class Registrations:
             """
         elif table_name == "onderzoeksaanvragen":
             query = """
-            SELECT titel, organisatie_id, creatie_datum FROM onderzoeken WHERE status = 0;"""
+            SELECT titel, organisaties.naam AS organisatie, creatie_datum 
+            FROM onderzoeken 
+            INNER JOIN organisaties ON onderzoeken.organisatie_id = organisaties.organisatie_id
+            WHERE onderzoeken.status = 0;"""
         # Gebruik om data op te halen
         else:
             return jsonify({"error": "Onbekende tabel"}), 400
