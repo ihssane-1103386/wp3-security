@@ -18,7 +18,7 @@ class Registrations:
                     (ervaringsdeskundigen.voornaam || ' ' || 
                     COALESCE(ervaringsdeskundigen.tussenvoegsel, '') || ' ' || 
                     ervaringsdeskundigen.achternaam) AS ervaringsdeskundige, 
-                    inschrijvingen.datum
+                    inschrijvingen.datum, inschrijvingen.ervaringsdeskundige_id, inschrijvingen.onderzoek_id
             FROM inschrijvingen 
             INNER JOIN ervaringsdeskundigen ON inschrijvingen.ervaringsdeskundige_id = ervaringsdeskundigen.ervaringsdeskundige_id
             INNER JOIN onderzoeken ON inschrijvingen.onderzoek_id = onderzoeken.onderzoek_id
@@ -43,10 +43,24 @@ class Registrations:
             FROM ervaringsdeskundigen 
             WHERE ervaringsdeskundige_id = ?;
             """
+            params=(id,)
         elif table_name == "inschrijvingen":
+            try:
+                ervaringsdeskundige_id, onderzoek_id = id.split('-')
+            except Exception as e:
+                return jsonify({"error": str(e)}), 400
             query = """
-            SELECT onderzoek_id, ervaringsdeskundige_id, datum, status
-            FROM inschrijvingen WHERE datum = ? AND ervaringsdeskundige_id = ?;"""
+            SELECT 
+                    onderzoeken.titel AS onderzoek, 
+                    (ervaringsdeskundigen.voornaam || ' ' ||
+                     COALESCE(ervaringsdeskundigen.tussenvoegsel, '') || ' ' ||
+                     ervaringsdeskundigen.achternaam) AS ervaringsdeskundige,
+                    inschrijvingen.ervaringsdeskundige_id, inschrijvingen.onderzoek_id
+            FROM inschrijvingen 
+            INNER JOIN ervaringsdeskundigen ON inschrijvingen.ervaringsdeskundige_id = ervaringsdeskundigen.ervaringsdeskundige_id
+            INNER JOIN onderzoeken ON inschrijvingen.onderzoek_id = onderzoeken.onderzoek_id
+            WHERE inschrijvingen.onderzoek_id = ? AND inschrijvingen.ervaringsdeskundige_id = ?;"""
+            params = (onderzoek_id, ervaringsdeskundige_id)
         elif table_name == "onderzoeksaanvragen":
             query = """
             SELECT titel, 
@@ -61,10 +75,12 @@ class Registrations:
             min_leeftijd,
             max_leeftijd,
             begeleider
-            FROM onderzoeken WHERE onderzoek_id = ?;"""
+            FROM onderzoeken 
+            WHERE onderzoek_id = ?;"""
+            params = (id,)
         else:
             return jsonify({"error": "Onbekende tabel"}), 400
-        return DatabaseQueries.run_query(query, (id,))
+        return DatabaseQueries.run_query(query, params)
 
     @staticmethod
     def updateRegistrationStatus(id, status):

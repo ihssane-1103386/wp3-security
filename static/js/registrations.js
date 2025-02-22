@@ -60,7 +60,7 @@ function loadRegistrations(tableName) {
                         <td>${registration.ervaringsdeskundige}</td>
                         <td>${registration.datum}</td>
                         <td>
-                            <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
+                            <button onclick="showPopup('inschrijvingen','${registration.ervaringsdeskundige_id}-${registration.onderzoek_id}')">Details</button>
                         </td>`;
                 } else if (tableName === "onderzoeksaanvragen") {
                     row.setAttribute('data-id', registration.titel);
@@ -69,7 +69,7 @@ function loadRegistrations(tableName) {
                         <td>${registration.organisatie}</td>
                         <td>${registration.creatie_datum}</td>
                         <td>
-                            <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
+                            <button onclick="showPopup('onderzoeksaanvragen', ${registration.ervaringsdeskundige_id})">Details</button>
                         </td>`;
                 }
                 tbody.appendChild(row);
@@ -90,8 +90,13 @@ function showPopup(tableName, id) {
                     document.getElementById('popupGender').textContent = `Geslacht: ${registration.geslacht}`;
                     document.getElementById('popupEmail').textContent = `Email: ${registration.email}`;
                     document.getElementById('popupPhoneNumber').textContent = `Telefoonnummer: ${registration.telefoonnummer}`;
-                    }
-                {}
+                    } else if (tableName === "inschrijvingen"){
+                    document.getElementById('popupName').textContent = "";
+                    document.getElementById('popupBirthdate').textContent = `${registration.ervaringsdeskundige} wants to join ${registration.onderzoek}`;
+                    document.getElementById('popupGender').textContent = "";
+                    document.getElementById('popupEmail').textContent = "";
+                    document.getElementById('popupPhoneNumber').textContent = "";
+                }
                     document.getElementById('popup').style.display = 'block';
 
                     document.getElementById('acceptButton').onclick = () => processRegistration(id, 1);
