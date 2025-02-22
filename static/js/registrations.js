@@ -69,7 +69,7 @@ function loadRegistrations(tableName) {
                         <td>${registration.organisatie}</td>
                         <td>${registration.creatie_datum}</td>
                         <td>
-                            <button onclick="showPopup('onderzoeksaanvragen', ${registration.ervaringsdeskundige_id})">Details</button>
+                            <button onclick="showPopup('onderzoeksaanvragen', ${registration.onderzoek_id})">Details</button>
                         </td>`;
                 }
                 tbody.appendChild(row);
@@ -94,6 +94,13 @@ function showPopup(tableName, id) {
                 } else if (tableName === "inschrijvingen"){
                     document.getElementById('popupName').textContent = `${registration.ervaringsdeskundige}`;
                     document.getElementById('popupBirthdate').textContent = `${registration.onderzoek}`;
+                    document.getElementById('popupGender').textContent = "";
+                    document.getElementById('popupEmail').textContent = "";
+                    document.getElementById('popupPhoneNumber').textContent = "";
+                    document.getElementById('popupText').textContent = `wil deelnemen aan het volgende onderzoek: `;
+                } else if (tableName === "onderzoeksaanvragen"){
+                    document.getElementById('popupName').textContent = `${registration.titel}`;
+                    document.getElementById('popupBirthdate').textContent = `hoi ${registration.organisatie}`;
                     document.getElementById('popupGender').textContent = "";
                     document.getElementById('popupEmail').textContent = "";
                     document.getElementById('popupPhoneNumber').textContent = "";

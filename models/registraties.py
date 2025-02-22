@@ -26,7 +26,7 @@ class Registrations:
             """
         elif table_name == "onderzoeksaanvragen":
             query = """
-            SELECT titel, organisaties.naam AS organisatie, creatie_datum 
+            SELECT onderzoek_id, titel, organisaties.naam AS organisatie, creatie_datum 
             FROM onderzoeken 
             INNER JOIN organisaties ON onderzoeken.organisatie_id = organisaties.organisatie_id
             WHERE onderzoeken.status = 0;"""
@@ -50,11 +50,10 @@ class Registrations:
             except Exception as e:
                 return jsonify({"error": str(e)}), 400
             query = """
-            SELECT 
-                    onderzoeken.titel AS onderzoek, 
+            SELECT  onderzoeken.titel AS onderzoek, 
                     (ervaringsdeskundigen.voornaam || ' ' ||
-                     COALESCE(ervaringsdeskundigen.tussenvoegsel, '') || ' ' ||
-                     ervaringsdeskundigen.achternaam) AS ervaringsdeskundige,
+                    COALESCE(ervaringsdeskundigen.tussenvoegsel, '') || ' ' ||
+                    ervaringsdeskundigen.achternaam) AS ervaringsdeskundige,
                     inschrijvingen.ervaringsdeskundige_id, inschrijvingen.onderzoek_id
             FROM inschrijvingen 
             INNER JOIN ervaringsdeskundigen ON inschrijvingen.ervaringsdeskundige_id = ervaringsdeskundigen.ervaringsdeskundige_id
@@ -64,8 +63,8 @@ class Registrations:
         elif table_name == "onderzoeksaanvragen":
             query = """
             SELECT titel, 
-            beschrijving, 
-            organisatie_id, 
+            onderzoeken.beschrijving, 
+            onderzoeken.organisatie_id, 
             plaats, 
             max_deelnemers, 
             type_onderzoek_id, 
@@ -76,6 +75,7 @@ class Registrations:
             max_leeftijd,
             begeleider
             FROM onderzoeken 
+            INNER JOIN organisaties ON onderzoeken.organisatie_id = organisaties.organisatie_id
             WHERE onderzoek_id = ?;"""
             params = (id,)
         else:
