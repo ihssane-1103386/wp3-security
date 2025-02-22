@@ -90,12 +90,14 @@ function showPopup(tableName, id) {
                     document.getElementById('popupGender').textContent = `Geslacht: ${registration.geslacht}`;
                     document.getElementById('popupEmail').textContent = `Email: ${registration.email}`;
                     document.getElementById('popupPhoneNumber').textContent = `Telefoonnummer: ${registration.telefoonnummer}`;
-                    } else if (tableName === "inschrijvingen"){
-                    document.getElementById('popupName').textContent = "";
-                    document.getElementById('popupBirthdate').textContent = `${registration.ervaringsdeskundige} wants to join ${registration.onderzoek}`;
+                    document.getElementById('popupText').textContent = "";
+                } else if (tableName === "inschrijvingen"){
+                    document.getElementById('popupName').textContent = `${registration.ervaringsdeskundige}`;
+                    document.getElementById('popupBirthdate').textContent = `${registration.onderzoek}`;
                     document.getElementById('popupGender').textContent = "";
                     document.getElementById('popupEmail').textContent = "";
                     document.getElementById('popupPhoneNumber').textContent = "";
+                    document.getElementById('popupText').textContent = `wil deelnemen aan het volgende onderzoek: `;
                 }
                     document.getElementById('popup').style.display = 'block';
 
