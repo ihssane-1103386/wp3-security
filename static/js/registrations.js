@@ -3,31 +3,31 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-function updateTableHeader(tableName){
+function updateTableHeader(tableName) {
     const thead = document.getElementById("tableHeader");
-    if (tableName === "registraties"){
+    if (tableName === "registraties") {
         thead.innerHTML = `
             <tr>
                 <th>ID</th>
                 <th>Naam</th>
                 <th>Email</th>
-                <th>Acties</th>
+                <th> </th>
             </tr>`;
-    }
-    else if (tableName === "inschrijvingen") {
+    } else if (tableName === "inschrijvingen") {
         thead.innerHTML = `
             <tr>
                 <th>Onderzoek</th>
                 <th>Ervaringsdeskundige</th>
                 <th>Datum</th>
+                <th> </th>
             </tr>`;
-    }
-    else if (tableName === "onderzoeksaanvragen") {
+    } else if (tableName === "onderzoeksaanvragen") {
         thead.innerHTML = `
             <tr>
                 <th>Onderzoekstitel</th>
                 <th>Organisatie</th>
                 <th>Datum</th>
+                <th> </th>
             </tr>`;
     }
 }
@@ -43,8 +43,8 @@ function loadRegistrations(tableName) {
 
             data.forEach((registration, index) => {
                 const row = document.createElement("tr");
-                if (tableName === "registraties"){
-                   let fullName = `${registration.voornaam} ${registration.tussenvoegsel ? registration.tussenvoegsel + ' ' : ''}${registration.achternaam}`;
+                if (tableName === "registraties") {
+                    let fullName = `${registration.voornaam} ${registration.tussenvoegsel ? registration.tussenvoegsel + ' ' : ''}${registration.achternaam}`;
                     row.setAttribute('data-id', registration.ervaringsdeskundige_id);
                     row.innerHTML =
                         `<td>${index + 1}</td>
@@ -53,19 +53,24 @@ function loadRegistrations(tableName) {
                         <td>
                             <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
                         </td>`;
-                }
-                else if (tableName === "inschrijvingen") {
+                } else if (tableName === "inschrijvingen") {
                     row.setAttribute('data-id', registration.onderzoek_id);
                     row.innerHTML = `
                         <td>${registration.onderzoek}</td>
                         <td>${registration.ervaringsdeskundige}</td>
-                        <td>${registration.datum}</td>`;
+                        <td>${registration.datum}</td>
+                        <td>
+                            <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
+                        </td>`;
                 } else if (tableName === "onderzoeksaanvragen") {
                     row.setAttribute('data-id', registration.titel);
                     row.innerHTML = `
                         <td>${registration.titel}</td>
                         <td>${registration.organisatie}</td>
-                        <td>${registration.creatie_datum}</td>`;
+                        <td>${registration.creatie_datum}</td>
+                        <td>
+                            <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
+                        </td>`;
                 }
                 tbody.appendChild(row);
             });
@@ -102,26 +107,26 @@ function processRegistration(id, status) {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ id: id, status: status })
+        body: JSON.stringify({id: id, status: status})
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message === "Status updated successfully") {
-            const row = document.querySelector(`tr[data-id='${id}']`);
-            if (row) {
-                row.style.transition = "opacity 0.5s";
-                row.style.opacity = "0";
-                setTimeout(() => {
-                    row.remove();
-                    loadRegistrations();
-                }, 500);
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === "Status updated successfully") {
+                const row = document.querySelector(`tr[data-id='${id}']`);
+                if (row) {
+                    row.style.transition = "opacity 0.5s";
+                    row.style.opacity = "0";
+                    setTimeout(() => {
+                        row.remove();
+                        loadRegistrations();
+                    }, 500);
+                }
+                closePopup('popup');
+            } else {
+                console.error("Failed to update status");
             }
-            closePopup('popup');
-        } else {
-            console.error("Failed to update status");
-        }
-    })
-    .catch(error => console.error("Error:", error));
+        })
+        .catch(error => console.error("Error:", error));
 }
 
 
