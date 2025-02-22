@@ -20,15 +20,15 @@ function updateTableHeader(tableName){
                 <th>Onderzoek</th>
                 <th>Ervaringsdeskundige</th>
                 <th>Datum</th>
-        `
+            </tr>`;
     }
     else if (tableName === "onderzoeksaanvragen") {
         thead.innerHTML = `
             <tr>
-                <th>Titel</th>
+                <th>Onderzoekstitel</th>
                 <th>Organisatie</th>
                 <th>Datum</th>
-        `
+            </tr>`;
     }
 }
 
@@ -57,8 +57,8 @@ function loadRegistrations(tableName) {
                 else if (tableName === "inschrijvingen") {
                     row.setAttribute('data-id', registration.onderzoek_id);
                     row.innerHTML = `
-                        <td>${registration.onderzoek_id}</td>
-                        <td>${registration.ervaringsdeskundige_id}</td>
+                        <td>${registration.onderzoek}</td>
+                        <td>${registration.ervaringsdeskundige}</td>
                         <td>${registration.datum}</td>`;
                 } else if (tableName === "onderzoeksaanvragen") {
                     row.setAttribute('data-id', registration.titel);

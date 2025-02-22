@@ -4,9 +4,6 @@ from database.database_connection import DatabaseConnection
 from database.database_queries import DatabaseQueries
 
 
-
-
-
 class Registrations:
     @staticmethod
     def getRegistration(table_name):
@@ -17,8 +14,15 @@ class Registrations:
             """
         elif table_name == "inschrijvingen":
             query = """
-            SELECT onderzoek_id, ervaringsdeskundige_id, datum
-            FROM inschrijvingen WHERE status = 0;
+            SELECT  onderzoeken.titel AS onderzoek, 
+                    (ervaringsdeskundigen.voornaam || ' ' || 
+                    COALESCE(ervaringsdeskundigen.tussenvoegsel, '') || ' ' || 
+                    ervaringsdeskundigen.achternaam) AS ervaringsdeskundige, 
+                    inschrijvingen.datum
+            FROM inschrijvingen 
+            INNER JOIN ervaringsdeskundigen ON inschrijvingen.ervaringsdeskundige_id = ervaringsdeskundigen.ervaringsdeskundige_id
+            INNER JOIN onderzoeken ON inschrijvingen.onderzoek_id = onderzoeken.onderzoek_id
+            WHERE inschrijvingen.status = 0;
             """
         elif table_name == "onderzoeksaanvragen":
             query = """
@@ -30,7 +34,6 @@ class Registrations:
         else:
             return jsonify({"error": "Onbekende tabel"}), 400
         return DatabaseQueries.run_query(query, ())
-
 
     @staticmethod
     def getRegistrationDetails(id):
