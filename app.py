@@ -1,14 +1,16 @@
 import json
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, jsonify, render_template, request, redirect, session, flash
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
-
-
+from flask_session import Session
 
 app = Flask(__name__)
+app.secret_key = "acces"
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 # Default Route
 @app.route("/")
@@ -18,6 +20,10 @@ def homepagina():
 @app.errorhandler(404)
 def notFound(e):
     return render_template("pagina-niet-gevonden.html"), 404
+
+@app.route("/rd", methods=["GET", "POST"])
+def registration_expert():
+    return render_template("registratie_pagina_ervaringsdeskundige.html")
 
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
@@ -55,6 +61,30 @@ def get_beperkingen():
     beperking = Onderzoeksvragen.getbeperkingen()
     return jsonify(beperking)
 
+@app.route("/api/register", methods=["POST"])
+def register_expert():
+    data = request.json
+
+    required_fields = ["voornaam", "achternaam", "email", "geslacht", "telefoonnummer", "wachtwoord", "beperkingen"]
+    for field in required_fields:
+        if field not in data or not data[field]:
+            return jsonify({"error": f"Veld '{field}' ontbreekt of is leeg"}), 400
+
+    ervaringsdeskundige_id = DatabaseQueries.add_expert(
+        data["voornaam"], data.get("tussenvoegsel", ""), data["achternaam"],
+        data.get("geboortedatum", ""), data["email"], data["geslacht"],
+        data["telefoonnummer"], data["wachtwoord"]
+    )
+
+    if not ervaringsdeskundige_id:
+        return jsonify({"error": "Kon ervaringsdeskundige niet opslaan"}), 500
+
+    for beperking in data["beperkingen"]:
+        DatabaseQueries.link_disability_to_expert(ervaringsdeskundige_id, beperking)
+
+    return jsonify({"message": "Registratie succesvol", "ervaringsdeskundige_id": ervaringsdeskundige_id}), 201
+
+
 @app.route("/api/beperkingen")
 def beperkingen():
     query = request.args.get("query", "")
@@ -73,11 +103,9 @@ def registraties():
 def getRegistration():
     return Registrations.getRegistration()
 
-
 @app.route("/api/registrations/<int:id>", methods=["GET"])
 def getRegistrationDetails(id):
     return Registrations.getRegistrationDetails(id)
-
 
 @app.route("/api/registrations/status", methods=["PATCH"])
 def updateRegistrationStatus():
@@ -93,13 +121,6 @@ def updateRegistrationStatus():
         return jsonify({"message": "Status updated successfully"}), 200
     else:
         return jsonify({"message": "Error updating status"}), 400
-
-
-@app.route("/rd")
-def \
-        registratie_deskundige():
-    return render_template("registratie_pagina_ervaringsdeskundige.html")
-
 
 # Api Routes
 @app.route("/api/onderzoeken", methods=["GET"])
