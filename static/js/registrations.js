@@ -99,12 +99,19 @@ function showPopup(tableName, id) {
                     document.getElementById('popupPhoneNumber').textContent = "";
                     document.getElementById('popupText').textContent = `wil deelnemen aan het volgende onderzoek: `;
                 } else if (tableName === "onderzoeksaanvragen"){
-                    document.getElementById('popupName').textContent = `${registration.titel}`;
-                    document.getElementById('popupBirthdate').textContent = `hoi ${registration.organisatie}`;
-                    document.getElementById('popupGender').textContent = "";
-                    document.getElementById('popupEmail').textContent = "";
-                    document.getElementById('popupPhoneNumber').textContent = "";
-                    document.getElementById('popupText').textContent = `wil deelnemen aan het volgende onderzoek: `;
+                    document.getElementById('popupName').textContent = registration.titel;
+                    document.getElementById('popupBirthdate').textContent = `${registration.beschrijving}`;
+                    document.getElementById('popupGender').textContent = `Datum: ${registration.datum} tot ${registration.datum_tot}`;
+                    document.getElementById('popupEmail').textContent = ``;
+                    document.getElementById('popupPhoneNumber').textContent = `Max deelnemers: ${registration.max_deelnemers}`;
+                    let begeleiderStatus;
+                    if (registration.begeleider == 1) {
+                      begeleiderStatus = "Ja";
+                    } else {
+                      begeleiderStatus = "Nee";
+                    }
+                    document.getElementById('popupText').textContent = `Type onderzoek: ${registration.type_onderzoek} | Plaats: ${registration.plaats} 
+                    | Beloning: ${registration.beloning} | Leeftijd: ${registration.min_leeftijd} - ${registration.max_leeftijd} | Begeleider: ${begeleiderStatus}`;
                 }
                     document.getElementById('popup').style.display = 'block';
 

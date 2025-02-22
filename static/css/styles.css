@@ -111,12 +111,13 @@ button:hover {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
     color: #192848;
     width: 400px;
-    height: 300px;
+    height: auto;
 }
 
 .popup-content {
     text-align: center;
     margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .close-btn {

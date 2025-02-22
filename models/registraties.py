@@ -64,10 +64,10 @@ class Registrations:
             query = """
             SELECT titel, 
             onderzoeken.beschrijving, 
-            onderzoeken.organisatie_id, 
+            organisaties.naam AS organisatie, 
             plaats, 
             max_deelnemers, 
-            type_onderzoek_id, 
+            type_onderzoek, 
             datum, 
             datum_tot, 
             beloning,
@@ -76,6 +76,7 @@ class Registrations:
             begeleider
             FROM onderzoeken 
             INNER JOIN organisaties ON onderzoeken.organisatie_id = organisaties.organisatie_id
+            INNER JOIN onderzoek_type ON onderzoeken.type_onderzoek_id = onderzoek_type.onderzoek_type_id 
             WHERE onderzoek_id = ?;"""
             params = (id,)
         else:
