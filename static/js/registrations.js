@@ -51,7 +51,7 @@ function loadRegistrations(tableName) {
                         <td>${fullName}</td>
                         <td>${registration.email}</td>
                         <td>
-                            <button onclick="showPopup(${registration.ervaringsdeskundige_id})">Details</button>
+                            <button onclick="showPopup('registraties', ${registration.ervaringsdeskundige_id})">Details</button>
                         </td>`;
                 } else if (tableName === "inschrijvingen") {
                     row.setAttribute('data-id', registration.onderzoek_id);
@@ -78,24 +78,26 @@ function loadRegistrations(tableName) {
         .catch(error => console.error("Error:", error));
 }
 
-function showPopup(id) {
-    fetch(`/api/registrations/${id}`)
+function showPopup(tableName, id) {
+    fetch(`/api/registrations/${tableName}/${id}`)
         .then(response => response.json())
         .then(data => {
             if (data && data.length > 0) {
                 const registration = data[0];
+                if (tableName === "registraties") {
+                    document.getElementById('popupName').textContent = `${registration.voornaam} ${registration.tussenvoegsel ? registration.tussenvoegsel + ' ' : ''}${registration.achternaam}`;
+                    document.getElementById('popupBirthdate').textContent = `Geboortedatum: ${registration.geboortedatum}`;
+                    document.getElementById('popupGender').textContent = `Geslacht: ${registration.geslacht}`;
+                    document.getElementById('popupEmail').textContent = `Email: ${registration.email}`;
+                    document.getElementById('popupPhoneNumber').textContent = `Telefoonnummer: ${registration.telefoonnummer}`;
+                    }
+                {}
+                    document.getElementById('popup').style.display = 'block';
 
-                document.getElementById('popupName').textContent = `${registration.voornaam} ${registration.tussenvoegsel ? registration.tussenvoegsel + ' ' : ''}${registration.achternaam}`;
-                document.getElementById('popupBirthdate').textContent = `Geboortedatum: ${registration.geboortedatum}`;
-                document.getElementById('popupGender').textContent = `Geslacht: ${registration.geslacht}`;
-                document.getElementById('popupEmail').textContent = `Email: ${registration.email}`;
-                document.getElementById('popupPhoneNumber').textContent = `Telefoonnummer: ${registration.telefoonnummer}`;
-                document.getElementById('popup').style.display = 'block';
-
-                document.getElementById('acceptButton').onclick = () => processRegistration(id, 1);
-                document.getElementById('rejectButton').onclick = () => processRegistration(id, 2);
-            } else {
-                console.error("Geen data ontvangen voor ID:", id);
+                    document.getElementById('acceptButton').onclick = () => processRegistration(id, 1);
+                    document.getElementById('rejectButton').onclick = () => processRegistration(id, 2);
+                } else {
+                    console.error("Geen data ontvangen voor ID:", id);
             }
         })
         .catch(error => console.error("Error:", error));
@@ -118,7 +120,7 @@ function processRegistration(id, status) {
                     row.style.opacity = "0";
                     setTimeout(() => {
                         row.remove();
-                        loadRegistrations();
+                        loadRegistrations(tableName);
                     }, 500);
                 }
                 closePopup('popup');

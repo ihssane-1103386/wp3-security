@@ -36,12 +36,34 @@ class Registrations:
         return DatabaseQueries.run_query(query, ())
 
     @staticmethod
-    def getRegistrationDetails(id):
-        query = """ 
-        SELECT ervaringsdeskundige_id, voornaam, tussenvoegsel, achternaam, geboortedatum, geslacht, email, telefoonnummer 
-        FROM ervaringsdeskundigen 
-        WHERE ervaringsdeskundige_id = ?;
-        """
+    def getRegistrationDetails(table_name, id):
+        if table_name == "registraties":
+            query = """ 
+            SELECT ervaringsdeskundige_id, voornaam, tussenvoegsel, achternaam, geboortedatum, geslacht, email, telefoonnummer 
+            FROM ervaringsdeskundigen 
+            WHERE ervaringsdeskundige_id = ?;
+            """
+        elif table_name == "inschrijvingen":
+            query = """
+            SELECT onderzoek_id, ervaringsdeskundige_id, datum, status
+            FROM inschrijvingen WHERE datum = ? AND ervaringsdeskundige_id = ?;"""
+        elif table_name == "onderzoeksaanvragen":
+            query = """
+            SELECT titel, 
+            beschrijving, 
+            organisatie_id, 
+            plaats, 
+            max_deelnemers, 
+            type_onderzoek_id, 
+            datum, 
+            datum_tot, 
+            beloning,
+            min_leeftijd,
+            max_leeftijd,
+            begeleider
+            FROM onderzoeken WHERE onderzoek_id = ?;"""
+        else:
+            return jsonify({"error": "Onbekende tabel"}), 400
         return DatabaseQueries.run_query(query, (id,))
 
     @staticmethod

@@ -73,7 +73,7 @@ def getRegistration(table_name):
     return Registrations.getRegistration(table_name)
 
 
-@app.route("/api/registrations/<int:id>", methods=["GET"])
+@app.route("/api/registrations/<table_name>/<int:id>", methods=["GET"])
 def getRegistrationDetails(table_name, id):
     return Registrations.getRegistrationDetails(table_name, id)
 
