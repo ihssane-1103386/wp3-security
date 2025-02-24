@@ -6,4 +6,12 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleButton.innerText = savedTheme === "dark" ? "Light Mode" : "Dark Mode";
     toggleButton.id = "themeToggle";
     document.body.appendChild(toggleButton);
+
+    toggleButton.addEventListener("click", function() {
+        const newTheme = document.body.classList.contains("dark") ? "light" : "dark";
+        setTheme(newTheme);
+        localStorage.setItem("theme", newTheme);
+        toggleButton.innerText = savedTheme === "dark" ? "Light Mode" : "Dark Mode";
+    });
 })
+
