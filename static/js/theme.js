@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const newTheme = document.body.classList.contains("dark") ? "light" : "dark";
         setTheme(newTheme);
         localStorage.setItem("theme", newTheme);
-        toggleButton.innerText = savedTheme === "dark" ? "Light Mode" : "Dark Mode";
+        toggleButton.innerText = newTheme === "dark" ? "Light Mode" : "Dark Mode";
     });
 
     const header = document.querySelector("header");

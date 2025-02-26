@@ -137,3 +137,29 @@ box-sizing: border-box;
   align-self: stretch;
 }
 
+.dark table {
+    background-color: #121212;
+    color: white;
+
+.dark th {
+    background-color: #294d8b;
+    color: white;
+}
+
+.dark td {
+    color: white;
+}
+
+.dark .popup {
+    background-color: #121212;
+    color: white;
+}
+
+.dark .popup-content {
+    color: white;
+}
+
+.dark .close-btn {
+    color: white;
+}
+
