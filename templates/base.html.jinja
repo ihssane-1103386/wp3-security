@@ -11,18 +11,18 @@
 </head>
 
 <body>
-    <header class="header">
-        <img src="{{ url_for('static', filename='/images/Logo_black.png') }}" alt="Accessibility logo"/>
-        <nav>
-            <ul>
-                <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
-                <li><a href="/registrations">Registraties</a></li>
-                {% if session.get("user") %}
-                <li><a href="/logout">Uitloggen</a></li>
-                {% endif %}
-            </ul>
-        </nav>
-    </header>
+    <header>
+    <img src="{{ url_for('static', filename='/images/Logo_black.png') }}"
+         data-logo-light="{{ url_for('static', filename='/images/Logo_black.png') }}"
+         data-logo-dark="{{ url_for('static', filename='/images/Logo_white.png') }}"
+         alt="Accessibility logo"/>
+    <nav>
+        <ul>
+            <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
+            <li><a href="/registrations">Registraties</a></li>
+        </ul>
+    </nav>
+</header>
     {% block main %}
     {% endblock %}
     <footer>
@@ -35,7 +35,7 @@
             <li><a href="https://www.accessibility.nl/toegankelijkheidsverklaring">Toegankelijkheidsverklaring</a></li>
         </ul>
     </footer>
-
+    <script src="../static/js/theme.js"></script>
     {% block scripts %}
     {% endblock %}
 </body>
