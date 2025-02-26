@@ -82,12 +82,22 @@ footer ul li a:hover {
     border-radius: 5px;
     margin-left: 20px;
     font-weight: bold;
+    color: white;
 }
 
 #themeToggle {
     position: absolute;
     top: 10px;
     right: 10px;
+}
+
+.dark #themeToggle {
+    color: white;
+    background-color: #294d8b;
+}
+
+.dark #themeToggle:hover {
+    background-color: #3258a0;
 }
 
 .dark table td {
@@ -115,3 +125,4 @@ footer ul li a:hover {
     color: #dd8a2e;
     font-weight: bold;
 }
+
