@@ -140,6 +140,8 @@ box-sizing: border-box;
 .dark table {
     background-color: #121212;
     color: white;
+    font-weight: bolder;
+}
 
 .dark th {
     background-color: #294d8b;

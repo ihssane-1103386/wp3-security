@@ -92,6 +92,7 @@ footer ul li a:hover {
 
 .dark table td {
     color: white;
+    font-weight: bold;
 }
 
 .dark table th {
@@ -102,6 +103,7 @@ footer ul li a:hover {
 .dark .popup-content {
     background-color: #121212;
     color: white;
+    font-weight: bold;
 }
 
 .dark .popup-content hr {
@@ -111,4 +113,5 @@ footer ul li a:hover {
 .dark .read-more,
 .dark .read-less {
     color: #dd8a2e;
+    font-weight: bold;
 }
