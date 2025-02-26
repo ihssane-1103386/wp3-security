@@ -31,7 +31,7 @@ td {
     border: solid #ddd;
     padding: 8px;
     color: #000000;
-    background-color: #FFFFFF;
+    background-color: inherit;
     text-align: center;
 }
 
