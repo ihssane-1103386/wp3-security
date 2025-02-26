@@ -21,6 +21,27 @@ def homepagina():
 def notFound(e):
     return render_template("pagina-niet-gevonden.html"), 404
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        if request.content_type != "application/json":
+            return jsonify({"success": False, "message": "Invalid request format. Use JSON."}), 415
+
+        data = request.get_json()
+        if not data:
+            return jsonify({"success": False, "message": "Invalid JSON request."}), 400
+
+        email = data.get("email")
+        wachtwoord = data.get("password")
+
+        if DatabaseQueries.authenticate_user(email, wachtwoord):
+            session["user"] = email
+            return jsonify({"success": True, "message": "Inloggen geslaagd!"})
+        else:
+            return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
+
+    return render_template("login.html.jinja")
+
 @app.route("/rd", methods=["GET", "POST"])
 def registration_expert():
     return render_template("registratie_pagina_ervaringsdeskundige.html")
