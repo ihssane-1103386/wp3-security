@@ -210,3 +210,34 @@ a:hover {
         gap: 10px;
     }
 }
+
+.dark .container {
+    background-color: #121212;
+    color: white;
+}
+
+.dark .form-group label {
+    color: white;
+}
+
+.dark .form-group input,
+.dark .form-group select,
+.dark .form-group textarea {
+    background-color: #333;
+    color: white;
+    border-color: #555;
+}
+
+.dark #suggestions {
+    background-color: #333;
+    color: white;
+}
+
+.dark #suggestions li:hover {
+    background-color: #555;
+    color: white;
+}
+.dark .beperking-tag {
+    background-color: #31579F;
+    color: white;
+}

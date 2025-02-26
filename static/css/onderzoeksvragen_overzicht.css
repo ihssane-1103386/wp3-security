@@ -16,6 +16,10 @@ h1{
     color: #172152
 }
 
+.dark h1 {
+    color: white;
+}
+
 main {
     flex: 1;
 }
@@ -31,7 +35,7 @@ td {
     border: solid #ddd;
     padding: 8px;
     color: #000000;
-    background-color: #FFFFFF;
+    background-color: inherit;
     text-align: center;
 }
 
@@ -207,3 +211,27 @@ button:hover {
     border: 1px solid #31579f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+.dark th {
+    background-color: #294d8b;
+    color: white;
+}
+
+.dark td {
+    color: white;
+}
+
+.dark .popup-content {
+    background-color: #121212;
+    color: white;
+}
+
+.dark .popup-content hr {
+    border-color: white;
+}
+
+.dark .read-more,
+.dark .read-less {
+    color: #dd8a2e;
+}
+

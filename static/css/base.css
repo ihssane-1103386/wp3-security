@@ -41,6 +41,20 @@ header nav ul li a:hover {
     color: #ffffff;
 }
 
+.dark header {
+    background-color: #121212;
+    border-bottom: 1px solid #333;
+}
+
+.dark header nav ul li a {
+    color: white;
+}
+
+.dark header nav ul li a:hover {
+    color: #dd8a2e;
+}
+
+/* Footer */
 /* ----- FOOTER ----- */
 footer {
     background-color: #222D50;
@@ -72,6 +86,71 @@ footer ul li a:hover {
     color: #FFFFFF;
     text-decoration: underline;
 }
+
+.dark {
+  background-color: #121212;
+  color: white;
+}
+
+.dark a {
+  color: #31579f;
+}
+
+#themeToggle {
+    margin-right: 300px;
+    margin-top: 12px;
+    cursor: pointer;
+    padding: 10px 15px;
+    background-color: #172152;
+    border: none;
+    border-radius: 5px;
+    margin-left: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+#themeToggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.dark #themeToggle {
+    color: white;
+    background-color: #294d8b;
+}
+
+.dark #themeToggle:hover {
+    background-color: #3258a0;
+}
+
+.dark table td {
+    color: white;
+    font-weight: bold;
+}
+
+.dark table th {
+    background-color: #294d8b;
+    color: white;
+}
+
+.dark .popup-content {
+    background-color: #121212;
+    color: white;
+    font-weight: bold;
+}
+
+.dark .popup-content hr {
+    border-color: white;
+}
+
+.dark .read-more,
+.dark .read-less {
+    color: #dd8a2e;
+    font-weight: bold;
+}
+
+
 
 /* ----- RESPONSIVE DESIGN ----- */
 @media (max-width: 768px) {
