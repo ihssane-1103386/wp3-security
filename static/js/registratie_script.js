@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const beperkingenInput = document.getElementById("beperkingen");
     const suggestionsList = document.getElementById("suggestions");
     const selectedBeperkingenContainer = document.getElementById("selected-beperkingen");
+    const cancelButton = document.getElementById("cancel-button");
     let selectedBeperkingen = [];
 
     form.addEventListener("submit", function(event) {
@@ -108,4 +109,13 @@ document.addEventListener("DOMContentLoaded", function() {
             selectedBeperkingenContainer.appendChild(tag);
         });
     }
+    function resetForm() {
+        form.reset();
+        selectedBeperkingen = [];
+        selectedBeperkingenContainer.innerHTML = "";
+    }
+
+    cancelButton.addEventListener("reset", function() {
+        resetForm();
+    });
 });
