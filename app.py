@@ -15,11 +15,15 @@ Session(app)
 # Default Route
 @app.route("/")
 def homepagina():
-    return render_template("homepagina.html")
+    return render_template("login.html.jinja")
 
 @app.errorhandler(404)
 def notFound(e):
     return render_template("pagina-niet-gevonden.html"), 404
+
+@app.context_processor
+def inject_user():
+    return dict(user=session.get("user"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -42,9 +46,15 @@ def login():
 
     return render_template("login.html.jinja")
 
+@app.route("/logout")
+def logout():
+    session.pop("user", None)
+    return redirect("/login")
+
+
 @app.route("/rd", methods=["GET", "POST"])
 def registration_expert():
-    return render_template("registratie_pagina_ervaringsdeskundige.html")
+    return render_template("registratie_pagina_ervaringsdeskundige.html.jinja")
 
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
@@ -53,12 +63,12 @@ def onderzoeksvragen():
     beperkingen = Onderzoeksvragen.getbeperkingen()
     beperkingen_lijst = [beperking["beperking"] for beperking in beperkingen]
     # return jsonify(vragen), 200
-    return render_template("onderzoeksvragen.html", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0")
+    return render_template("onderzoeksvragen.html.jinja", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0")
 
 @app.route("/inschrijvingen/goedkeuren")
 def inschrijvingen_goedkeuren():
     vragen = Onderzoeksvragen.get_vragen()
-    return render_template("onderzoeksvragen.html", vragen=vragen, goedkeuren="1")
+    return render_template("onderzoeksvragen.html.jinja", vragen=vragen, goedkeuren="1")
 
 
 @app.route("/deelnemen", methods=["POST"])
@@ -75,7 +85,7 @@ def deelnemen():
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
-    return render_template("onderzoeksvraag_aanmaken.html")
+    return render_template("onderzoeksvraag_aanmaken.html.jinja")
 
 @app.route("/api/get-beperkingen")
 def get_beperkingen():
@@ -117,7 +127,7 @@ def beperkingen():
 
 @app.route("/registrations")
 def registraties():
-    return render_template("registraties.html")
+    return render_template("registraties.html.jinja")
 
 
 @app.route("/api/registrations", methods=["GET"])
