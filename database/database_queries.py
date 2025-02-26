@@ -7,6 +7,28 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class DatabaseQueries:
 
     @staticmethod
+    def authenticate_user(email, wachtwoord):
+        sql_query = """
+                SELECT wachtwoord FROM ervaringsdeskundigen WHERE email = ?
+            """
+        conn = DatabaseConnection.get_connection()
+        if conn is None:
+            return None
+
+        try:
+            with conn:
+                cursor = conn.cursor()
+                cursor.execute(sql_query, (email,))
+                user = cursor.fetchone()
+
+                if user and check_password_hash(user["wachtwoord"], wachtwoord):
+                    return True
+                return False
+        except sqlite3.Error as e:
+            print(f"Database error: {e}")
+            return None
+
+    @staticmethod
     def run_query(query, params=()):
         conn = DatabaseConnection.get_connection()
         if conn is None:
