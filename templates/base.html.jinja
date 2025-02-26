@@ -12,11 +12,14 @@
 
 <body>
     <header class="header">
-        <img src="{{ url_for('static', filename='/images/accessibility_logo.png') }}" alt="Accessibility logo"/>
+        <img src="{{ url_for('static', filename='/images/Logo_black.png') }}" alt="Accessibility logo"/>
         <nav>
             <ul>
                 <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
                 <li><a href="/registrations">Registraties</a></li>
+                {% if session.get("user") %}
+                <li><a href="/logout">Uitloggen</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
