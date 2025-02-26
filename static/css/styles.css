@@ -137,6 +137,8 @@ box-sizing: border-box;
   align-self: stretch;
 }
 
+/* ----- DARK MODE ----- */
+
 .dark table {
     background-color: #121212;
     color: white;
@@ -164,4 +166,6 @@ box-sizing: border-box;
 .dark .close-btn {
     color: white;
 }
+
+
 

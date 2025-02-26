@@ -211,6 +211,8 @@ a:hover {
     }
 }
 
+/* ----- DARK MODE ----- */
+
 .dark .container {
     background-color: #121212;
     color: white;
@@ -241,3 +243,5 @@ a:hover {
     background-color: #31579F;
     color: white;
 }
+
+
