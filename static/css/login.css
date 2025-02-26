@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@700&family=Lexend+Deca:wght@400&family=Poppins:wght@700&display=swap');
+
+/* header */
+header {
+    background-color: #FFFFFF;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+header img {
+    height: 50px;
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+header nav ul li {
+    margin-left: 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: #202C4C; /* Dark blue for contrast */
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 15px;
+    border-radius: 6px;
+    transition: background 0.3s ease;
+}
+
+header nav ul li a:hover {
+    background: #202C4C;
+    color: #FFFFFF;
+}
+
+body {
+    font-family: 'Lexend Deca', sans-serif;
+    background-color: #202C4C; /* Background from style guide */
+    color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+/* Main Container */
+main {
+    background: #FFFFFF;
+    color: #202C4C;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.login-page {
+    height: 50vh;
+    padding: 5px;
+    margin: auto;
+}
+
+h1 {
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    font-size: 24px;
+    text-align: center;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    text-align: left;
+    display: block;
+    margin-bottom: 5px;
+    color: #202C4C;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    background-color: #F9FAFB;
+    font-size: 16px;
+    color: #202C4C;
+}
+
+input:focus {
+    border-color: #4F46E5;
+    outline: none;
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: #31579F;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #23457C;
+}
+
+/* ----- FOOTER STYLING ----- */
+footer {
+    background-color: #222D50; /* Darker for contrast */
+    color: #FFFFFF;
+    padding: 20px;
+    text-align: center;
+    position: page;
+    bottom: 0;
+    width: 100%;
+}
+
+footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+footer ul li {
+    margin: 5px 15px;
+}
+
+footer ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}
+
+footer ul li a:hover {
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    main {
+        width: 90%;
+        padding: 25px;
+    }
+}
