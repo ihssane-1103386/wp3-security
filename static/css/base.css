@@ -87,3 +87,26 @@ footer ul li a:hover {
     top: 10px;
     right: 10px;
 }
+
+.dark table td {
+    color: white;
+}
+
+.dark table th {
+    background-color: #294d8b;
+    color: white;
+}
+
+.dark .popup-content {
+    background-color: #121212;
+    color: white;
+}
+
+.dark .popup-content hr {
+    border-color: white;
+}
+
+.dark .read-more,
+.dark .read-less {
+    color: #dd8a2e;
+}
