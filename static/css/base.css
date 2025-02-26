@@ -73,9 +73,11 @@ footer ul li a:hover {
 }
 
 #themeToggle {
+    margin-right: 300px;
+    margin-top: 12px;
     cursor: pointer;
     padding: 10px 15px;
-    background-color: #ddd;
+    background-color: #172152;
     border: none;
     border-radius: 5px;
     margin-left: 20px;
