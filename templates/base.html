@@ -12,14 +12,17 @@
 
 <body>
     <header>
-        <img src="{{ url_for('static', filename='/images/accessibility_logo.png') }}" alt="Accessibility logo"/>
-        <nav>
-            <ul>
-                <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
-                <li><a href="/registrations">Registraties</a></li>
-            </ul>
-        </nav>
-    </header>
+    <img src="{{ url_for('static', filename='/images/Logo_black.png') }}"
+         data-logo-light="{{ url_for('static', filename='/images/Logo_black.png') }}"
+         data-logo-dark="{{ url_for('static', filename='/images/Logo_white.png') }}"
+         alt="Accessibility logo"/>
+    <nav>
+        <ul>
+            <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
+            <li><a href="/registrations">Registraties</a></li>
+        </ul>
+    </nav>
+</header>
     {% block main %}
     {% endblock %}
     <footer>

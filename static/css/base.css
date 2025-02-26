@@ -33,6 +33,19 @@ header nav ul li a:hover {
   color: #dd8a2e;
 }
 
+.dark header {
+    background-color: #121212;
+    border-bottom: 1px solid #333;
+}
+
+.dark header nav ul li a {
+    color: white;
+}
+
+.dark header nav ul li a:hover {
+    color: #dd8a2e;
+}
+
 /* Footer */
 footer {
   background-color: #333;

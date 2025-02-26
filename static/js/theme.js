@@ -12,10 +12,14 @@ document.addEventListener("DOMContentLoaded", function () {
         setTheme(newTheme);
         localStorage.setItem("theme", newTheme);
         toggleButton.innerText = newTheme === "dark" ? "Light Mode" : "Dark Mode";
+        updateLogo(newTheme);
     });
 
     const header = document.querySelector("header");
     header.appendChild(toggleButton);
+
+
+    updateLogo(savedTheme);
 });
 
 function setTheme(mode) {
@@ -25,3 +29,13 @@ function setTheme(mode) {
         document.body.classList.remove("dark")
     }
 }
+
+function updateLogo(theme) {
+    const logo = document.querySelector("header img");
+    if (theme === "dark") {
+        logo.src = logo.dataset.logoDark;
+    } else {
+        logo.src = logo.dataset.logoLight;
+    }
+}
+
