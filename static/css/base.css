@@ -3,17 +3,16 @@
 /* ----- HEADER ----- */
 header {
     background-color: #FFFFFF;
-    padding: 15px 30px;
     display: flex;
+    padding: 20px;
     align-items: center;
     justify-content: space-between;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    width: 100%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin-bottom: 20px;
 }
 
 header img {
-    height: 50px;
+    height: 45px;
 }
 
 header nav ul {
@@ -21,11 +20,10 @@ header nav ul {
     margin: 0;
     padding: 0;
     display: flex;
-    align-items: center;
 }
 
 header nav ul li {
-    margin-left: 20px;
+    margin-left: 30px;
 }
 
 header nav ul li a {
@@ -33,7 +31,7 @@ header nav ul li a {
     color: #222D50;
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
-    font-size: 18px;
+    font-size: 20px;
     padding: 10px 15px;
     border-radius: 6px;
     transition: background 0.3s ease;
@@ -102,22 +100,15 @@ footer ul li a:hover {
 }
 
 #themeToggle {
-    margin-right: 300px;
+    margin-left: auto;
     margin-top: 12px;
     cursor: pointer;
     padding: 10px 15px;
     background-color: #172152;
     border: none;
     border-radius: 5px;
-    margin-left: 20px;
     font-weight: bold;
     color: white;
-}
-
-#themeToggle {
-    position: absolute;
-    top: 10px;
-    right: 10px;
 }
 
 .dark #themeToggle {
