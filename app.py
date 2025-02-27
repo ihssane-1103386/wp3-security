@@ -1,5 +1,6 @@
 import json
 from flask import Flask, jsonify, render_template, request, redirect, session, flash
+from flask_session import Session
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
