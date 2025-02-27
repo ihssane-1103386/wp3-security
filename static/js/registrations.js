@@ -36,6 +36,8 @@ function showPopup(id) {
                 document.getElementById('popupGender').textContent = `Geslacht: ${registration.geslacht}`;
                 document.getElementById('popupEmail').textContent = `Email: ${registration.email}`;
                 document.getElementById('popupPhoneNumber').textContent = `Telefoonnummer: ${registration.telefoonnummer}`;
+                document.getElementById('popupDisabilities').textContent = `Beperkingen: ${registration.beperkingen || "Geen beperkingen"}`;
+
                 document.getElementById('popup').style.display = 'block';
 
                 document.getElementById('acceptButton').onclick = () => processRegistration(id, 1);

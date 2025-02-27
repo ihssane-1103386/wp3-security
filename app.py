@@ -7,10 +7,12 @@ from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
 from flask_session import Session
 
+
 app = Flask(__name__)
 app.secret_key = "acces"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
 
 # Default Route
 @app.route("/")

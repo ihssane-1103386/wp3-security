@@ -4,9 +4,6 @@ from database.database_connection import DatabaseConnection
 from database.database_queries import DatabaseQueries
 
 
-
-
-
 class Registrations:
     @staticmethod
     def getRegistration():
@@ -22,10 +19,15 @@ class Registrations:
     @staticmethod
     def getRegistrationDetails(id):
         query = """ 
-        SELECT ervaringsdeskundige_id, voornaam, tussenvoegsel, achternaam, geboortedatum, geslacht, email, telefoonnummer 
-        FROM ervaringsdeskundigen 
-        WHERE ervaringsdeskundige_id = ?;
-        """
+    SELECT e.ervaringsdeskundige_id, e.voornaam, e.tussenvoegsel, e.achternaam, 
+           e.geboortedatum, e.geslacht, e.email, e.telefoonnummer, 
+           COALESCE(GROUP_CONCAT(b.beperking, ', '), 'Geen beperkingen') AS beperkingen
+    FROM ervaringsdeskundigen e
+    LEFT JOIN beperkingen_ervaringsdeskundigen be ON e.ervaringsdeskundige_id = be.ervaringsdeskundige_id
+    LEFT JOIN beperkingen b ON be.beperkingen_id = b.beperkingen_id
+    WHERE e.ervaringsdeskundige_id = ?
+    GROUP BY e.ervaringsdeskundige_id;
+    """
         return DatabaseQueries.run_query(query, (id,))
 
     @staticmethod
