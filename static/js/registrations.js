@@ -54,7 +54,7 @@ function loadRegistrations(tableName) {
                             <button onclick="showPopup('registraties', ${registration.ervaringsdeskundige_id})">Details</button>
                         </td>`;
                 } else if (tableName === "inschrijvingen") {
-                    row.setAttribute('data-id', registration.onderzoek_id);
+                    row.setAttribute('data-id', `${registration.ervaringsdeskundige_id}-${registration.onderzoek_id}`);
                     row.innerHTML = `
                         <td>${registration.onderzoek}</td>
                         <td>${registration.ervaringsdeskundige}</td>
@@ -63,7 +63,7 @@ function loadRegistrations(tableName) {
                             <button onclick="showPopup('inschrijvingen','${registration.ervaringsdeskundige_id}-${registration.onderzoek_id}')">Details</button>
                         </td>`;
                 } else if (tableName === "onderzoeksaanvragen") {
-                    row.setAttribute('data-id', registration.titel);
+                    row.setAttribute('data-id', registration.onderzoek_id);
                     row.innerHTML = `
                         <td>${registration.titel}</td>
                         <td>${registration.organisatie}</td>
@@ -115,8 +115,8 @@ function showPopup(tableName, id) {
                 }
                     document.getElementById('popup').style.display = 'block';
 
-                    document.getElementById('acceptButton').onclick = () => processRegistration(id, 1);
-                    document.getElementById('rejectButton').onclick = () => processRegistration(id, 2);
+                    document.getElementById('acceptButton').onclick = () => processRegistration(tableName, id, 1);
+                    document.getElementById('rejectButton').onclick = () => processRegistration(tableName, id, 2);
                 } else {
                     console.error("Geen data ontvangen voor ID:", id);
             }
@@ -124,8 +124,8 @@ function showPopup(tableName, id) {
         .catch(error => console.error("Error:", error));
 }
 
-function processRegistration(id, status) {
-    fetch("/api/registrations/status", {
+function processRegistration(tableName, id, status) {
+    fetch(`/api/registrations/${tableName}/status`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"

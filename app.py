@@ -78,8 +78,8 @@ def getRegistrationDetails(table_name, id):
     return Registrations.getRegistrationDetails(table_name, id)
 
 
-@app.route("/api/registrations/status", methods=["PATCH"])
-def updateRegistrationStatus():
+@app.route("/api/registrations/<table_name>/status", methods=["PATCH"])
+def updateRegistrationStatus(table_name):
     data = request.get_json()
     registration_id = data.get('id')
     status = data.get('status')
@@ -87,7 +87,7 @@ def updateRegistrationStatus():
     if status not in [1, 2]:
         return jsonify({"message": "Invalid status"}), 400
 
-    updated = Registrations.updateRegistrationStatus(registration_id, status)
+    updated = Registrations.updateRegistrationStatus(table_name, registration_id, status)
     if updated:
         return jsonify({"message": "Status updated successfully"}), 200
     else:

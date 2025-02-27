@@ -84,19 +84,39 @@ class Registrations:
         return DatabaseQueries.run_query(query, params)
 
     @staticmethod
-    def updateRegistrationStatus(id, status):
-        query = """ 
-        UPDATE ervaringsdeskundigen
-        SET status = ?
-        WHERE ervaringsdeskundige_id = ?;
-        """
+    def updateRegistrationStatus(table_name, id, status):
+        if table_name == "registraties":
+            query = """ 
+            UPDATE ervaringsdeskundigen
+            SET status = ?
+            WHERE ervaringsdeskundige_id = ?;
+            """
+            params = (status, id)
+        elif table_name == "inschrijvingen":
+            try:
+                ervaringdeskundige_id, onderzoek_id = id.split('-')
+            except Exception as e:
+                return jsonify({"error": str(e)}), 400
+            query = """
+            UPDATE inschrijvingen
+            SET status = ?
+            WHERE onderzoek_id = ? AND ervaringsdeskundige_id = ?;"""
+            params = (status, onderzoek_id, ervaringdeskundige_id)
+        elif table_name == "onderzoeksaanvragen":
+            query = """
+            UPDATE onderzoeken
+            SET status = ?
+            WHERE onderzoek_id = ?;"""
+            params = (status, id)
+        else:
+            return jsonify({"error": "Onbekende tabel"}), 400
+
         connection = DatabaseConnection.get_connection()
         if connection is None:
             return False
-
         try:
             cursor = connection.cursor()
-            cursor.execute(query, (status, id))
+            cursor.execute(query, params)
             connection.commit()
             return cursor.rowcount > 0
         except Exception as e:
