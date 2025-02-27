@@ -5,7 +5,7 @@ from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
-from flask_session import Session
+
 
 
 app = Flask(__name__)
@@ -132,16 +132,18 @@ def registraties():
     return render_template("registraties.html.jinja")
 
 
-@app.route("/api/registrations", methods=["GET"])
-def getRegistration():
-    return Registrations.getRegistration()
+@app.route("/api/registrations/<table_name>", methods=["GET"])
+def getRegistration(table_name):
+    return Registrations.getRegistration(table_name)
 
-@app.route("/api/registrations/<int:id>", methods=["GET"])
-def getRegistrationDetails(id):
-    return Registrations.getRegistrationDetails(id)
 
-@app.route("/api/registrations/status", methods=["PATCH"])
-def updateRegistrationStatus():
+@app.route("/api/registrations/<table_name>/<id>", methods=["GET"])
+def getRegistrationDetails(table_name, id):
+    return Registrations.getRegistrationDetails(table_name, id)
+
+
+@app.route("/api/registrations/<table_name>/status", methods=["PATCH"])
+def updateRegistrationStatus(table_name):
     data = request.get_json()
     registration_id = data.get('id')
     status = data.get('status')
@@ -149,7 +151,7 @@ def updateRegistrationStatus():
     if status not in [1, 2]:
         return jsonify({"message": "Invalid status"}), 400
 
-    updated = Registrations.updateRegistrationStatus(registration_id, status)
+    updated = Registrations.updateRegistrationStatus(table_name, registration_id, status)
     if updated:
         return jsonify({"message": "Status updated successfully"}), 200
     else:
