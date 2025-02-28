@@ -135,7 +135,7 @@ button {
     font-size: 14px;
     color: white;
     top: 18px;
-    right: 50px;
+    right: 360px;
 }
 
 
@@ -190,31 +190,51 @@ footer ul li a:hover {
 
 /* ----- DARK MODE ----- */
 
-.dark table {
-    background-color: #121212;
-    color: white;
-    font-weight: bolder;
-}
-
-.dark th {
-    background-color: #294d8b;
-    color: white;
-}
-
-.dark td {
-    color: white;
-}
-
-.dark .popup {
+.dark body {
     background-color: #121212;
     color: white;
 }
 
-.dark .popup-content {
+.dark main {
+    background-color: #1E1E1E;
     color: white;
 }
 
-.dark .close-btn {
+.dark .login-page {
+    background-color: #1E1E1E;
     color: white;
 }
 
+.dark form {
+    color: white;
+}
+.dark label {
+    color: white;
+}
+
+.dark input {
+    background-color: #333;
+    color: white;
+    border-color: #555;
+}
+
+.dark input:focus {
+    border-color: #4F46E5;
+    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+}
+.dark button {
+    background-color: #31579F;
+    color: white;
+}
+
+.dark button:hover {
+    background-color: #23457C;
+}
+
+.dark a {
+    color: #dd8a2e;
+}
+
+.dark a:hover {
+    color: #294d8b
+}
