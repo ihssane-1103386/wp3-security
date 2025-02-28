@@ -123,6 +123,19 @@ button {
     transition: all 0.3s ease;
 }
 
+#themeToggle {
+    width: 10%;
+    cursor: pointer;
+    padding: 10px 15px;
+    background-color: #172152;
+    border: none;
+    border-radius: 5px;
+    margin-left: 20px;
+    font-weight: bold;
+    color: white;
+}
+
+
 button:hover {
     background-color: #23457C;
 }
