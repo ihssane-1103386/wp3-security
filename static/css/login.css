@@ -172,45 +172,33 @@ footer ul li a:hover {
     }
 }
 
-.dark header {
+/* ----- DARK MODE ----- */
+
+.dark table {
     background-color: #121212;
-    border-bottom: 1px solid #333;
-}
-
-.dark header nav ul li a {
     color: white;
+    font-weight: bolder;
 }
 
-.dark header nav ul li a:hover {
-    color: #dd8a2e;
-}
-
-/* Dark mode knop */
-#themeToggle {
-    margin-right: 300px;
-    margin-top: 12px;
-    cursor: pointer;
-    padding: 10px 15px;
-    background-color: #172152;
-    border: none;
-    border-radius: 5px;
-    margin-left: 20px;
-    font-weight: bold;
-    color: white;
-}
-
-#themeToggle {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.dark #themeToggle {
-    color: white;
+.dark th {
     background-color: #294d8b;
+    color: white;
 }
 
-.dark #themeToggle:hover {
-    background-color: #3258a0;
+.dark td {
+    color: white;
+}
+
+.dark .popup {
+    background-color: #121212;
+    color: white;
+}
+
+.dark .popup-content {
+    color: white;
+}
+
+.dark .close-btn {
+    color: white;
 }
 
