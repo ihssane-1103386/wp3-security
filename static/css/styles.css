@@ -137,6 +137,12 @@ button:hover {
     color: #192848;
 }
 
+header,
+footer {
+    box-sizing: border-box;
+    width: 100%;
+    align-self: stretch;
+}
 
 /* ----- DARK MODE ----- */
 
@@ -167,6 +173,3 @@ button:hover {
 .dark .close-btn {
     color: white;
 }
-
-
-
