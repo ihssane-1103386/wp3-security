@@ -124,15 +124,15 @@ button {
 }
 
 #themeToggle {
-    width: 9%;
+    width: 12%;
     cursor: pointer;
-    padding: 10px 15px;
     background-color: #172152;
     border: none;
     border-radius: 5px;
     margin-left: 20px;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
     color: white;
     top: 18px;
     right: 360px;
