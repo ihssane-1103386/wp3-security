@@ -123,6 +123,22 @@ button {
     transition: all 0.3s ease;
 }
 
+#themeToggle {
+    width: 9%;
+    cursor: pointer;
+    padding: 10px 15px;
+    background-color: #172152;
+    border: none;
+    border-radius: 5px;
+    margin-left: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    color: white;
+    top: 18px;
+    right: 50px;
+}
+
+
 button:hover {
     background-color: #23457C;
 }
@@ -171,3 +187,34 @@ footer ul li a:hover {
         padding: 25px;
     }
 }
+
+/* ----- DARK MODE ----- */
+
+.dark table {
+    background-color: #121212;
+    color: white;
+    font-weight: bolder;
+}
+
+.dark th {
+    background-color: #294d8b;
+    color: white;
+}
+
+.dark td {
+    color: white;
+}
+
+.dark .popup {
+    background-color: #121212;
+    color: white;
+}
+
+.dark .popup-content {
+    color: white;
+}
+
+.dark .close-btn {
+    color: white;
+}
+
