@@ -4,12 +4,11 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
+    {% include '_global_imports.html' %}
     {% block head_scripts %}
     <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
     {% endblock %}
-    {% include '_global_imports.html' %}
     <title>Onderzoeken</title>
-{% endblock %}
 
     <main>
         <h1>Onderzoeken</h1>
