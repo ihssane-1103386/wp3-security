@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registratiebeheer</title>
+{% extends "base.html" %}
+
+{% block head %}
+    {{ super() }}
     <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="/static/js/registrations.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@400;700&family=Atkinson+Hyperlegible:wght@400;700&family=Poppins:wght@700&display=swap" rel="stylesheet">
-</head>
-<body>
 
-    <header>
-        <nav>
-            <!-- Hier komt de nav-bar -->
-        </nav>
-    </header>
+{% block head_scripts %}
+    <script src="/static/js/registrations.js"></script>
+{% endblock %}
+    <title>Registratiebeheer</title>
+{% endblock %}
 
+{% block main %}
     <main>
         <h1>Registraties</h1>
         <button class="add-btn"> <a href="/rd" class="add-btn-link">Nieuwe Registratie</a> </button>
@@ -57,7 +53,5 @@
             </div>
         </div>
     </main>
-
-</body>
-</html>
+{% endblock %}
 

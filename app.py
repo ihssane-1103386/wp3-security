@@ -79,7 +79,8 @@ def updateRegistrationStatus():
 
 
 @app.route("/rd")
-def registratie_deskundige():
+def \
+        registratie_deskundige():
     return render_template("registratie_pagina_ervaringsdeskundige.html")
 
 

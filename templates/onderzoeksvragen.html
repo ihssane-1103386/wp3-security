@@ -1,26 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onderzoeken</title>
-    <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
-    {% include '_global_imports.html' %}
-    <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
-</head>
-<body>
-    <header>
-        <nav>
-            <!-- Hier komt de nav-bar -->
-        </nav>
-    </header>
+{% extends "base.html" %}
 
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
+    {% block head_scripts %}
+    <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
+    {% endblock %}
+    {% include '_global_imports.html' %}
+    <title>Onderzoeken</title>
+{% endblock %}
+
+{% block main %}
     <main>
         <h1>Onderzoeken</h1>
         <div class="search-container">
             <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input">
             <button type="submit" class="search-button">Zoeken</button>
-            <button><a style="text-decoration: none " class="add-btn" href="/aanmaken-onderzoeksvraag" >+</a></button>
+            <button id="add-button" class="add-btn">+</button>
         </div>
 
         <table>
@@ -71,12 +67,5 @@
             {% endif %}
         </div>
     </div>
-
     </main>
-
-    <footer>
-        <!-- Hier komt de footer thanks-->
-    </footer>
-
-</body>
-</html>
+{% endblock %}

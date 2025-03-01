@@ -1,5 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@700&family=Lexend+Deca:wght@400&family=Poppins:wght@700&display=swap');
 
+html, body {
+    height: auto;
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: 'Lexend Deca', sans-serif;
     background-color: #202C4C; /* Achtergrondkleur uit styleguide */
@@ -143,4 +149,11 @@ link {
     margin-left: 5px;
     cursor: pointer;
     font-size: 14px;
+}
+
+header,
+footer {
+box-sizing: border-box;
+  width: 100%;
+  align-self: stretch;
 }
