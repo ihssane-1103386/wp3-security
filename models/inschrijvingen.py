@@ -55,3 +55,29 @@ class Inschrijvingen:
         except Exception as errormsg:
             print(f"Error: {errormsg}")
             return jsonify({"error": "Something went wrong"}), 500
+        
+    def inschrijvingAccepteren(onderzoek_id, user_id):
+        try:
+            query = '''UPDATE inschrijvingen
+                            SET status = 2
+                        WHERE onderzoek_id = ?
+                            AND ervaringsdeskundige_id = ?
+                            AND EXISTS (
+                                SELECT 1 FROM onderzoeken
+                                    WHERE onderzoeken.onderzoek_id = inschrijvingen.onderzoek_id
+                            )
+                            AND EXISTS (
+                                SELECT 1 FROM ervaringsdeskundigen
+                                    WHERE ervaringsdeskundigen.ervaringsdeskundige_id = inschrijvingen.ervaringsdeskundige_id
+                            );
+            '''
+            
+            response = Database.runQuery(query, (onderzoek_id, user_id))
+
+            if response == 0:
+                return jsonify({"error": "No data found"}), 404
+
+            return jsonify({"success": "Status updated"}), 200
+        except Exception as errormsg:
+            print(f"Error: {errormsg}")
+            return jsonify({"error": "Something went wrong"}), 500
