@@ -206,3 +206,14 @@ button:hover {
     border: 1px solid #31579f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
+
+button.decline{
+    background-color: red;
+    color: white;
+}
+
+button.accept{
+    background-color: green;
+    color: white;
+}

@@ -106,6 +106,11 @@ def \
 def getOnderzoeken():
     return onderzoeken.getOnderzoeken()
 
+
+@app.route("/api/onderzoeken/inschrijving/afwijzen/<int:onderzoek_id>/<int:user_id>", methods=["PATCH"])
+def aanmeldingAfwijzen(onderzoek_id, user_id):
+    return Inschrijvingen.getInschrijvingen(onderzoek_id, user_id)
+
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getInschrijvingen(id):
     return Inschrijvingen.getInschrijvingen(id)
