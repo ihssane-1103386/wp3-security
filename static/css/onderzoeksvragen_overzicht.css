@@ -222,7 +222,7 @@ button:hover {
 }
 
 .dark .popup-content {
-    background-color: #121212;
+    background-color: #1E1E1E;
     color: white;
 }
 
@@ -235,3 +235,7 @@ button:hover {
     color: #dd8a2e;
 }
 
+.dark table tr {
+    background-color: #1E1E1E;
+    color: white;
+}
