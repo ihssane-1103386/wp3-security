@@ -23,20 +23,37 @@ def notFound(e):
 @app.route("/onderzoeksvragen")
 def onderzoeksvragen():
     vragen = Onderzoeksvragen.get_vragen()
+    beperkingen = Onderzoeksvragen.getbeperkingen()
+    beperkingen_lijst = [beperking["beperking"] for beperking in beperkingen]
     # return jsonify(vragen), 200
-    return render_template("onderzoeksvragen.html", vragen=vragen, goedkeuren="0")
+    return render_template("onderzoeksvragen.html", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0")
 
 @app.route("/inschrijvingen/goedkeuren")
-def onderzoeksvragen_goedkeuren():
+def inschrijvingen_goedkeuren():
     vragen = Onderzoeksvragen.get_vragen()
     return render_template("onderzoeksvragen.html", vragen=vragen, goedkeuren="1")
 
-@app.route("/api/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
+
+@app.route("/deelnemen", methods=["POST"])
+def deelnemen():
+    ervaringsdeskundige_id = request.form.get("ervaringsdeskundige_id")
+    onderzoek_id = request.form.get("onderzoek_id")
+
+    if not ervaringsdeskundige_id or not onderzoek_id:
+        return jsonify({"error": "Ontbrekende gegevens"}), 400
+    return Onderzoeksvragen.add_deelname(ervaringsdeskundige_id, onderzoek_id)
+
+
+@app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
+    return render_template("onderzoeksvraag_aanmaken.html")
+
+@app.route("/api/get-beperkingen")
+def get_beperkingen():
     beperking = Onderzoeksvragen.getbeperkingen()
-    return render_template("onderzoeksvraag_aanmaken.html", beperking=beperking)
+    return jsonify(beperking)
 
 @app.route("/api/beperkingen")
 def beperkingen():
