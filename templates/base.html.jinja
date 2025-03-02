@@ -20,6 +20,9 @@
         <ul>
             <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
             <li><a href="/registrations">Registraties</a></li>
+            {% if session.get("user") %}
+            <li><a href="/logout">Uitloggen</a></li>
+            {% endif %}
         </ul>
     </nav>
     <button id="themeToggle">Dark Mode</button>
