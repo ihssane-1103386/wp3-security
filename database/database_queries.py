@@ -31,7 +31,7 @@ class DatabaseQueries:
             return None
 
     @staticmethod
-    def run_query(query, params=()):
+    def run_query(query, params=(), fetch_one=False, fetch_all=False):
         conn = DatabaseConnection.get_connection()
         if conn is None:
             return jsonify({"error": "Database niet bereikbaar"}), 500
@@ -39,13 +39,19 @@ class DatabaseQueries:
         try:
             cursor = conn.cursor()
             cursor.execute(query, params)
-            result = cursor.fetchall()
-            conn.close()
 
-            if result:
-                return jsonify([dict(row) for row in result]), 200
+            if fetch_one:
+                result = cursor.fetchone()
+                conn.close()
+                return result
+            elif fetch_all:
+                result = cursor.fetchall()
+                conn.close()
+                return result
             else:
-                return jsonify([]), 200
+                conn.commit()
+                conn.close()
+                return None
 
         except sqlite3.Error as e:
             print(f"SQLite error: {e}")
@@ -115,3 +121,43 @@ class DatabaseQueries:
         except sqlite3.Error as e:
             print(f"Database error: {e}")
             return False
+
+    @staticmethod
+    def authenticate_worker(email, wachtwoord):
+        query = """
+            SELECT medewerkers.id, medewerkers.wachtwoord_hash, rollen.naam AS rol 
+            FROM medewerkers 
+            JOIN rollen ON medewerkers.rol_id = rollen.id
+            WHERE medewerkers.email = ?;
+        """
+        medewerker = DatabaseQueries.run_query(query, (email,), fetch_one=True)
+
+        print("Medewerker gevonden:", dict(medewerker) if medewerker else "Geen medewerker gevonden")
+
+        if not medewerker:
+            print("❌ Geen medewerker gevonden met dit e-mailadres.")
+            return None
+
+        wachtwoord_hash = medewerker["wachtwoord_hash"]
+
+        if check_password_hash(wachtwoord_hash, wachtwoord):
+            return {"id": medewerker["id"], "rol": medewerker["rol"]}
+        return None
+
+    @staticmethod
+    def add_worker(voornaam, achternaam, email, wachtwoord, rol_naam):
+        rol_query = "SELECT id FROM rollen WHERE naam = ?;"
+        rol_result = DatabaseQueries.run_query(rol_query, (rol_naam,), fetch_one=True)
+
+        if not rol_result:
+            return None
+
+        rol_id = rol_result["id"]
+        wachtwoord_hash = generate_password_hash(wachtwoord)
+
+        query = """
+            INSERT INTO medewerkers (voornaam, achternaam, email, wachtwoord_hash, rol_id)
+            VALUES (?, ?, ?, ?, ?)
+            RETURNING id;
+        """
+        return DatabaseQueries.run_query(query, (voornaam, achternaam, email, wachtwoord_hash, rol_id), fetch_one=True)
