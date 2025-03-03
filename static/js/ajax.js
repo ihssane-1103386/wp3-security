@@ -101,7 +101,7 @@ function bekijkInschrijvingen(id) {
 
 function aanmeldingAccepteren(onderzoek_id, user_id){
     fetch(`/api/onderzoeken/inschrijving/afwijzen/${onderzoek_id}/${user_id}`, {
-        method: "GET"
+        method: "PATCH"
     })
     .then(response =>{
         if (response.status === 404) {
@@ -169,7 +169,7 @@ function aanmeldingAccepteren(onderzoek_id, user_id){
 
 function aanmeldingAfwijzen(onderzoek_id, user_id){
     fetch(`/api/onderzoeken/inschrijving/afwijzen/${onderzoek_id}/${user_id}`, {
-        method: "GET"
+        method: "PATCH"
     })
     .then(response =>{
         if (response.status === 404) {
