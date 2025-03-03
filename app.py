@@ -41,6 +41,12 @@ def login():
         email = data.get("email")
         wachtwoord = data.get("password")
 
+        medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
+        if medewerker:
+            session["user"] = email
+            session["role"] = medewerker["rol"]
+            return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
+
         if DatabaseQueries.authenticate_user(email, wachtwoord):
             session["user"] = email
             return jsonify({"success": True, "message": "Inloggen geslaagd!"})
