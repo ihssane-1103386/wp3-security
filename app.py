@@ -116,7 +116,11 @@ def aanmeldingAccepteren(onderzoek_id, user_id):
     return Inschrijvingen.inschrijvingAccepteren(onderzoek_id, user_id)
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
-def getInschrijvingen(id):
-    return Inschrijvingen.getInschrijvingen(id)
+def getPendingInschrijvingen(id):
+    return Inschrijvingen.getInschrijvingen(0, id)
+
+@app.route("/api/onderzoeken/inschrijvingen/<int:id>/<int:status>", methods=["GET"])
+def getInschrijvingenFiltered(id, status):
+    return Inschrijvingen.getInschrijvingen(status, id)
 
 app.run(debug=True)

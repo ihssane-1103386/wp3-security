@@ -3,7 +3,7 @@ from models.database_connect import Database
 
 class Inschrijvingen:
     @staticmethod
-    def getInschrijvingen(id):
+    def getInschrijvingen(status, id):
         try:
             query = '''SELECT onderzoeken.titel AS titel,
                               ervaringsdeskundigen.voornaam AS voornaam,
@@ -13,12 +13,12 @@ class Inschrijvingen:
                               onderzoeken.onderzoek_id || '_' || ervaringsdeskundigen.ervaringsdeskundige_id AS samengesteld_ID,
                               onderzoeken.onderzoek_id AS onderzoek_id,
                               ervaringsdeskundigen.ervaringsdeskundige_id AS user_id
-                       FROM onderzoeken
-                       INNER JOIN inschrijvingen ON inschrijvingen.onderzoek_id = onderzoeken.onderzoek_id
-                       INNER JOIN ervaringsdeskundigen ON ervaringsdeskundigen.ervaringsdeskundige_id = inschrijvingen.ervaringsdeskundige_id
-                       WHERE onderzoeken.onderzoek_id = ?;'''
+                        FROM onderzoeken
+                        INNER JOIN inschrijvingen ON inschrijvingen.onderzoek_id = onderzoeken.onderzoek_id AND inschrijvingen.status = ?
+                        INNER JOIN ervaringsdeskundigen ON ervaringsdeskundigen.ervaringsdeskundige_id = inschrijvingen.ervaringsdeskundige_id
+                        WHERE onderzoeken.onderzoek_id = ?;'''
             
-            response = Database.runQuery(query, (id,))
+            response = Database.runQuery(query, (status, id,))
             data = response.get_json()
             
             if isinstance(data, list) and not data:
@@ -33,7 +33,7 @@ class Inschrijvingen:
     def inschrijvingAfwijzen(onderzoek_id, user_id):
         try:
             query = '''UPDATE inschrijvingen
-                            SET status = 3
+                            SET status = 2
                         WHERE onderzoek_id = ?
                             AND ervaringsdeskundige_id = ?
                             AND EXISTS (
@@ -59,7 +59,7 @@ class Inschrijvingen:
     def inschrijvingAccepteren(onderzoek_id, user_id):
         try:
             query = '''UPDATE inschrijvingen
-                            SET status = 2
+                            SET status = 1
                         WHERE onderzoek_id = ?
                             AND ervaringsdeskundige_id = ?
                             AND EXISTS (
