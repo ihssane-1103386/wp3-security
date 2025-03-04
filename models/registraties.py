@@ -92,7 +92,7 @@ class Registrations:
             return jsonify({"error": "Onbekende tabel"}), 400
         result =  RawDatabase.runRawQuery(query, params)
         if result:
-            data = dict(result[0])
+            data = [dict(row) for row in result]
             return jsonify(data)
         else:
             return jsonify({})
