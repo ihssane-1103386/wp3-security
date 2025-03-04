@@ -43,34 +43,44 @@ function loadRegistrations(tableName) {
 
             data.forEach((registration, index) => {
                 const row = document.createElement("tr");
-                if (tableName === "registraties") {
-                    let fullName = `${registration.voornaam} ${registration.tussenvoegsel ? registration.tussenvoegsel + ' ' : ''}${registration.achternaam}`;
-                    row.setAttribute('data-id', registration.ervaringsdeskundige_id);
-                    row.innerHTML =
-                        `<td>${index + 1}</td>
-                        <td>${fullName}</td>
-                        <td>${registration.email}</td>
-                        <td>
-                            <button onclick="showPopup('registraties', ${registration.ervaringsdeskundige_id})">Details</button>
-                        </td>`;
-                } else if (tableName === "inschrijvingen") {
-                    row.setAttribute('data-id', `${registration.ervaringsdeskundige_id}-${registration.onderzoek_id}`);
-                    row.innerHTML = `
-                        <td>${registration.onderzoek}</td>
-                        <td>${registration.ervaringsdeskundige}</td>
-                        <td>${registration.datum}</td>
-                        <td>
-                            <button onclick="showPopup('inschrijvingen','${registration.ervaringsdeskundige_id}-${registration.onderzoek_id}')">Details</button>
-                        </td>`;
-                } else if (tableName === "onderzoeksaanvragen") {
-                    row.setAttribute('data-id', registration.onderzoek_id);
-                    row.innerHTML = `
-                        <td>${registration.titel}</td>
-                        <td>${registration.organisatie}</td>
-                        <td>${registration.creatie_datum}</td>
-                        <td>
-                            <button onclick="showPopup('onderzoeksaanvragen', ${registration.onderzoek_id})">Details</button>
-                        </td>`;
+                switch(tableName) {
+                    case "registraties": {
+                        let fullName = `${registration.voornaam} ${registration.tussenvoegsel ? registration.tussenvoegsel + ' ' : ''}${registration.achternaam}`;
+                        row.setAttribute('data-id', registration.ervaringsdeskundige_id);
+                        row.innerHTML =
+                            `<td>${index + 1}</td>
+                            <td>${fullName}</td>
+                            <td>${registration.email}</td>
+                            <td>
+                                <button onclick="showPopup('registraties', ${registration.ervaringsdeskundige_id})">Details</button>
+                            </td>`;
+                        break;
+                    }
+                    case "inschrijvingen": {
+                        row.setAttribute('data-id', `${registration.ervaringsdeskundige_id}-${registration.onderzoek_id}`);
+                        row.innerHTML = `
+                            <td>${registration.onderzoek}</td>
+                            <td>${registration.ervaringsdeskundige}</td>
+                            <td>${registration.datum}</td>
+                            <td>
+                                <button onclick="showPopup('inschrijvingen','${registration.ervaringsdeskundige_id}-${registration.onderzoek_id}')">Details</button>
+                            </td>`;
+                        break;
+                    }
+                    case "onderzoeksaanvragen": {
+                        row.setAttribute('data-id', registration.onderzoek_id);
+                        row.innerHTML = `
+                            <td>${registration.titel}</td>
+                            <td>${registration.organisatie}</td>
+                            <td>${registration.creatie_datum}</td>
+                            <td>
+                                <button onclick="showPopup('onderzoeksaanvragen', ${registration.onderzoek_id})">Details</button>
+                            </td>`;
+                        break;
+                    }
+                    default: {
+                        console.error("Unknown table name:", tableName);
+                    }
                 }
                 tbody.appendChild(row);
             });
