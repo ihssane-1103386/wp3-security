@@ -1,7 +1,6 @@
 from flask import jsonify
-from models.database_connect import Database
+from models.database_connect import RawDatabase
 from database.database_connection import DatabaseConnection
-from database.database_queries import DatabaseQueries
 
 
 class Registrations:
@@ -33,7 +32,12 @@ class Registrations:
         # Gebruik om data op te halen
         else:
             return jsonify({"error": "Onbekende tabel"}), 400
-        return DatabaseQueries.run_query(query, ())
+        result =  RawDatabase.runRawQuery(query, ())
+        if result:
+            data = [dict(row) for row in result]
+            return jsonify(data)
+        else:
+            return jsonify([])
 
     @staticmethod
     def getRegistrationDetails(table_name, id):
@@ -86,7 +90,12 @@ class Registrations:
             params = (id,)
         else:
             return jsonify({"error": "Onbekende tabel"}), 400
-        return DatabaseQueries.run_query(query, params)
+        result =  RawDatabase.runRawQuery(query, params)
+        if result:
+            data = dict(result[0])
+            return jsonify(data)
+        else:
+            return jsonify({})
 
     @staticmethod
     def updateRegistrationStatus(table_name, id, status):
