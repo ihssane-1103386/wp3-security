@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const savedTheme = localStorage.getItem("theme") || "light";
+    const savedTheme = getCookie("thema")|| "light";
     setTheme(savedTheme);
 
     const toggleButton = document.createElement("button");
