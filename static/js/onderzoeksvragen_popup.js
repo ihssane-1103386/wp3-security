@@ -97,9 +97,15 @@ document.addEventListener("DOMContentLoaded", function () {
                 headers: {
                     "Content-Type": "application/json"
                 },
-
-
+                body: JSON.stringify({
+                    ervaringsdeskundige_id: 1,
+                    onderzoek_id: onderzoekId
+                })
             })
+
+
+
+
                 .then(response => response.json())
                 .then(data => {
                     if (data.message) {
