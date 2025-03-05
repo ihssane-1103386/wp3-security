@@ -91,7 +91,7 @@ def deelnemen():
 
     if not ervaringsdeskundige_id or not onderzoek_id:
         return jsonify({"error:" "Ontbrekende gegevens"}), 400
-
+    return jsonify({"succes": True, "message": "Deelname geregistreerd!"})
 
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
