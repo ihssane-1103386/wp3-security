@@ -102,6 +102,10 @@ document.addEventListener("DOMContentLoaded", function () {
                     onderzoek_id: onderzoekId
                 })
             })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message || data.error);
+                })
 
 
 
