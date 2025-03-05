@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     toggleButton.addEventListener("click", function() {
         const newTheme = document.body.classList.contains("dark") ? "light" : "dark";
         setTheme(newTheme);
-        localStorage.setItem("theme", newTheme);
+        setCookie("thema", newTheme, 365)
         toggleButton.innerText = newTheme === "dark" ? "Light Mode" : "Dark Mode";
         updateLogo(newTheme);
     });
