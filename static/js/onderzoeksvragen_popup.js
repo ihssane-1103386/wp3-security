@@ -85,13 +85,13 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    if (joinButton){
+    if (joinButton) {
         joinButton.addEventListener("click", function () {
             const onderzoekId = joinButton.getAttribute("data-onderzoek-id");
             const formData = new FormData();
             formData.append("onderzoek_id", onderzoekId);
-    
-    
+
+
             fetch("/deelnemen", {
                 method: "POST",
                 headers: {
@@ -106,20 +106,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 .then(data => {
                     alert(data.message || data.error);
                 })
-
-
-
-
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        alert(data.message);
-                    } else {
-                        alert(data.error);
-                    }
-                })
                 .catch(error => console.error('Error:', error));
-            });
+        });
     }
 
     if (filterButton) {
