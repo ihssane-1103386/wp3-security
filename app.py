@@ -89,6 +89,10 @@ def deelnemen():
     ervaringsdeskundige_id = data.get("ervaringsdeskundige_id")
     onderzoek_id = data.get("onderzoek_id")
 
+    if not ervaringsdeskundige_id or not onderzoek_id:
+        return jsonify({"error:" "Ontbrekende gegevens"}), 400
+
+
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
