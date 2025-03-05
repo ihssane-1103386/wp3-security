@@ -94,7 +94,11 @@ document.addEventListener("DOMContentLoaded", function () {
     
             fetch("/deelnemen", {
                 method: "POST",
-                body: formData
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+
             })
                 .then(response => response.json())
                 .then(data => {
