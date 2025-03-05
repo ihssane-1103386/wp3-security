@@ -85,7 +85,7 @@ button {
 .popup-content {
   background-color: #fff;
   font-size: 19px;
-  font-family: Atkison Hyperlegible;
+  font-family: 'Poppins', sans-serif;
   text-align: center;
   margin: 10% auto;
   padding: 30px;
@@ -123,8 +123,8 @@ button {
 
 .popup-content {
     background-color: #fff;
-    font-size: 19px;
-    font-family: Atkison Hyperlegible;
+    font-size: 17px;
+    font-family: 'Poppins', sans-serif;
     text-align: center;
     margin: 10% auto;
     padding: 30px;
