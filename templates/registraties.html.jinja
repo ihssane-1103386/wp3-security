@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base.html.jinja" %}
 
 {% block head %}
     {{ super() }}
@@ -14,11 +14,15 @@
 {% block main %}
     <main>
         <h1>Registraties</h1>
-        <button class="add-btn"> <a href="/rd" class="add-btn-link">Nieuwe Registratie</a> </button>
-
+        <div class="tab-buttons">
+            <button onclick="loadRegistrations('registraties')"> Registraties </button>
+            <button onclick="loadRegistrations('inschrijvingen')"> Inschrijvingen </button>
+            <button onclick="loadRegistrations('onderzoeksaanvragen')"> Onderzoeksaanvragen </button>
+            <button class="add-btn"> <a href="/rd" class="add-btn-link">Nieuwe Registratie</a> </button>
+        </div>
 
         <table>
-            <thead>
+            <thead id="tableHeader">
                 <tr>
                     <th>#</th>
                     <th>Naam</th>
@@ -44,10 +48,13 @@
             <div class="popup-content">
                 <button class="close-btn" onclick="closePopup('popup')">&times;</button>
                 <h2 id="popupName"></h2>
+                <h3 id="popupText"></h3>
                 <p id="popupBirthdate"></p>
                 <p id="popupGender"></p>
                 <p id="popupEmail"></p>
                 <p id="popupPhoneNumber"></p>
+                <p id="popupDisabilities"></p>
+                <br>
                 <button id="acceptButton" class="accept">Accepteren</button>
                 <button id="rejectButton" class="reject">Weigeren</button>
             </div>

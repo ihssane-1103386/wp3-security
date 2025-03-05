@@ -1,5 +1,5 @@
 <head>
-{% extends "base.html" %}
+{% extends "base.html.jinja" %}
 
 {% block head %}
     {{ super() }}
@@ -8,7 +8,11 @@
     {% block head_scripts %}
     <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
     {% endblock %}
-    <title>Onderzoeken</title>
+
+{%  block main %}
+</head>
+<body>
+
 
     <main>
         <h1>Onderzoeken</h1>

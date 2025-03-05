@@ -1,17 +1,18 @@
-{% extends "base.html" %}
+{% extends "base.html.jinja" %}
 
 {% block head %}
     {{ super() }}
+    <link rel="stylesheet" href="../static/css/login.css">
     <link rel="stylesheet" href="../static/css/stylesheet.css">
     {% block head_scripts %}
     <script defer src="../static/js/registratie_script.js"></script>
     {% endblock %}
-    <title>Registratie als Ervaringsdeskundige</title>
+    <title>Registratie Ervaringsdeskundige</title>
 {% endblock %}
 
 {% block main %}
     <div class="container">
-        <h2 id="form-title">Registratie als <span class="accent">Ervaringsdeskundige</span></h2>
+        <h2 id="form-title">Registratie Ervaringsdeskundige</h2>
         <form aria-labelledby="form-title">
             <div class="form-group">
                 <label for="voornaam">Voornaam</label>
@@ -56,6 +57,16 @@
             <div class="form-group">
                 <label for="email">E-mail</label>
                 <input type="email" id="email" name="email" placeholder="voorbeeld@email.com" required aria-required="true">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Wachtwoord</label>
+                <input type="password" id="password" name="password" placeholder="Voer een wachtwoord in" required aria-required="true">
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Bevestig wachtwoord</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Bevestig wachtwoord" required aria-required="true">
             </div>
 
             <div class="form-group">
