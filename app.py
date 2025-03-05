@@ -82,8 +82,7 @@ def inschrijvingen_goedkeuren():
 
 @app.route("/deelnemen", methods=["POST"])
 def deelnemen():
-    ervaringsdeskundige_id = request.form.get("ervaringsdeskundige_id")
-    onderzoek_id = request.form.get("onderzoek_id")
+
 
     if not ervaringsdeskundige_id or not onderzoek_id:
         return jsonify({"error": "Ontbrekende gegevens"}), 400
