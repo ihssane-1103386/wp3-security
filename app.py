@@ -86,6 +86,9 @@ def deelnemen():
     if not data:
         return jsonify({"error": "Geen data ontvangen"}), 400
 
+    ervaringsdeskundige_id = data.get("ervaringsdeskundige_id")
+    onderzoek_id = data.get("onderzoek_id")
+
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
