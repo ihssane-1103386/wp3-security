@@ -82,7 +82,9 @@ def inschrijvingen_goedkeuren():
 
 @app.route("/deelnemen", methods=["POST"])
 def deelnemen():
-
+    data=request.get_json()
+    if not data:
+        return jsonify({"error": "Geen data ontvangen"}), 400
 
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 def aanmaken_onderzoeksvraag():
