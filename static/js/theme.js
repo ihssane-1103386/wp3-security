@@ -18,9 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const header = document.querySelector("header");
     header.appendChild(toggleButton);
 
-
     updateLogo(savedTheme);
 });
+
+// cookies
+function setCookie(name, value, days) {
+
+}
 
 function setTheme(mode) {
     if (mode === "dark") {
