@@ -28,6 +28,12 @@ function setCookie(name, value, days) {
     let expires = "expires=" + d.toUTCString();
     document.cookie = name + "=" + value + ";" + expires + ";path=/";
 }
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+
+
+}
 
 function setTheme(mode) {
     if (mode === "dark") {
