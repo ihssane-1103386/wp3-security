@@ -58,7 +58,7 @@ class DatabaseQueries:
             return jsonify({"error": "Databasefout"}), 500
 
     @staticmethod
-    def get_beperkingen(query):
+    def get_disability(query):
         sql_query = "SELECT beperking FROM beperkingen WHERE beperking LIKE ?"
         return DatabaseQueries.run_query(sql_query, ('%' + query + '%',))
 
