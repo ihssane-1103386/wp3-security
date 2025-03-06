@@ -60,7 +60,14 @@ class DatabaseQueries:
     @staticmethod
     def get_disability(query):
         sql_query = "SELECT beperking FROM beperkingen WHERE beperking LIKE ?"
-        return DatabaseQueries.run_query(sql_query, ('%' + query + '%',))
+        resultaten = DatabaseQueries.run_query(sql_query, ('%' + query + '%',), fetch_all=True)
+
+        if resultaten is None:
+            return jsonify({"error": "Geen beperkingen gevonden"}), 404
+
+        beperkingen = [rij[0] for rij in resultaten]
+
+        return jsonify(beperkingen)
 
     @staticmethod
     def add_expert(voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer,
