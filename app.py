@@ -63,7 +63,7 @@ def logout():
 
 @app.route("/rd", methods=["GET", "POST"])
 def registration_expert():
-    return render_template("registratie_pagina_ervaringsdeskundige.html.jinja")
+    return render_template("registratie_pagina.html.jinja")
 
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
@@ -129,13 +129,13 @@ def register_expert():
 
 
 @app.route("/api/beperkingen")
-def beperkingen():
+def disability():
     query = request.args.get("query", "")
 
     if not query:
         return jsonify([]), 400
 
-    return DatabaseQueries.get_beperkingen(query)
+    return DatabaseQueries.get_disabilty(query)
 
 @app.route("/registrations")
 def registraties():

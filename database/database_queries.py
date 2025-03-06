@@ -58,7 +58,7 @@ class DatabaseQueries:
             return jsonify({"error": "Databasefout"}), 500
 
     @staticmethod
-    def get_beperkingen(query):
+    def get_disability(query):
         sql_query = "SELECT beperking FROM beperkingen WHERE beperking LIKE ?"
         return DatabaseQueries.run_query(sql_query, ('%' + query + '%',))
 
@@ -132,10 +132,7 @@ class DatabaseQueries:
         """
         medewerker = DatabaseQueries.run_query(query, (email,), fetch_one=True)
 
-        print("Medewerker gevonden:", dict(medewerker) if medewerker else "Geen medewerker gevonden")
-
         if not medewerker:
-            print("❌ Geen medewerker gevonden met dit e-mailadres.")
             return None
 
         wachtwoord_hash = medewerker["wachtwoord_hash"]

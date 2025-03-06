@@ -55,4 +55,3 @@ function updateLogo(theme) {
         logo.src = logo.dataset.logoLight;
     }
 }
-
