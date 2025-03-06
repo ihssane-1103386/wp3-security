@@ -7,13 +7,10 @@ from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
 
-
-
 app = Flask(__name__)
 app.secret_key = "acces"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
 
 # Default Route
 @app.route("/")
@@ -132,7 +129,7 @@ def disability():
     if not query:
         return jsonify([]), 400
 
-    return DatabaseQueries.get_disabilty(query)
+    return DatabaseQueries.get_disability(query)
 
 @app.route("/registrations")
 def registraties():
