@@ -132,10 +132,7 @@ class DatabaseQueries:
         """
         medewerker = DatabaseQueries.run_query(query, (email,), fetch_one=True)
 
-        print("Medewerker gevonden:", dict(medewerker) if medewerker else "Geen medewerker gevonden")
-
         if not medewerker:
-            print("❌ Geen medewerker gevonden met dit e-mailadres.")
             return None
 
         wachtwoord_hash = medewerker["wachtwoord_hash"]
