@@ -62,9 +62,23 @@ h2 {
 .form-group select:focus,
 .form-group textarea:focus {
     border-color: #4F46E5;
-    outline: none;
-    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+    outline: 3px solid #4F46E5;
+    box-shadow: 0 0 6px rgba(79, 70, 229, 0.6);
 }
+
+/* ----- SCREEN READER ONLY ----- */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+    white-space: nowrap;
+}
+
 
 /* ----- BUTTONS ----- */
 .buttons {
@@ -115,7 +129,7 @@ a:hover {
 
 /* ----- ALERTS & MESSAGES ----- */
 .alert {
-    color: #AA2532; /* Alertkleur */
+    color: #B71C1C; /* Alertkleur */
     font-weight: bold;
 }
 
@@ -127,8 +141,8 @@ a:hover {
 }
 
 .error-message {
-    color: #C62828;
-    background: #ffebee;
+    color: #B71C1C;
+    background: #ffdddd;
     padding: 10px;
 }
 
@@ -144,30 +158,32 @@ a:hover {
 }
 
 #suggestions {
-    list-style-type: none;
-    padding: 0;
-    margin: 5px 0 0;
-    border: 1px solid #ccc;
-    max-height: 150px;
-    overflow-y: auto;
-    background: white;
     position: absolute;
-    width: 100%;
-    z-index: 10;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
+    background: white;
+    border: 1px solid #ccc;
+    list-style: none;
+    padding: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1000;
+    width: calc(100% - 20px);
+    display: none; /* Hidden by default */
 }
 
 #suggestions li {
     padding: 10px;
     cursor: pointer;
-    font-size: 16px;
-    transition: background 0.3s ease;
+    border-bottom: 1px solid #ddd;
+    background: white;
+    color: black;
 }
 
-#suggestions li:hover {
-    background: #F3D531;
-    color: #202C4C;
+#suggestions li:hover, #suggestions li.active {
+    background: lightblue !important;
+}
+
+#suggestions li[aria-selected="true"] {
+    background: lightgray !important;
 }
 
 /* ----- GEKOZEN BEPERKINGEN (Tags) ----- */
@@ -243,6 +259,3 @@ a:hover {
     background-color: #31579F;
     color: white;
 }
-
-
-
