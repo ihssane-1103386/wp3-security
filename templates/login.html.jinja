@@ -9,24 +9,31 @@
 {% endblock %}
 
 {% block main %}
-<main>
-    <form id="login-page" class="login-page" action="/login" method="POST">
-        <h1>Inloggen</h1>
+    <main>
+        <form id="login-page" class="login-page" action="/login" method="POST">
+            <h1>Inloggen</h1>
 
-        <label for="email">E-mailadres</label>
-        <input type="email" name="email" id="email" placeholder="Uw e-mailadres" required aria-describedby="email-help"/>
-        <span id="email-help" class="sr-only">Vul hier uw e-mailadres in, bijvoorbeeld: naam@voorbeeld.com</span>
+            <label for="email">E-mailadres</label>
+            <input type="email" name="email" id="email" placeholder="Uw e-mailadres" required
+                   aria-describedby="email-help"/>
+            <span id="email-help" class="sr-only">Vul hier uw e-mailadres in, bijvoorbeeld: naam@voorbeeld.com</span>
 
-        <label for="password">Wachtwoord</label>
-        <input type="password" name="password" id="password" placeholder="Uw wachtwoord" required aria-describedby="password-help"/>
-        <span id="password-help" class="sr-only">Uw wachtwoord moet minimaal 5 tekens lang zijn</span>
+            <label for="password">Wachtwoord</label>
+            <input type="password" name="password" id="password" placeholder="Uw wachtwoord" required
+                   aria-describedby="password-help"/>
+            <span id="password-help" class="sr-only">Uw wachtwoord moet minimaal 5 tekens lang zijn</span>
 
-        <button type="submit" aria-label="Inloggen">Inloggen</button>
-        <p>Heb je nog geen account? <a href="/rd" aria-label="Ga naar de registratiepagina">Registreer hier</a></p>
-    </form>
-</main>
+            <label>
+                <input type="checkbox" id="adminCheckbox"/>
+                Inloggen als admin
+            </label>
+
+            <button type="submit" aria-label="Inloggen">Inloggen</button>
+            <p>Heb je nog geen account? <a href="/rd" aria-label="Ga naar de registratiepagina">Registreer hier</a></p>
+        </form>
+    </main>
 {% endblock %}
 
 {% block scripts %}
-<script defer src="../static/js/login_script.js"></script>
+    <script defer src="../static/js/login_script.js"></script>
 {% endblock %}
