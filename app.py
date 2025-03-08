@@ -23,7 +23,7 @@ def notFound(e):
 
 @app.context_processor
 def inject_user():
-    return dict(user=session.get("user"))
+    return dict(user=session.get("user"), role=session.get("role"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():

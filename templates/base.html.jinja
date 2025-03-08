@@ -20,9 +20,9 @@
         <ul>
             {% if session.get("user") %}
             <li><a href="/logout">Uitloggen</a></li>
-            {% endif %}
             <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
             <li><a href="/registrations">Registraties</a></li>
+            {% endif %}
             <li><button id="themeToggle" aria-pressed="false">Dark Mode</button></li>
         </ul>
     </nav>
