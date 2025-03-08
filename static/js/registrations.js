@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     loadRegistrations('registraties');
+    setInterval(() => loadRegistrations('registraties'), 10000);
 });
 
 
