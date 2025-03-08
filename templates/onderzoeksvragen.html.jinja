@@ -22,8 +22,8 @@
         </div>
 
     <div class="filter-container">
-            <button id="filter-button" class="filter-btn">Filter op beperking</button>
-            <select id="beperking-filter" class="filter-dropdown">
+            <button id="filter-button" class="filter-btn" aria-expanded="false" aria-controls="beperking-filter">Filter op beperking</button>
+            <select id="beperking-filter" class="filter-dropdown" aria-label="Filter op beperking">
                 <option value="">Alle beperkingen</option>
                 {% for beperking in beperkingen %}
                     <option value="{{ beperking }}">{{ beperking }}</option>
