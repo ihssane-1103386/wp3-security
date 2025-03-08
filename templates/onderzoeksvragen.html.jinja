@@ -58,15 +58,15 @@
             </a>
         </div>
 
-        <div id="popup" class="popup">
+        <div id="popup" class="popup" role="dialog" aria-labelledby="popup-titel" aria-hidden="true">
         <div class="popup-content">
-            <span class="close">&times;</span>
+            <button class="close" aria-label="Sluit pop-up">&times;</button>
             <h2 id="popup-titel">Onderzoeksvraag</h2>
             <p class="popup-info-short" id="popup-info">
                 <span id="popup-info-text"></span>
-                <span class="read-more" id="read-more">Lees meer</span>
-                <span class="read-less" id="read-less">Lees minder</span>
-            </p>
+                <span class="read-more" id="read-more" tabindex="0">Lees meer</span>
+                <span class="read-less" id="read-less" tabindex="0">Lees minder</span>
+        </p>
 
             <hr>
 
