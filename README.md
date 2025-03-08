@@ -9,3 +9,6 @@ Template voor WP3 opdracht "Accessibility Hub". Vul dit document aan zoals besch
 
 ## Ajax with plain javascript
 - https://dev.to/nikola/making-ajax-calls-in-pure-javascript-the-old-way-ed5
+
+## Flask decorators:
+- https://flask.palletsprojects.com/en/stable/patterns/viewdecorators/
