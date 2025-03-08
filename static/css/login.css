@@ -67,7 +67,7 @@ main {
 }
 
 .login-page {
-    height: 50vh;
+    height: 55vh;
     padding: 5px;
     margin: auto;
 }
@@ -108,6 +108,20 @@ input:focus, button:focus {
     outline: 3px solid #4F46E5;
     box-shadow: 0 0 6px rgba(79, 70, 229, 0.6);
 }
+
+.checkbox-label {
+    display: inline-flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    white-space: nowrap;
+    height: 40px;
+    width: 100px;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 5px;
+}
+
 
 /* Button */
 button {
