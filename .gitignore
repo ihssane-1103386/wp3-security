@@ -31,4 +31,6 @@ dist/
 pip-log.txt
 pip-delete-this-directory.txt
 /models/__pycache__
-/flask_session
+
+#flask_sessions
+flask_session/
