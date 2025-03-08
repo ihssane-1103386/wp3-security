@@ -15,6 +15,8 @@ dist/
 # Logs and databases
 *.log
 *.sqlite3
+*.db
+*.sqlite
 
 # VS Code settings
 .vscode/
@@ -30,8 +32,10 @@ dist/
 # Python dependency files
 pip-log.txt
 pip-delete-this-directory.txt
-/models/__pycache__
+/models/__pycache__/
 
 # Flask session bestanden negeren
 flask_session/
+flask_session/*
 instance/
+instance/*
