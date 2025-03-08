@@ -93,6 +93,7 @@ def onderzoeksvragen():
     return render_template("onderzoeksvragen.html.jinja", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0")
 
 @app.route("/inschrijvingen/goedkeuren")
+@admin_required
 def inschrijvingen_goedkeuren():
     vragen = Onderzoeksvragen.get_vragen()
     return render_template("onderzoeksvragen.html.jinja", vragen=vragen, goedkeuren="1")
@@ -193,10 +194,12 @@ def getOnderzoeken():
 
 
 @app.route("/api/onderzoeken/inschrijving/afwijzen/<int:onderzoek_id>/<int:user_id>", methods=["PATCH"])
+@admin_required
 def aanmeldingAfwijzen(onderzoek_id, user_id):
     return Inschrijvingen.inschrijvingAfwijzen(onderzoek_id, user_id)
 
 @app.route("/api/onderzoeken/inschrijving/accepteren/<int:onderzoek_id>/<int:user_id>", methods=["PATCH"])
+@admin_required
 def aanmeldingAccepteren(onderzoek_id, user_id):
     return Inschrijvingen.inschrijvingAccepteren(onderzoek_id, user_id)
 
