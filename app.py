@@ -133,7 +133,7 @@ def disability():
 
 @app.route("/registrations")
 def registraties():
-    return render_template("registraties.html.jinja")
+    return render_template("beheerder_pagina.jinja")
 
 
 @app.route("/api/registrations/<table_name>", methods=["GET"])
