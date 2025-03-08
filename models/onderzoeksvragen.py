@@ -144,6 +144,10 @@ class Onderzoeksvragen:
                 velden.append("max_deelnemers = ?")
                 waarden.append(data["max_deelnemers"])
 
+            if "beperking_id" in data:
+                velden.append("beperking_id = ?")
+                waarden.append(data["beperking_id"])
+
             if not velden:
                 return False  # Geen wijzigingen doorgegeven
 
