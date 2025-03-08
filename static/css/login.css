@@ -103,10 +103,10 @@ input {
     color: #202C4C;
 }
 
-input:focus {
+input:focus, button:focus {
     border-color: #4F46E5;
-    outline: none;
-    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+    outline: 3px solid #4F46E5;
+    box-shadow: 0 0 6px rgba(79, 70, 229, 0.6);
 }
 
 /* Button */
@@ -218,9 +218,10 @@ footer ul li a:hover {
     border-color: #555;
 }
 
-.dark input:focus {
+.dark input:focus, .dark button:focus {
     border-color: #4F46E5;
-    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+    outline: 3px solid #4F46E5;
+    box-shadow: 0 0 6px rgba(79, 70, 229, 0.6);
 }
 .dark button {
     background-color: #31579F;

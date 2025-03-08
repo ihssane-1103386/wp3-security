@@ -7,13 +7,10 @@ from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
 
-
-
 app = Flask(__name__)
 app.secret_key = "acces"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
 
 # Default Route
 @app.route("/")
@@ -63,7 +60,7 @@ def logout():
 
 @app.route("/rd", methods=["GET", "POST"])
 def registration_expert():
-    return render_template("registratie_pagina_ervaringsdeskundige.html.jinja")
+    return render_template("registratie_pagina.html.jinja")
 
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
@@ -126,13 +123,13 @@ def register_expert():
 
 
 @app.route("/api/beperkingen")
-def beperkingen():
+def disability():
     query = request.args.get("query", "")
 
     if not query:
         return jsonify([]), 400
 
-    return DatabaseQueries.get_beperkingen(query)
+    return DatabaseQueries.get_disability(query)
 
 @app.route("/registrations")
 def registraties():
@@ -168,6 +165,23 @@ def updateRegistrationStatus(table_name):
 @app.route("/api/onderzoeken", methods=["GET"])
 def getOnderzoeken():
     return onderzoeken.getOnderzoeken()
+
+
+@app.route("/api/update-onderzoeksvraag", methods=["PATCH"])
+def update_onderzoeksvraag():
+    data = request.json
+    onderzoek_id = data.get("onderzoek_id")
+
+    if not onderzoek_id:
+        return jsonify({"error": "onderzoek_id is vereist"}), 400
+
+    update_result = Onderzoeksvragen.update_onderzoeksvraag(onderzoek_id, data)
+
+    if update_result:
+        return jsonify({"message": "Onderzoeksvraag succesvol bijgewerkt"}), 200
+    else:
+        return jsonify({"error": "Fout bij updaten van onderzoeksvraag"}), 500
+
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getInschrijvingen(id):

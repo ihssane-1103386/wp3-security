@@ -10,18 +10,19 @@
 
 {% block main %}
 <main>
-    <form id="login-page" class= "login-page" action="/login" method="POST">
+    <form id="login-page" class="login-page" action="/login" method="POST">
         <h1>Inloggen</h1>
 
         <label for="email">E-mailadres</label>
-        <input type="email" name="email" id="email" placeholder="Uw e-mailadres" required/>
+        <input type="email" name="email" id="email" placeholder="Uw e-mailadres" required aria-describedby="email-help"/>
+        <span id="email-help" class="sr-only">Vul hier uw e-mailadres in, bijvoorbeeld: naam@voorbeeld.com</span>
 
         <label for="password">Wachtwoord</label>
-        <input type="password" name="password" id="password" placeholder="Uw wachtwoord" required/>
+        <input type="password" name="password" id="password" placeholder="Uw wachtwoord" required aria-describedby="password-help"/>
+        <span id="password-help" class="sr-only">Uw wachtwoord moet minimaal 5 tekens lang zijn</span>
 
-        <button type="submit">Inloggen</button>
-        <p>Heb je nog geen account? <a href="/rd">Registreer hier</a></p>
-
+        <button type="submit" aria-label="Inloggen">Inloggen</button>
+        <p>Heb je nog geen account? <a href="/rd" aria-label="Ga naar de registratiepagina">Registreer hier</a></p>
     </form>
 </main>
 {% endblock %}

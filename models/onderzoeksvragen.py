@@ -124,3 +124,47 @@ class Onderzoeksvragen:
             print(f"Error: {errormsg}")
             return jsonify({"error": "Er is iets mis gegaan, probeer het later opnieuw."}), 500
 
+
+
+    @staticmethod
+    def update_onderzoeksvraag(onderzoek_id, data):
+        try:
+            # Alleen velden updaten die zijn meegegeven in de aanvraag
+            velden = []
+            waarden = []
+
+            if "titel" in data:
+                velden.append("titel = ?")
+                waarden.append(data["titel"])
+
+            if "beschrijving" in data:
+                velden.append("beschrijving = ?")
+                waarden.append(data["beschrijving"])
+
+            if "max_deelnemers" in data:
+                velden.append("max_deelnemers = ?")
+                waarden.append(data["max_deelnemers"])
+
+            if "beperking_id" in data:
+                velden.append("beperking_id = ?")
+                waarden.append(data["beperking_id"])
+
+            if not velden:
+                return False  # Geen wijzigingen doorgegeven
+
+            waarden.append(onderzoek_id)
+
+            query = f"""
+                UPDATE onderzoeken
+                SET {', '.join(velden)}
+                WHERE onderzoek_id = ?
+            """
+
+            RawDatabase.runInsertQuery(query, tuple(waarden))
+            return True
+
+        except Exception as errormsg:
+            print(f"Error: {errormsg}")
+            return False
+
+
