@@ -75,6 +75,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    vraag.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            this.click();
+        }
+    });
+
+
     popup.addEventListener("click", function (event) {
         if (event.target.classList.contains("lees-meer")) {
             popupInfo.textContent = onderzoeksvragen[0].dataset.info;
