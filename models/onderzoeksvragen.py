@@ -125,6 +125,7 @@ class Onderzoeksvragen:
             return jsonify({"error": "Er is iets mis gegaan, probeer het later opnieuw."}), 500
 
 
+
     @staticmethod
     def update_onderzoeksvraag(onderzoek_id, data):
         try:
