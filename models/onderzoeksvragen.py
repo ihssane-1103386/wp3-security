@@ -1,15 +1,19 @@
 from flask import jsonify
 from models.database_connect import RawDatabase
 
+
 class Onderzoeksvragen:
     @staticmethod
     def add_onderzoeksvraag(form):
         try:
+            # Print de ontvangen formulierdata
+            print(f"Received form data: {form}")
+
             # Placeholder
             organisatie_id = 1
 
-            status = 0          # 0 = nieuw
-            beschikbaar = 1     # 1 = beschikbaar
+            status = 0  # 0 = nieuw
+            beschikbaar = 1  # 1 = beschikbaar
             type_onderzoek_id = int(form.get("type-onderzoek"))
             titel = form.get("onderzoekstitel")
             omschrijving = form.get("omschrijving")
@@ -17,13 +21,20 @@ class Onderzoeksvragen:
             aantal_deelnemers = int(form.get("aantal-deelnemers"))
             min_leeftijd = int(form.get("min-leeftijd"))
             max_leeftijd = int(form.get("max-leeftijd"))
-            beperkingen_id = int(form.get("beperking"))
+
+            # Hier moet de wijziging plaatsvinden voor de 'beperking' waarde:
+            beperkingen_id_str = form.get("beperking")
+            if beperkingen_id_str == 'undefined' or not beperkingen_id_str:
+                beperkingen_id = None  # of een andere standaardwaarde
+            else:
+                beperkingen_id = int(beperkingen_id_str)
+
             begeleiders = form.get("begeleiders")
             startdatum = form.get("startdatum")
             einddatum = form.get("einddatum")
             beloning = form.get("beloning")
 
-            query= """
+            query = """
                 INSERT INTO onderzoeken (
                     organisatie_id,
                     status,
