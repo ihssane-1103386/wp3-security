@@ -46,22 +46,21 @@ def login():
 
         email = data.get("email")
         wachtwoord = data.get("password")
-        user_type = data.get("userType", "user")
 
-        if user_type == "admin":
-            medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
-            if medewerker:
-                session["user"] = email
-                session["role"] = medewerker["rol"]
-                return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
+        medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
+        if medewerker:
+            session["user"] = email
+            session["role"] = medewerker["rol"]
+            return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
+
+        if DatabaseQueries.authenticate_user(email, wachtwoord):
+            session["user"] = email
+            return jsonify({"success": True, "message": "Inloggen geslaagd!"})
         else:
-            user = DatabaseQueries.authenticate_user(email, wachtwoord)
-            if user:
-                session["user"] = email
-                return jsonify({"success": True, "message": "Inloggen geslaagd!"})
-            else:
-                return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
+            return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
+
     return render_template("login.html.jinja")
+
 
 def login_required(f):
     @wraps(f)
