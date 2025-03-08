@@ -1,0 +1,101 @@
+{% extends "base.html.jinja" %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" href="../static/css/stylesheet.css">
+    {% block head_scripts %}
+    <script defer src="../static/js/registratie_script.js"></script>
+    {% endblock %}
+    <title>Registratie Ervaringsdeskundige</title>
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h2 id="form-title">Registratie</h2>
+        <form aria-labelledby="form-title">
+            <div class="form-group">
+                <label for="voornaam">Voornaam</label>
+                <input type="text" id="voornaam" name="voornaam" placeholder="Voornaam" required aria-required="true" aria-describedby="voornaam-help">
+                <span id="voornaam-help" class="sr-only">Vul uw voornaam in.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="tussenvoegsel">Tussenvoegsel</label>
+                <input type="text" id="tussenvoegsel" name="tussenvoegsel" placeholder="Tussenvoegsel" aria-required="false" aria-describedby="tussenvoegsel-help">
+                <span id="tussenvoegsel" class="sr-only">Vul uw tussenvoegsel in.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="achternaam">Achternaam</label>
+                <input type="text" id="achternaam" name="achternaam" placeholder="Achternaam" required aria-required="true" aria-describedby="achternaam-help">
+                <span id="achternaam-help" class="sr-only">Vul uw achternaam in.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="geboortedatum">Geboortedatum</label>
+                <input type="date" id="geboortedatum" name="geboortedatum" required aria-required="true" aria-describedby="geboortedatum-help">
+                <span id="geboortedatum-help" class="sr-only">Vul uw geboortedatum in volgens het formaat: DD-MM-YYYY.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="geslacht">Geslacht</label>
+                <select id="geslacht" name="geslacht" required aria-required="true" aria-describedby="geslacht-help">
+                    <option value="" disabled selected>Selecteer...</option>
+                    <option value="man">Man</option>
+                    <option value="vrouw">Vrouw</option>
+                    <option value="anders">Anders</option>
+                    <option value="niet-willen-zeggen">Wil ik niet zeggen</option>
+                </select>
+                <span id="geslacht-help" class="sr-only">Kies uw geslacht. Optie 1: Man. Optie 2: Vrouw, Optie 3: Anders, Optie 4: Wil ik niet zeggen.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="adres">Adres</label>
+                <input type="text" id="adres" name="adres" placeholder="Straatnaam en huisnummer" required aria-required="true" aria-describedby="adres-help">
+                <span id="adres-help" class="sr-only">Vul uw adres in.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="mobiel">Mobiel nummer</label>
+                <input type="tel" id="mobiel" name="mobiel" placeholder="06-12345678" required aria-required="true" aria-describedby="mobiel-help">
+                <span id="mobiel-help" class="sr-only">Vul een geldig mobiel nummer in, zoals 06-12345678.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="voorbeeld@email.com" required aria-required="true" aria-describedby="email-help">
+                <span id="email-help" class="sr-only">Vul uw e-mailadres in, bijvoorbeeld naam@voorbeeld.com.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Wachtwoord</label>
+                <input type="password" id="password" name="password" placeholder="Voer een wachtwoord in" required aria-required="true" aria-describedby="password-help">
+                <span id="password-help" class="sr-only">Vul uw wachtwoord in. Uw wachtwoord moet minimaal 5 tekens bevatten.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm-password">Bevestig wachtwoord</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Bevestig wachtwoord" required aria-required="true" aria-describedby="confirm-passwprd-help">
+                <span id="confirm-password-help" class="sr-only">Vul uw wachtwoord opnieuw in</span>
+            </div>
+
+            <div class="form-group">
+                <label for="beperkingen">Beperkingen</label>
+                <input type="text" id="beperkingen" name="beperkingen" placeholder="Typ een beperking..." autocomplete="off" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-autocomplete="list" aria-controls="suggestions">
+                <ul id="suggestions" role="listbox" aria-live="polite"></ul>
+            </div>
+
+            <div id="selected-beperkingen"></div>
+
+            <div class="buttons">
+                <button type="reset" class="btn btn-cancel" aria-label="Annuleren" tabindex="0">Annuleren</button>
+                <button type="submit" class="btn btn-register" aria-label="Registreren" tabindex="0">Registreren</button>
+            </div>
+        </form>
+
+        <div class="error-message" id="error-message" role="alert" aria-live="assertive" style="display: none;">
+            Er zijn fouten in het formulier. Controleer uw invoer en probeer opnieuw.
+        </div>
+    </div>
+{% endblock %}

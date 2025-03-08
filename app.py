@@ -1,19 +1,17 @@
 import json
-from flask import Flask, jsonify, render_template, request, redirect, session, flash
+from flask import Flask, jsonify, url_for, render_template, request, redirect, session, flash
 from flask_session import Session
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
-
-
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = "acces"
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
 
 # Default Route
 @app.route("/")
@@ -26,7 +24,7 @@ def notFound(e):
 
 @app.context_processor
 def inject_user():
-    return dict(user=session.get("user"))
+    return dict(user=session.get("user"), role=session.get("role"))
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -40,33 +38,53 @@ def login():
 
         email = data.get("email")
         wachtwoord = data.get("password")
+        user_type = data.get("userType", "user")
 
-        medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
-        if medewerker:
-            session["user"] = email
-            session["role"] = medewerker["rol"]
-            return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
-
-        if DatabaseQueries.authenticate_user(email, wachtwoord):
-            session["user"] = email
-            return jsonify({"success": True, "message": "Inloggen geslaagd!"})
+        if user_type == "admin":
+            medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
+            if medewerker:
+                session["user"] = email
+                session["role"] = medewerker["rol"]
+                return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
         else:
-            return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
-
+            user = DatabaseQueries.authenticate_user(email, wachtwoord)
+            if user:
+                session["user"] = email
+                return jsonify({"success": True, "message": "Inloggen geslaagd!"})
+            else:
+                return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
     return render_template("login.html.jinja")
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("user"):
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("role"):
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route("/logout")
 def logout():
     session.pop("user", None)
+    session.pop("role", None)
     return redirect("/login")
 
 
 @app.route("/rd", methods=["GET", "POST"])
 def registration_expert():
-    return render_template("registratie_pagina_ervaringsdeskundige.html.jinja")
+    return render_template("registratie_pagina.html.jinja")
 
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
+@login_required
 def onderzoeksvragen():
     vragen = Onderzoeksvragen.get_vragen()
     beperkingen = Onderzoeksvragen.getbeperkingen()
@@ -81,6 +99,7 @@ def inschrijvingen_goedkeuren():
 
 
 @app.route("/deelnemen", methods=["POST"])
+@login_required
 def deelnemen():
     ervaringsdeskundige_id = request.form.get("ervaringsdeskundige_id")
     onderzoek_id = request.form.get("onderzoek_id")
@@ -91,6 +110,8 @@ def deelnemen():
 
 
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
+#@login_required? Nog even kijken of het überhaupt nodig is met API-keys
+@admin_required
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
@@ -126,17 +147,18 @@ def register_expert():
 
 
 @app.route("/api/beperkingen")
-def beperkingen():
+def disability():
     query = request.args.get("query", "")
 
     if not query:
         return jsonify([]), 400
 
-    return DatabaseQueries.get_beperkingen(query)
+    return DatabaseQueries.get_disability(query)
 
 @app.route("/registrations")
+@admin_required
 def registraties():
-    return render_template("registraties.html.jinja")
+    return render_template("beheerder_pagina.jinja")
 
 
 @app.route("/api/registrations/<table_name>", methods=["GET"])
@@ -177,6 +199,22 @@ def aanmeldingAfwijzen(onderzoek_id, user_id):
 @app.route("/api/onderzoeken/inschrijving/accepteren/<int:onderzoek_id>/<int:user_id>", methods=["PATCH"])
 def aanmeldingAccepteren(onderzoek_id, user_id):
     return Inschrijvingen.inschrijvingAccepteren(onderzoek_id, user_id)
+
+@app.route("/api/update-onderzoeksvraag", methods=["PATCH"])
+def update_onderzoeksvraag():
+    data = request.json
+    onderzoek_id = data.get("onderzoek_id")
+
+    if not onderzoek_id:
+        return jsonify({"error": "onderzoek_id is vereist"}), 400
+
+    update_result = Onderzoeksvragen.update_onderzoeksvraag(onderzoek_id, data)
+
+    if update_result:
+        return jsonify({"message": "Onderzoeksvraag succesvol bijgewerkt"}), 200
+    else:
+        return jsonify({"error": "Fout bij updaten van onderzoeksvraag"}), 500
+
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getPendingInschrijvingen(id):

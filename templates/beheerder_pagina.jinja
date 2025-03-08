@@ -15,19 +15,21 @@
     <main>
         <h1>Registraties</h1>
         <div class="tab-buttons">
-            <button onclick="loadRegistrations('registraties')"> Registraties </button>
-            <button onclick="loadRegistrations('inschrijvingen')"> Inschrijvingen </button>
-            <button onclick="loadRegistrations('onderzoeksaanvragen')"> Onderzoeksaanvragen </button>
+            <button onclick="loadRegistrations('registraties')" aria-label="Bekijk Registraties">Registraties</button>
+            <button onclick="loadRegistrations('inschrijvingen')" aria-label="Bekijk Inschrijvingen">Inschrijvingen</button>
+            <button onclick="loadRegistrations('onderzoeksaanvragen')" aria-label="Bekijk Onderzoeksaanvragen">Onderzoeksaanvragen</button>
             <button class="add-btn"> <a href="/rd" class="add-btn-link">Nieuwe Registratie</a> </button>
         </div>
 
         <table>
             <thead id="tableHeader">
                 <tr>
-                    <th>#</th>
-                    <th>Naam</th>
-                    <th>Email</th>
-                    <th>Actie</th>
+
+                <th scope="col">#</th>
+                <th scope="col">Naam</th>
+                <th scope="col">Email</th>
+                <th scope="col">Actie</th>
+
                 </tr>
             </thead>
             <tbody id="registrationsTable">
@@ -36,17 +38,13 @@
         </table>
 
         <div class="nav-button">
-            <a id="prev" class="nav-left">
-                <button>Vorige</button>
-            </a>
-            <a id="next" class="nav-right">
-                <button>Volgende</button>
-            </a>
+            <a id="prev" class="nav-left" aria-label="Vorige pagina"><button>Vorige</button></a>
+            <a id="next" class="nav-right" aria-label="Volgende pagina"><button>Volgende</button></a>
         </div>
 
-        <div id="popup" class="popup">
+        <div id="popup" class="popup" aria-live="polite">
             <div class="popup-content">
-                <button class="close-btn" onclick="closePopup('popup')">&times;</button>
+                <button class="close-btn" aria-label="Sluit pop-up" onclick="closePopup('popup')">&times;</button>
                 <h2 id="popupName"></h2>
                 <h3 id="popupText"></h3>
                 <p id="popupBirthdate"></p>
