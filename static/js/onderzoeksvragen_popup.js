@@ -48,6 +48,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 popupInfo.textContent = fullText;
                 readMore.style.display = "none";
                 readLess.style.display = "inline";
+                readMore.setAttribute("aria-expanded", "true");
+                readLess.setAttribute("aria-expanded", "false");
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
@@ -56,6 +58,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 popupInfo.textContent = shortText;
                 readLess.style.display = "none";
                 readMore.style.display = "inline";
+                readLess.setAttribute("aria-expanded", "false");
+                readMore.setAttribute("aria-expanded", "true");
+
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
@@ -64,6 +69,9 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             popup.style.display = "block";
+            popup.setAttribute("aria-hidden", "false");
+            popup.setAttribute("tabindex", "-1");
+            popup.focus();
         });
     });
 
