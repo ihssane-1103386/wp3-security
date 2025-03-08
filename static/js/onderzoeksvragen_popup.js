@@ -48,8 +48,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 popupInfo.textContent = fullText;
                 readMore.style.display = "none";
                 readLess.style.display = "inline";
-                readMore.setAttribute("aria-expanded", "true");
-                readLess.setAttribute("aria-expanded", "false");
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
@@ -58,9 +56,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 popupInfo.textContent = shortText;
                 readLess.style.display = "none";
                 readMore.style.display = "inline";
-                readLess.setAttribute("aria-expanded", "false");
-                readMore.setAttribute("aria-expanded", "true");
-
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
@@ -69,19 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             popup.style.display = "block";
-            popup.setAttribute("aria-hidden", "false");
-            popup.setAttribute("tabindex", "-1");
-            popup.focus();
         });
     });
-
-    vraag.addEventListener("keydown", function (event) {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            this.click();
-        }
-    });
-
 
     popup.addEventListener("click", function (event) {
         if (event.target.classList.contains("lees-meer")) {
@@ -90,11 +74,9 @@ document.addEventListener("DOMContentLoaded", function () {
             popup.style.display = "none";
         }
     });
-    
+
     closeButton.addEventListener("click", function () {
         popup.style.display = "none";
-        popup.setAttribute("aria-hidden", "true");
-        document.querySelector(".clickable[data-id=' " + selectedOnderzoekID + "']").focus();
     });
 
     if (cancelButton){
