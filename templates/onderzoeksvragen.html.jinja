@@ -74,7 +74,7 @@
             <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
             {% if goedkeuren == "1"%}
                 <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button">Bekijk aanmeldingen</button>
-                {% if not session.get("role") %}
+                {% if not role %}
                 <button id="cancel" class="popup-button">niet deelnemen</button>
                 <button id="join" class="popup-button" data-onderzoek-id="">deelnemen</button>
                 {% endif %}

@@ -18,9 +18,11 @@
          alt="Accessibility logo"/>
     <nav>
         <ul>
-            {% if session.get("user") %}
+            {% if user %}
             <li><a href="/logout">Uitloggen</a></li>
             <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
+            {% endif %}
+            {% if role %}
             <li><a href="/registrations">Registraties</a></li>
             {% endif %}
             <li><button id="themeToggle" aria-pressed="false">Dark Mode</button></li>
