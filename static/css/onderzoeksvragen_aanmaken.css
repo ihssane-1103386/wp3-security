@@ -82,6 +82,10 @@ select {
     box-sizing: border-box;
 }
 
+legend {
+    color: #202c4c;
+}
+
 .leeftijd {
     display: flex;
     gap: 10px;
@@ -184,3 +188,6 @@ select {
     background-color: #004080;
 }
 
+.dark legend {
+    color: white;
+}
