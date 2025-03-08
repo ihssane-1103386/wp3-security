@@ -136,6 +136,10 @@ class Onderzoeksvragen:
                 velden.append("titel = ?")
                 waarden.append(data["titel"])
 
+            if "beschrijving" in data:
+                velden.append("beschrijving = ?")
+                waarden.append(data["beschrijving"])
+
             if not velden:
                 return False  # Geen wijzigingen doorgegeven
 
