@@ -41,8 +41,8 @@ document.addEventListener("DOMContentLoaded", function () {
             readMore.style.display = fullText.length > 100 ? "inline" : "none";
             readLess.style.display = "none";
 
-            popupDeelnemers.textContent = this.dataset.deelnemers + " deelnemers";
-            popupBeschikbaar.textContent = this.dataset.beschikbaar + " plaatsen";
+            popupDeelnemers.textContent = this.dataset.deelnemers;
+            popupBeschikbaar.textContent = `${this.dataset.beschikbaar}/${this.dataset.deelnemers}`;
 
             readMore.onclick = function () {
                 popupInfo.textContent = fullText;
