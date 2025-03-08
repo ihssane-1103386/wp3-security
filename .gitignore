@@ -32,5 +32,6 @@ pip-log.txt
 pip-delete-this-directory.txt
 /models/__pycache__
 
-#flask_sessions
+# Flask session bestanden negeren
 flask_session/
+instance/
