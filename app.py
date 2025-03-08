@@ -1,11 +1,12 @@
 import json
-from flask import Flask, jsonify, render_template, request, redirect, session, flash
+from flask import Flask, jsonify, url_for, render_template, request, redirect, session, flash
 from flask_session import Session
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
 from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = "acces"
@@ -54,6 +55,14 @@ def login():
                 return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
     return render_template("login.html.jinja")
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("user"):
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
@@ -67,6 +76,7 @@ def registration_expert():
 
 # Route setup for onderzoeksvragen page
 @app.route("/onderzoeksvragen")
+@login_required
 def onderzoeksvragen():
     vragen = Onderzoeksvragen.get_vragen()
     beperkingen = Onderzoeksvragen.getbeperkingen()

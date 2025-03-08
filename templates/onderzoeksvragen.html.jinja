@@ -74,11 +74,11 @@
             <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
             {% if goedkeuren == "1"%}
                 <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button">Bekijk aanmeldingen</button>
-                {% if not role %}
+                {% endif %}
+            {% if user and not role %}
                 <button id="cancel" class="popup-button">niet deelnemen</button>
                 <button id="join" class="popup-button" data-onderzoek-id="">deelnemen</button>
-                {% endif %}
-            {% endif %}
+        {% endif %}
         </div>
     </div>
     </main>
