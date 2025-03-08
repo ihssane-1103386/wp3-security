@@ -140,6 +140,10 @@ class Onderzoeksvragen:
                 velden.append("beschrijving = ?")
                 waarden.append(data["beschrijving"])
 
+            if "max_deelnemers" in data:
+                velden.append("max_deelnemers = ?")
+                waarden.append(data["max_deelnemers"])
+
             if not velden:
                 return False  # Geen wijzigingen doorgegeven
 
