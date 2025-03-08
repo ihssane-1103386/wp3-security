@@ -10,24 +10,24 @@
 {% block main %}
 
 <main>
-    <form id="aanvraag-form" action="/aanmaken-onderzoeksvraag" method="POST">
+    <form id="aanvraag-form" action="/aanmaken-onderzoeksvraag" method="POST" role="form" aria-label="Formulier voor het aanmaken van een onderzoeksvraag">
         <h1>Onderzoeksvraag aanmaken</h1>
         <label for="onderzoekstitel">Onderzoekstitel</label>
-        <input type="text" name="onderzoekstitel" id="onderzoekstitel" required/>
+        <input type="text" name="onderzoekstitel" id="onderzoekstitel" required aria-required="true" aria-label="Onderzoekstitel"/>
 
         <label for="omschrijving">Omschrijving</label>
         <textarea name="omschrijving" id="omschrijving"
                   placeholder="Beschrijf hier uw onderzoek in detail. Vermeld de onderzoeksvraag, relevante context en eventuele beloningen of deelnamevoorwaarden."
-                  required></textarea>
+                  required aria-required="true" aria-label="Omschrijving"></textarea>
 
         <div class="plaatsdeelnemersrow">
             <div class="plaatsdeelnemers">
                 <label for="plaats">Plaats</label>
-                <input type="text" name="plaats" id="plaats" required/>
+                <input type="text" name="plaats" id="plaats" required aria-required="true" aria-label="Plaats"/>
             </div>
             <div class="plaatsdeelnemers">
                 <label for="aantal-deelnemers">Aantal deelnemers nodig</label>
-                <input type="number" name="aantal-deelnemers" id="aantal-deelnemers" required/>
+                <input type="number" name="aantal-deelnemers" id="aantal-deelnemers" required aria-required="true" aria-label="Aantal deelnemers"/>
             </div>
         </div>
 
@@ -35,59 +35,59 @@
         <div class="leeftijd">
             <div>
                 <label for="min-leeftijd">Minimale Leeftijd</label>
-                <input type="number" name="min-leeftijd" id="min-leeftijd" min="0" required/>
+                <input type="number" name="min-leeftijd" id="min-leeftijd" min="0" required aria-required="true" aria-label="Minimale leeftijd"/>
             </div>
             <div>
                 <label for="max-leeftijd">Maximale Leeftijd</label>
-                <input type="number" name="max-leeftijd" id="max-leeftijd" min="0" required/>
+                <input type="number" name="max-leeftijd" id="max-leeftijd" min="0" required aria-required="true" aria-label="Maximale leeftijd"/>
             </div>
         </div>
         <div class="beperking-type-row">
             <div class="beperking-type">
                 <label for="beperking">Beperking</label>
-                <select name="beperking" id="beperking" required>
+                <select name="beperking" id="beperking" required aria-required="true" aria-label="Beperking">
                 </select>
             </div>
             <div class="beperking-type">
                 <label for="type-onderzoek">Type onderzoek</label>
-                <select name="type-onderzoek" id="type-onderzoek" required>
+                <select name="type-onderzoek" id="type-onderzoek" required aria-required="true" aria-label="Type onderzoek">
                     <option value="1">locatie</option>
                     <option value="2">telefonisch</option>
                     <option value="3">online</option>
                 </select>
             </div>
         </div>
-        <label for="begeleiders">Mogen eventuele begeleiders mee?</label>
-        <div class="radio-button">
-            <label for="begeleiders-ja">
-                <input type="radio" name="begeleiders" value="ja" required/> Ja
-            </label>
-            <label for="begeleiders-nee">
-                <input type="radio" name="begeleiders" value="nee"/> Nee
-            </label>
-        </div>
+
         <div class="datum">
             <div class="starteinddatum">
                 <label for="startdatum">Startdatum</label>
-                <input type="date" name="startdatum" id="startdatum" required/>
+                <input type="date" name="startdatum" id="startdatum" required aria-required="true" aria-label="Startdatum"/>
             </div>
             <div class="starteinddatum">
                 <label for="einddatum">Einddatum</label>
-                <input type="date" name="einddatum" id="einddatum" required/>
+                <input type="date" name="einddatum" id="einddatum" required aria-required="true" aria-label="Einddatum"/>
             </div>
         </div>
+<fieldset id="begeleiders" class="radio-button">
+  <legend>Mogen eventuele begeleiders mee?</legend>
+  <label for="begeleiders-ja">
+      <input type="radio" name="begeleiders" id="begeleiders-ja" value="ja" required aria-required="true" /> Ja
+  </label>
+  <label for="begeleiders-nee">
+      <input type="radio" name="begeleiders" id="begeleiders-nee" value="nee" /> Nee
+  </label>
+</fieldset>
+        <fieldset id="beloning" class="radio-button">
+  <legend>Beloning</legend>
+  <label for="beloning-ja">
+      <input type="radio" name="beloning" id="beloning-ja" value="ja" required aria-required="true" /> Ja
+  </label>
+  <label for="beloning-nee">
+      <input type="radio" name="beloning" id="beloning-nee" value="nee" /> Nee
+  </label>
+</fieldset>
 
-        <label for="beloning">Beloning</label>
-        <div class="radio-button">
-            <label for="beloning-ja">
-                <input type="radio" name="beloning" value="ja" required/> Ja
-            </label>
-            <label for="beloning-nee">
-                <input type="radio" name="beloning" value="nee"/> Nee
-            </label>
-        </div>
-
-        <button type="submit">Aanmaken</button>
+        <button type="submit" aria-label="Onderzoeksvraag aanmaken">Aanmaken</button>
     </form>
 </main>
 {% endblock %}

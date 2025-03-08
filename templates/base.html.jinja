@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
     {% block head %}
         <meta charset="UTF-8">
@@ -18,12 +18,14 @@
          alt="Accessibility logo"/>
     <nav>
         <ul>
-            {% if session.get("user") %}
+            {% if user %}
             <li><a href="/logout">Uitloggen</a></li>
-            {% endif %}
             <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
+            {% endif %}
+            {% if role %}
             <li><a href="/registrations">Registraties</a></li>
-            <li><button id="themeToggle">Dark Mode</button></li>
+            {% endif %}
+            <li><button id="themeToggle" aria-pressed="false">Dark Mode</button></li>
         </ul>
     </nav>
 </header>

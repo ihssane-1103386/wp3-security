@@ -67,7 +67,7 @@ main {
 }
 
 .login-page {
-    height: 50vh;
+    height: 55vh;
     padding: 5px;
     margin: auto;
 }
@@ -103,11 +103,25 @@ input {
     color: #202C4C;
 }
 
-input:focus {
+input:focus, button:focus {
     border-color: #4F46E5;
-    outline: none;
-    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+    outline: 3px solid #4F46E5;
+    box-shadow: 0 0 6px rgba(79, 70, 229, 0.6);
 }
+
+.checkbox-label {
+    display: inline-flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    white-space: nowrap;
+    height: 40px;
+    width: 100px;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 5px;
+}
+
 
 /* Button */
 button {
@@ -218,9 +232,10 @@ footer ul li a:hover {
     border-color: #555;
 }
 
-.dark input:focus {
+.dark input:focus, .dark button:focus {
     border-color: #4F46E5;
-    box-shadow: 0 0 5px rgba(79, 70, 229, 0.5);
+    outline: 3px solid #4F46E5;
+    box-shadow: 0 0 6px rgba(79, 70, 229, 0.6);
 }
 .dark button {
     background-color: #31579F;

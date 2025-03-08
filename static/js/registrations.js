@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     loadRegistrations('registraties');
+    setInterval(() => loadRegistrations('registraties'), 10000);
 });
 
 
@@ -11,7 +12,7 @@ function updateTableHeader(tableName) {
                 <th>ID</th>
                 <th>Naam</th>
                 <th>Email</th>
-                <th> </th>
+                <th>Actie</th>
             </tr>`;
     } else if (tableName === "inschrijvingen") {
         thead.innerHTML = `
@@ -19,7 +20,7 @@ function updateTableHeader(tableName) {
                 <th>Onderzoek</th>
                 <th>Ervaringsdeskundige</th>
                 <th>Datum</th>
-                <th> </th>
+                <th>Actie</th>
             </tr>`;
     } else if (tableName === "onderzoeksaanvragen") {
         thead.innerHTML = `
@@ -27,7 +28,7 @@ function updateTableHeader(tableName) {
                 <th>Onderzoekstitel</th>
                 <th>Organisatie</th>
                 <th>Datum</th>
-                <th> </th>
+                <th>Actie</th>
             </tr>`;
     }
 }

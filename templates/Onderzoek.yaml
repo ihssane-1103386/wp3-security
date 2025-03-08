@@ -1,0 +1,35 @@
+openapi: 3.0.0
+info:
+  title: Onderzoek API
+  version: 1.0.0
+paths:
+  /api/update-onderzoeksvraag:
+    patch:
+      summary: Werk de onderzoeksvraag bij
+      requestBody:
+        description: Gegevens voor het bijwerken van een onderzoeksvraag
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                onderzoek_id:
+                  type: integer
+                titel:
+                  type: string
+                beschrijving:
+                  type: string
+                max_deelnemers:
+                  type: integer
+      responses:
+        '200':
+          description: Onderzoeksvraag succesvol bijgewerkt
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Onderzoeksvraag succesvol bijgewerkt
