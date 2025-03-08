@@ -63,6 +63,14 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("role"):
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
@@ -91,6 +99,7 @@ def inschrijvingen_goedkeuren():
 
 
 @app.route("/deelnemen", methods=["POST"])
+@login_required
 def deelnemen():
     ervaringsdeskundige_id = request.form.get("ervaringsdeskundige_id")
     onderzoek_id = request.form.get("onderzoek_id")
@@ -101,6 +110,8 @@ def deelnemen():
 
 
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
+#@login_required? Nog even kijken of het überhaupt nodig is met API-keys
+@admin_required
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
@@ -145,6 +156,7 @@ def disability():
     return DatabaseQueries.get_disability(query)
 
 @app.route("/registrations")
+@admin_required
 def registraties():
     return render_template("beheerder_pagina.jinja")
 
