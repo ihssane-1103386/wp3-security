@@ -70,15 +70,7 @@ class DatabaseQueries:
         return jsonify(beperkingen)
 
     @staticmethod
-    def add_expert(voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer,
-                                wachtwoord):
-        hashed_password = generate_password_hash(wachtwoord)
-
-        sql_query = """
-                INSERT INTO ervaringsdeskundigen 
-                (voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, wachtwoord)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """
+    def add_expert(voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, wachtwoord):
         conn = DatabaseConnection.get_connection()
         if conn is None:
             return None
@@ -86,10 +78,25 @@ class DatabaseQueries:
         try:
             with conn:
                 cursor = conn.cursor()
+
+                cursor.execute("SELECT 1 FROM ervaringsdeskundigen WHERE email = ?", (email,))
+                if cursor.fetchone():
+                    print(f"FOUT: E-mailadres {email} bestaat al in de database.")  # Debugging
+                    return None
+
+                hashed_password = generate_password_hash(wachtwoord)
+
+                sql_query = """
+                    INSERT INTO ervaringsdeskundigen 
+                    (voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, wachtwoord)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                """
                 cursor.execute(sql_query, (
                 voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, hashed_password))
                 ervaringsdeskundige_id = cursor.lastrowid
+
                 return ervaringsdeskundige_id
+
         except sqlite3.Error as e:
             print(f"Database error: {e}")
             return None
@@ -125,8 +132,7 @@ class DatabaseQueries:
                         """, (beperking_id, ervaringsdeskundige_id))
 
             return True
-        except sqlite3.Error as e:
-            print(f"Database error: {e}")
+        except sqlite3.Error:
             return False
 
     @staticmethod
@@ -165,3 +171,15 @@ class DatabaseQueries:
             RETURNING id;
         """
         return DatabaseQueries.run_query(query, (voornaam, achternaam, email, wachtwoord_hash, rol_id), fetch_one=True)
+
+    @staticmethod
+    def get_user_role(email):
+        query = """
+            SELECT r.naam AS rol
+            FROM medewerkers m
+            JOIN rollen r ON m.rol_id = r.id
+            WHERE m.email = ?;
+            """
+        result = DatabaseQueries.run_query(query, (email,), fetch_one=True)
+
+        return result["rol"] if result else None
