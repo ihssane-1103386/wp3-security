@@ -109,6 +109,13 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    popup.addEventListener("keydown", function(event) {
+        if (event.key === "Tab") {
+            const focusableElements = popup.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+
+        }
+    })
+
 
     if (cancelButton){
         cancelButton.addEventListener("click", function () {
