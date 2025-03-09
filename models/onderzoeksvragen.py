@@ -72,8 +72,14 @@ class Onderzoeksvragen:
                 beloning
             ))
 
-            ApiKeys.create_key(organisatie_id, new_onderzoek_id)
+            # Genereer een API-sleutel
+            api_key = ApiKeys.create_key(organisatie_id, new_onderzoek_id)
+            if api_key:
+                print(f"API Key created: {api_key}")
+            else:
+                print("Error creating API key")
 
+            # Voeg beperking toe als die bestaat
             if beperkingen_id:
                 query_intersect = """
                     INSERT INTO beperkingen_onderzoek (onderzoek_id, beperkingen_id)
@@ -81,7 +87,13 @@ class Onderzoeksvragen:
                 """
                 RawDatabase.runInsertQuery(query_intersect, (new_onderzoek_id, beperkingen_id))
 
-            return jsonify({"message": "Onderzoeksvraag added successfully!"}), 200
+            # Return onderzoek_id, api_key, organisatie_id in de response
+            return jsonify({
+                "message": "Onderzoeksvraag added successfully!",
+                "onderzoek_id": new_onderzoek_id,
+                "api_key": api_key,
+                "organisatie_id": organisatie_id
+            }), 200
 
         except Exception as errormsg:
             print(f"Error: {errormsg}")

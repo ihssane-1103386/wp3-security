@@ -22,10 +22,15 @@ class ApiKeys:
 
     @staticmethod
     def create_key(organisatie_id, onderzoek_id):
-        key = secrets.token_urlsafe(32)
-        query = """
-                INSERT INTO api_keys (organisatie_id, onderzoek_id, api_key)
-                VALUES (?, ?, ?)
-            """
-        RawDatabase.runInsertQuery(query, (organisatie_id, onderzoek_id, key))
-        return key
+        try:
+            key = secrets.token_urlsafe(32)
+            print(f"Generated API key: {key}")  # Debug print
+            query = """
+                           INSERT INTO api_keys (organisatie_id, onderzoek_id, api_key)
+                           VALUES (?, ?, ?)
+                       """
+            RawDatabase.runInsertQuery(query, (organisatie_id, onderzoek_id, key))
+            return key
+        except Exception as e:
+            print(f"Error creating API key: {e}")  # Foutmelding als er iets misgaat
+            return None
