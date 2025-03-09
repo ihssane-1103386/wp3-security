@@ -3,6 +3,15 @@ from models.database_connect import RawDatabase
 
 class ApiKeys:
     @staticmethod
+    def get_by_onderzoek_id(onderzoek_id):
+        query = """
+                SELECT * FROM api_keys
+                WHERE onderzoek_id = ?
+            """
+        result = RawDatabase.runRawQuery(query, (onderzoek_id,))
+        return dict(result[0]) if result else None
+
+    @staticmethod
     def get_by_key(api_key):
         query = """
             SELECT * FROM api_keys
