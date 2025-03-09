@@ -13,7 +13,7 @@
 {% block main %}
     <div class="container">
         <h2 id="form-title">Registratie</h2>
-        <form aria-labelledby="form-title">
+        <form action="/registreren" method="POST" aria-labelledby="form-title">
             <div class="form-group">
                 <label for="voornaam">Voornaam</label>
                 <input type="text" id="voornaam" name="voornaam" placeholder="Voornaam" required aria-required="true" aria-describedby="voornaam-help">
@@ -23,7 +23,7 @@
             <div class="form-group">
                 <label for="tussenvoegsel">Tussenvoegsel</label>
                 <input type="text" id="tussenvoegsel" name="tussenvoegsel" placeholder="Tussenvoegsel" aria-required="false" aria-describedby="tussenvoegsel-help">
-                <span id="tussenvoegsel" class="sr-only">Vul uw tussenvoegsel in.</span>
+                <span id="tussenvoegsel-help" class="sr-only">Vul uw tussenvoegsel in.</span>
             </div>
 
             <div class="form-group">
@@ -88,6 +88,12 @@
 
             <div id="selected-beperkingen"></div>
 
+            <div id="admin-toggle" style="display: none;">
+                <label for="admin-checkbox" id="admin-label">Registreer als admin</label>
+                <input type="checkbox" id="admin-checkbox" role="switch" aria-labelledby="admin-label" aria-checked="false">
+                <span id="admin-label" class="sr-only">Vink aan als admin</span>
+            </div>
+
             <div class="buttons">
                 <button type="reset" class="btn btn-cancel" aria-label="Annuleren" tabindex="0">Annuleren</button>
                 <button type="submit" class="btn btn-register" aria-label="Registreren" tabindex="0">Registreren</button>
@@ -96,6 +102,10 @@
 
         <div class="error-message" id="error-message" role="alert" aria-live="assertive" style="display: none;">
             Er zijn fouten in het formulier. Controleer uw invoer en probeer opnieuw.
+        </div>
+
+        <div class="success-message" id="success-message" role="status" aria-live="polite" style="display: none;">
+            Registratie geslaagd!
         </div>
     </div>
 {% endblock %}

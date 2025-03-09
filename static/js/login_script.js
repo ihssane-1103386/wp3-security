@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const email = document.getElementById("email").value.trim();
         const password = document.getElementById("password").value.trim();
-        const Admin = document.getElementById("adminCheckbox").checked;
 
         if (!email || !password) {
             alert("Vul alle velden in.");
@@ -16,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
         fetch("/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: email, password: password, userType: Admin ? "admin" : "user" })
+            body: JSON.stringify({ email: email, password: password })
         })
         .then(response => response.json())
         .then(data => {

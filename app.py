@@ -26,6 +26,14 @@ def notFound(e):
 def inject_user():
     return dict(user=session.get("user"), role=session.get("role"))
 
+@app.route("/api/get_user_role", methods=["GET"])
+def get_user_role():
+    if "user" in session:
+        email = session["user"]
+        role = DatabaseQueries.get_user_role(email)
+        return jsonify({"role": role or "ervaringsdeskundige"})
+    return jsonify({"role": "guest"})
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -38,22 +46,21 @@ def login():
 
         email = data.get("email")
         wachtwoord = data.get("password")
-        user_type = data.get("userType", "user")
 
-        if user_type == "admin":
-            medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
-            if medewerker:
-                session["user"] = email
-                session["role"] = medewerker["rol"]
-                return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
+        medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
+        if medewerker:
+            session["user"] = email
+            session["role"] = medewerker["rol"]
+            return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
+
+        if DatabaseQueries.authenticate_user(email, wachtwoord):
+            session["user"] = email
+            return jsonify({"success": True, "message": "Inloggen geslaagd!"})
         else:
-            user = DatabaseQueries.authenticate_user(email, wachtwoord)
-            if user:
-                session["user"] = email
-                return jsonify({"success": True, "message": "Inloggen geslaagd!"})
-            else:
-                return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
+            return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
+
     return render_template("login.html.jinja")
+
 
 def login_required(f):
     @wraps(f)
@@ -124,27 +131,38 @@ def get_beperkingen():
 
 @app.route("/api/register", methods=["POST"])
 def register_expert():
-    data = request.json
+    data = request.get_json(silent=True)
 
-    required_fields = ["voornaam", "achternaam", "email", "geslacht", "telefoonnummer", "wachtwoord", "beperkingen"]
+    if data is None:
+        return jsonify({"error": "Ongeldige JSON"}), 400
+
+    required_fields = ["voornaam", "achternaam", "email", "geslacht", "telefoonnummer", "wachtwoord"]
+
     for field in required_fields:
         if field not in data or not data[field]:
             return jsonify({"error": f"Veld '{field}' ontbreekt of is leeg"}), 400
 
-    ervaringsdeskundige_id = DatabaseQueries.add_expert(
-        data["voornaam"], data.get("tussenvoegsel", ""), data["achternaam"],
-        data.get("geboortedatum", ""), data["email"], data["geslacht"],
-        data["telefoonnummer"], data["wachtwoord"]
-    )
+    if "beperkingen" not in data or not isinstance(data["beperkingen"], list):
+        data["beperkingen"] = []
 
-    if not ervaringsdeskundige_id:
-        return jsonify({"error": "Kon ervaringsdeskundige niet opslaan"}), 500
+    try:
+        ervaringsdeskundige_id = DatabaseQueries.add_expert(
+            data["voornaam"], data.get("tussenvoegsel", ""), data["achternaam"],
+            data.get("geboortedatum", ""), data["email"], data["geslacht"],
+            data["telefoonnummer"], data["wachtwoord"]
+        )
 
-    for beperking in data["beperkingen"]:
-        DatabaseQueries.link_disability_to_expert(ervaringsdeskundige_id, beperking)
+        if not ervaringsdeskundige_id:
+            return jsonify({"error": "Kon ervaringsdeskundige niet opslaan"}), 500
 
-    return jsonify({"message": "Registratie succesvol", "ervaringsdeskundige_id": ervaringsdeskundige_id}), 201
+        if data["beperkingen"]:
+            for beperking in data["beperkingen"]:
+                DatabaseQueries.link_disability_to_expert(ervaringsdeskundige_id, beperking)
 
+        return jsonify({"message": "Registratie succesvol", "ervaringsdeskundige_id": ervaringsdeskundige_id}), 201
+
+    except Exception as e:
+        return jsonify({"error": "Interne serverfout"}), 500
 
 @app.route("/api/beperkingen")
 def disability():

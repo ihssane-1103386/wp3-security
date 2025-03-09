@@ -5,11 +5,58 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedBeperkingenContainer = document.getElementById("selected-beperkingen");
     const errorMessageContainer = document.getElementById("error-message");
     const successMessageContainer = document.getElementById("success-message");
+    const adminToggle = document.getElementById("admin-toggle");
+    const adminSwitch = document.getElementById("admin-checkbox");
+    let isSubmitting = false;
     let selectedBeperkingen = [];
     let selectedIndex = -1;
 
+    if (window.formEventListenerAdded) {
+        return;
+    }
+    window.formEventListenerAdded = true;
+
+    fetch("/api/get_user_role")
+        .then(response => response.json())
+        .then(data => {
+            if (data.role === "admin" && adminToggle) {
+                adminToggle.style.display = "block";
+            }
+        })
+        .catch(error => console.error("Fout bij ophalen gebruikersrol:", error));
+
+    function clearMessages() {
+        const errorMessageContainer = document.getElementById("error-message");
+        const successMessageContainer = document.getElementById("success-message");
+
+        if (errorMessageContainer) {
+            errorMessageContainer.textContent = "";
+            errorMessageContainer.style.display = "none";
+        }
+
+        if (successMessageContainer) {
+            successMessageContainer.textContent = "";
+            successMessageContainer.style.display = "none";
+        }
+    }
+
+    function getValue(id) {
+        const element = document.getElementById(id);
+        return element ? element.value.trim() : "";
+    }
+
+    function resetForm() {
+        document.querySelector("form").reset();
+        selectedBeperkingen = [];
+        updateSelectedBeperkingen();
+    }
+
     form.addEventListener("submit", function (event) {
         event.preventDefault();
+
+        if (isSubmitting) return;
+        isSubmitting = true;
+
         clearMessages();
 
         const wachtwoord = document.getElementById("password").value.trim();
@@ -17,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (wachtwoord !== confirmPassword) {
             showErrorMessage("Wachtwoorden komen niet overeen.", document.getElementById("password"));
+            isSubmitting = false;
             return;
         }
 
@@ -27,31 +75,35 @@ document.addEventListener("DOMContentLoaded", function () {
             geboortedatum: getValue("geboortedatum"),
             email: getValue("email"),
             geslacht: getValue("geslacht"),
-            telefoonnummer: getValue("mobiel"),
+            telefoonnummer: getValue("mobiel") || getValue("telefoonnummer"),
             adres: getValue("adres"),
-            beperkingen: selectedBeperkingen,
-            wachtwoord: wachtwoord
+            beperkingen: selectedBeperkingen.length ? selectedBeperkingen : [],
+            wachtwoord: wachtwoord,
+            isAdmin: adminSwitch ? adminSwitch.checked : false
         };
 
-        fetch("/api/register", {
+       fetch("/api/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.ervaringsdeskundige_id) {
-                    showSuccessMessage("Registratie succesvol!");
-                    resetForm();
-                } else {
-                    showErrorMessage(data.error || "Er is een fout opgetreden bij de registratie.");
-                }
-            })
-            .catch(error => {
-                console.error("Fout bij verzenden:", error);
-                showErrorMessage("Kan geen verbinding maken met de server.");
-            });
+        .then(response => response.json())
+        .then(data => {
+            isSubmitting = false;
+            if (data.ervaringsdeskundige_id) {
+                showSuccessMessage("Registratie succesvol!");
+                resetForm();
+            } else {
+                showErrorMessage(data.error || "Er is een fout opgetreden bij de registratie.");
+            }
+        })
+        .catch(error => {
+            isSubmitting = false;
+            console.error("Fout bij verzenden:", error);
+            showErrorMessage("Kan geen verbinding maken met de server.");
+        });
     });
+
 
     beperkingenInput.addEventListener("input", function () {
         let query = beperkingenInput.value.trim();
@@ -195,27 +247,10 @@ document.addEventListener("DOMContentLoaded", function () {
         successMessageContainer.focus();
     }
 
-    function resetForm() {
-        form.reset();
-        selectedBeperkingen = [];
-        updateSelectedBeperkingen();
-        document.getElementById("voornaam").focus();
+
+    if (adminSwitch) {
+        adminSwitch.addEventListener("click", function () {
+            this.classList.toggle("active");
+        });
     }
-
-    document.querySelector(".btn-cancel").addEventListener("click", function (event) {
-        event.preventDefault();  // Voorkomt standaard reset-gedrag
-        resetForm();
-    });
-
-
-
-    function getValue(id) {
-        return document.getElementById(id)?.value.trim() || "";
-    }
-
-    document.addEventListener("click", function (event) {
-        if (!beperkingenInput.contains(event.target) && !suggestionsList.contains(event.target)) {
-            hideSuggestions();
-        }
-    });
 });
