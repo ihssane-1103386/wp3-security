@@ -1,9 +1,27 @@
+// Keeps track of which table is currently being viewed
+let currentTable = 'registraties';
+
 document.addEventListener("DOMContentLoaded", function () {
     loadRegistrations('registraties');
-    setInterval(() => loadRegistrations('registraties'), 10000);
+    // Refresh rate of page
+    setInterval(() => loadRegistrations(currentTable), 10000);
+
+    // Keeps track of which table is being clicked
+    document.getElementById('registratieBtn').addEventListener('click', function(){
+        currentTable = 'registraties';
+        loadRegistrations(currentTable);
+    })
+    document.getElementById('inschrijfBtn').addEventListener('click', function(){
+        currentTable = 'inschrijvingen';
+        loadRegistrations(currentTable);
+    })
+    document.getElementById('onderzoekBtn').addEventListener('click', function(){
+        currentTable = 'onderzoeksaanvragen';
+        loadRegistrations(currentTable);
+    })
 });
 
-
+// Changes the table-header according to the chosen table
 function updateTableHeader(tableName) {
     const thead = document.getElementById("tableHeader");
     if (tableName === "registraties") {
@@ -32,7 +50,6 @@ function updateTableHeader(tableName) {
             </tr>`;
     }
 }
-
 
 function loadRegistrations(tableName) {
     updateTableHeader(tableName);
