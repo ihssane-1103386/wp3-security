@@ -79,6 +79,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     closeButton.addEventListener("click", function () {
         popup.style.display = "none";
+        popup.setAttribute("aria-hidden", "true");
+        document.querySelector(".clickable[data-id='" + selectedOnderzoekID + "']").focus();
     });
 
     if (cancelButton){
