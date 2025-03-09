@@ -16,14 +16,14 @@
     <main>
         <h1>Onderzoeken</h1>
         <div class="search-container">
-            <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input">
-            <button type="submit" class="search-button">Zoeken</button>
-            <button id="add-button" class="add-btn">+</button>
+            <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input" aria-label="Zoek een trefwoord">
+            <button type="submit" class="search-button" aria-label="Zoek op">Zoeken</button>
+            <button id="add-button" class="add-btn" aria-label="Voeg een nieuwe onderzoeksvraag toe">+</button>
         </div>
 
     <div class="filter-container">
-            <button id="filter-button" class="filter-btn">Filter op beperking</button>
-            <select id="beperking-filter" class="filter-dropdown">
+            <button id="filter-button" class="filter-btn" aria-expanded="false" aria-controls="beperking-filter">Filter op beperking</button>
+            <select id="beperking-filter" class="filter-dropdown" aria-label="Filter op beperking">
                 <option value="">Alle beperkingen</option>
                 {% for beperking in beperkingen %}
                     <option value="{{ beperking }}">{{ beperking }}</option>
@@ -41,7 +41,7 @@
             {% for vraag in vragen %}
 
             <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}" data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}"
-            data-onderzoek-id ="{{ vraag.onderzoek_id }}" data-id="{{ vraag.onderzoek_id }}">
+            data-onderzoek-id ="{{ vraag.onderzoek_id }}" data-id="{{ vraag.onderzoek_id }}" tabindex="0" role="button" aria-label="Bekijk details voor {{ vraag.titel }}">
                 <td>{{ vraag.titel }}</td>
                 <td>{{ vraag.beperking }}</td>
                 <td>{{ vraag.max_deelnemers }}</td>
@@ -50,34 +50,34 @@
         </table>
 
         <div class="nav-button">
-            <a id="prev">
+            <a id="prev" href="#" aria-label="Vorige 10 onderzoeksvragen">
                 <button>Vorige 10</button>
             </a>
-            <a id="next">
+            <a id="next" href="#" aria-label="Volgende 10 onderzoeksvragen">
                 <button>Volgende 10</button>
             </a>
         </div>
 
-        <div id="popup" class="popup">
+        <div id="popup" class="popup" role="dialog" aria-labelledby="popup-titel">
         <div class="popup-content">
-            <span class="close">&times;</span>
+            <button class="close" aria-label="Sluit pop-up">&times;</button>
             <h2 id="popup-titel">Onderzoeksvraag</h2>
             <p class="popup-info-short" id="popup-info">
                 <span id="popup-info-text"></span>
-                <span class="read-more" id="read-more">Lees meer</span>
-                <span class="read-less" id="read-less">Lees minder</span>
-            </p>
+                <span class="read-more" id="read-more" tabindex="0" role="button" aria-expanded="false" aria-controls="popup-info-text">Lees meer</span>
+                <span class="read-less" id="read-less" tabindex="0" role="button" aria-expanded="true" aria-controls="popup-info-text">Lees minder</span>
+        </p>
 
             <hr>
 
             <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">N/A</span></p>
             <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
             {% if goedkeuren == "1"%}
-                <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button">Bekijk aanmeldingen</button>
+                <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button" aria-label="Neem geen deel aan dit onderzoek">Bekijk aanmeldingen</button>
                 {% endif %}
             {% if user and not role %}
-                <button id="cancel" class="popup-button">niet deelnemen</button>
-                <button id="join" class="popup-button" data-onderzoek-id="">deelnemen</button>
+                <button id="cancel" class="popup-button" tabindex="0">niet deelnemen</button>
+                <button id="join" class="popup-button" data-onderzoek-id="" tabindex="0" aria-label="Neem deel aan dit onderzoek">deelnemen</button>
         {% endif %}
         </div>
     </div>

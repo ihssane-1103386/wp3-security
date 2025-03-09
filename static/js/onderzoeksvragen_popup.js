@@ -41,13 +41,16 @@ document.addEventListener("DOMContentLoaded", function () {
             readMore.style.display = fullText.length > 100 ? "inline" : "none";
             readLess.style.display = "none";
 
-            popupDeelnemers.textContent = this.dataset.deelnemers + " deelnemers";
-            popupBeschikbaar.textContent = this.dataset.beschikbaar + " plaatsen";
+            popupDeelnemers.textContent = this.dataset.deelnemers;
+            popupBeschikbaar.textContent = `${this.dataset.beschikbaar}/${this.dataset.deelnemers}`;
 
             readMore.onclick = function () {
                 popupInfo.textContent = fullText;
                 readMore.style.display = "none";
                 readLess.style.display = "inline";
+                readMore.setAttribute("aria-expanded", "true");
+                readLess.setAttribute("aria-expanded", "false");
+                readLess.focus();
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
@@ -56,6 +59,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 popupInfo.textContent = shortText;
                 readLess.style.display = "none";
                 readMore.style.display = "inline";
+                readLess.setAttribute("aria-expanded", "false");
+                readMore.setAttribute("aria-expanded", "true");
+                readMore.focus();
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
@@ -64,6 +70,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             popup.style.display = "block";
+            popup.setAttribute("aria-hidden", "false");
+            closeButton.focus();
         });
     });
 
@@ -74,10 +82,53 @@ document.addEventListener("DOMContentLoaded", function () {
             popup.style.display = "none";
         }
     });
-    
+
     closeButton.addEventListener("click", function () {
         popup.style.display = "none";
+        popup.setAttribute("aria-hidden", "true");
+        document.querySelector(".clickable[data-id='" + selectedOnderzoekID + "']").focus();
     });
+
+    window.addEventListener("keydown", function(event) {
+        if (event.key === "Escape" && popup.style.display === "block") {
+            popup.style.display = "none";
+            popup.setAttribute("aria-hidden", "false");
+        document.querySelector(".clickable[data-id='" + selectedOnderzoekID + "']").focus();
+        }
+    });
+
+    readMore.addEventListener("keydown", function(event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            this.click();
+            readLess.focus();
+        }
+    });
+
+    readLess.addEventListener("keydown", function(event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            this.click();
+            readMore.focus();
+
+        }
+    });
+
+    popup.addEventListener("keydown", function(event) {
+        if (event.key === "Tab") {
+            const focusableElements = popup.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements - 1];
+            if (event.shiftKey && document.activeElement === firstElement) {
+                lastElement.focus();
+                event.preventDefault();
+            } else if (!event.shiftKey && document.activeElement === lastElement) {
+                firstElement.focus();
+                event.preventDefault();
+            }
+        }
+    })
+
 
     if (cancelButton){
         cancelButton.addEventListener("click", function () {
