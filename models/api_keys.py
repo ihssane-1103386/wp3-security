@@ -10,3 +10,13 @@ class ApiKeys:
         """
         result = RawDatabase.runRawQuery(query, (api_key,))
         return dict(result[0]) if result else None
+
+    @staticmethod
+    def create_key(organisatie_id, onderzoek_id):
+        key = secrets.token_urlsafe(32)
+        query = """
+                INSERT INTO api_keys (organisatie_id, onderzoek_id, api_key)
+                VALUES (?, ?, ?)
+            """
+        RawDatabase.runInsertQuery(query, (organisatie_id, onderzoek_id, key))
+        return key
