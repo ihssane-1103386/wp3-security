@@ -117,6 +117,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (event.shiftKey && document.activeElement === firstElement) {
                 lastElement.focus();
                 event.preventDefault();
+            } else if (!event.shiftKey && document.activeElement === lastElement) {
+                firstElement.focus();
+                event.preventDefault();
             }
         }
     })
