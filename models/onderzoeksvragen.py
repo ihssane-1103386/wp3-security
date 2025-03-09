@@ -1,5 +1,6 @@
 from flask import jsonify
 from models.database_connect import RawDatabase
+from models.api_keys import ApiKeys
 
 
 class Onderzoeksvragen:
@@ -70,6 +71,8 @@ class Onderzoeksvragen:
                 einddatum,
                 beloning
             ))
+
+            ApiKeys.create_key(organisatie_id, new_onderzoek_id)
 
             if beperkingen_id:
                 query_intersect = """
