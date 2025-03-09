@@ -236,6 +236,30 @@ def update_onderzoeksvraag_via_api_key():
         return jsonify({"error": "Update mislukt"}), 500
 
 
+
+@app.route("/generate-missing-api-keys", methods=["POST"])
+def generate_missing_api_keys():
+    from models.api_keys import ApiKeys
+    from models.database_connect import RawDatabase
+
+    query = """
+        SELECT o.onderzoek_id, o.organisatie_id
+        FROM onderzoeken o
+        LEFT JOIN api_keys a ON o.onderzoek_id = a.onderzoek_id
+        WHERE a.api_key IS NULL
+    """
+    onderzoeken_zonder_key = RawDatabase.runRawQuery(query)
+
+    for row in onderzoeken_zonder_key:
+        onderzoek_id = row["onderzoek_id"]
+        organisatie_id = row["organisatie_id"]
+        ApiKeys.create_key(organisatie_id, onderzoek_id)
+
+    return jsonify({
+        "message": f"{len(onderzoeken_zonder_key)} API keys gegenereerd"
+    })
+
+
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getInschrijvingen(id):
     return Inschrijvingen.getInschrijvingen(id)
