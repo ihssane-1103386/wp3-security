@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     text: "Uw onderzoeksvraag is aangemaakt!",
                     icon: "success"
                 });
+                form.reset();
             })
     });
 
