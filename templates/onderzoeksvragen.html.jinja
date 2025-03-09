@@ -73,11 +73,11 @@
             <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">N/A</span></p>
             <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
             {% if goedkeuren == "1"%}
-                <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button">Bekijk aanmeldingen</button>
+                <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button" aria-label="Neem geen deel aan dit onderzoek">Bekijk aanmeldingen</button>
                 {% endif %}
             {% if user and not role %}
-                <button id="cancel" class="popup-button">niet deelnemen</button>
-                <button id="join" class="popup-button" data-onderzoek-id="">deelnemen</button>
+                <button id="cancel" class="popup-button" tabindex="0">niet deelnemen</button>
+                <button id="join" class="popup-button" data-onderzoek-id="" tabindex="0" aria-label="Neem deel aan dit onderzoek">deelnemen</button>
         {% endif %}
         </div>
     </div>

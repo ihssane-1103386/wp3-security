@@ -50,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 readLess.style.display = "inline";
                 readMore.setAttribute("aria-expanded", "true");
                 readLess.setAttribute("aria-expanded", "false");
+                readLess.focus();
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
@@ -60,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 readMore.style.display = "inline";
                 readLess.setAttribute("aria-expanded", "false");
                 readMore.setAttribute("aria-expanded", "true");
+                readMore.focus();
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
@@ -99,13 +101,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             this.click();
+            readLess.focus();
         }
     });
 
-    readMore.addEventListener("keydown", function(event) {
+    readLess.addEventListener("keydown", function(event) {
         if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             this.click();
+            readMore.focus();
+
         }
     });
 
