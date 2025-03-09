@@ -96,7 +96,15 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
             this.click();
         }
-    })
+    });
+
+    readMore.addEventListener("keydown", function(event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            this.click();
+        }
+    });
+
 
     if (cancelButton){
         cancelButton.addEventListener("click", function () {
