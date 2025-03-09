@@ -114,7 +114,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const focusableElements = popup.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
             const firstElement = focusableElements[0];
             const lastElement = focusableElements[focusableElements - 1];
-
+            if (event.shiftKey && document.activeElement === firstElement) {
+                lastElement.focus();
+                event.preventDefault();
+            }
         }
     })
 
