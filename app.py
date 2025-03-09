@@ -125,6 +125,18 @@ def deelnemen():
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
+
+        # Genereer een API-sleutel voor het nieuwe onderzoek
+        organisatie_id = 1
+        new_api_key = ApiKeys.create_key(organisatie_id, new_onderzoek_id)
+
+        # Geef de API-sleutel terug aan de gebruiker samen met het onderzoek_id
+        return jsonify({
+            "message": "Onderzoek succesvol aangemaakt",
+            "api_key": new_api_key,
+            "organisatie_id": organisatie_id,
+            "onderzoek_id": new_onderzoek_id
+        }), 201
     return render_template("onderzoeksvraag_aanmaken.html.jinja")
 
 @app.route("/api/get-beperkingen")
