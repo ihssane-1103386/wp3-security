@@ -259,6 +259,31 @@ def generate_missing_api_keys():
         "message": f"{len(onderzoeken_zonder_key)} API keys gegenereerd"
     })
 
+@app.route("/api/aanvraag-api-key", methods=["POST"])
+def aanvraag_api_key():
+    data = request.get_json()
+
+    if "onderzoek_id" not in data:
+        return jsonify({"error": "Onderzoek_id is vereist"}), 400
+
+    onderzoek_id = data["onderzoek_id"]
+
+    # Controleer of er al een API-sleutel bestaat voor dit onderzoek
+    api_key_record = ApiKeys.get_by_onderzoek_id(onderzoek_id)
+    if api_key_record:
+        return jsonify({"message": "API sleutel bestaat al", "api_key": api_key_record["api_key"]}), 200
+
+    # Genereert een nieuwe API sleutel voor het onderzoek
+    organisatie_id = data.get("organisatie_id", 1)
+    new_api_key = ApiKeys.create_key(organisatie_id, onderzoek_id)
+
+    return jsonify({
+        "message": "Nieuwe API sleutel gegenereerd",
+        "api_key": new_api_key,
+        "organisatie_id": organisatie_id,
+        "onderzoek_id": onderzoek_id
+    }), 201
+
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getInschrijvingen(id):
