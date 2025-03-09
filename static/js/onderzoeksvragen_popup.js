@@ -83,6 +83,14 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".clickable[data-id='" + selectedOnderzoekID + "']").focus();
     });
 
+    window.addEventListener("keydown", function(event) {
+        if (event.key === "Escape" && popup.style.display === "block") {
+            popup.style.display = "none";
+            popup.setAttribute("aria-hidden", "false");
+        document.querySelector(".clickable[data-id='" + selectedOnderzoekID + "']").focus();
+        }
+    });
+
     if (cancelButton){
         cancelButton.addEventListener("click", function () {
             popup.style.display = "none";
