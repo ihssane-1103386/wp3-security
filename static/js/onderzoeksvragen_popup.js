@@ -64,6 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             popup.style.display = "block";
+            popup.setAttribute("aria-hidden", "false");
+            closeButton.focus();
         });
     });
 
