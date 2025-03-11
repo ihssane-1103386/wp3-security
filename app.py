@@ -105,6 +105,7 @@ def onderzoeksvragen():
     return render_template("onderzoeksvragen.html.jinja", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0")
 
 @app.route("/inschrijvingen/goedkeuren")
+@admin_required
 def inschrijvingen_goedkeuren():
     vragen = Onderzoeksvragen.get_vragen()
     return render_template("onderzoeksvragen.html.jinja", vragen=vragen, goedkeuren="1")
@@ -230,6 +231,19 @@ def getOnderzoeken():
     return onderzoeken.getOnderzoeken()
 
 
+@app.route("/api/onderzoeken/inschrijving/afwijzen/<int:onderzoek_id>/<int:user_id>", methods=["PATCH"])
+@admin_required
+def aanmeldingAfwijzen(onderzoek_id, user_id):
+    return Inschrijvingen.inschrijvingAfwijzen(onderzoek_id, user_id)
+
+@app.route("/api/onderzoeken/inschrijving/accepteren/<int:onderzoek_id>/<int:user_id>", methods=["PATCH"])
+@admin_required
+def aanmeldingAccepteren(onderzoek_id, user_id):
+    return Inschrijvingen.inschrijvingAccepteren(onderzoek_id, user_id)
+
+@app.route("/api/update-onderzoeksvraag", methods=["PATCH"])
+def update_onderzoeksvraag():
+    data = request.json
 @app.route("/api/public/update-onderzoeksvraag", methods=["PATCH"])
 def update_onderzoeksvraag_via_api_key():
     data = request.get_json()
@@ -303,7 +317,12 @@ def aanvraag_api_key():
 
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
-def getInschrijvingen(id):
-    return Inschrijvingen.getInschrijvingen(id)
+def getPendingInschrijvingen(id):
+    return Inschrijvingen.getInschrijvingen(0, id)
 
-app.run(debug=True)
+@app.route("/api/onderzoeken/inschrijvingen/<int:id>/<int:status>", methods=["GET"])
+def getInschrijvingenFiltered(id, status):
+    return Inschrijvingen.getInschrijvingen(status, id)
+
+if __name__ == "__main__":
+    app.run(debug=True)
