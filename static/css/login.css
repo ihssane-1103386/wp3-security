@@ -109,20 +109,6 @@ input:focus, button:focus {
     box-shadow: 0 0 6px rgba(79, 70, 229, 0.6);
 }
 
-.checkbox-label {
-    display: inline-flex;
-    justify-content: flex-start;
-    flex-direction: row;
-    white-space: nowrap;
-    height: 40px;
-    width: 100px;
-}
-
-.checkbox-label input[type="checkbox"] {
-    margin-right: 5px;
-}
-
-
 /* Button */
 button {
     width: 100%;

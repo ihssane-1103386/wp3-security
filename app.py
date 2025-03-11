@@ -8,6 +8,11 @@ from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
 from functools import wraps
 
+
+
+from models.api_keys import ApiKeys
+
+
 app = Flask(__name__)
 app.secret_key = "acces"
 app.config["SESSION_TYPE"] = "filesystem"
@@ -26,6 +31,14 @@ def notFound(e):
 def inject_user():
     return dict(user=session.get("user"), role=session.get("role"))
 
+@app.route("/api/get_user_role", methods=["GET"])
+def get_user_role():
+    if "user" in session:
+        email = session["user"]
+        role = DatabaseQueries.get_user_role(email)
+        return jsonify({"role": role or "ervaringsdeskundige"})
+    return jsonify({"role": "guest"})
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -38,22 +51,21 @@ def login():
 
         email = data.get("email")
         wachtwoord = data.get("password")
-        user_type = data.get("userType", "user")
 
-        if user_type == "admin":
-            medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
-            if medewerker:
-                session["user"] = email
-                session["role"] = medewerker["rol"]
-                return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
+        medewerker = DatabaseQueries.authenticate_worker(email, wachtwoord)
+        if medewerker:
+            session["user"] = email
+            session["role"] = medewerker["rol"]
+            return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
+
+        if DatabaseQueries.authenticate_user(email, wachtwoord):
+            session["user"] = email
+            return jsonify({"success": True, "message": "Inloggen geslaagd!"})
         else:
-            user = DatabaseQueries.authenticate_user(email, wachtwoord)
-            if user:
-                session["user"] = email
-                return jsonify({"success": True, "message": "Inloggen geslaagd!"})
-            else:
-                return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
+            return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
+
     return render_template("login.html.jinja")
+
 
 def login_required(f):
     @wraps(f)
@@ -102,13 +114,16 @@ def inschrijvingen_goedkeuren():
 @app.route("/deelnemen", methods=["POST"])
 @login_required
 def deelnemen():
-    ervaringsdeskundige_id = request.form.get("ervaringsdeskundige_id")
-    onderzoek_id = request.form.get("onderzoek_id")
+    data=request.get_json()
+    if not data:
+        return jsonify({"error": "Geen data ontvangen"}), 400
+
+    ervaringsdeskundige_id = data.get("ervaringsdeskundige_id")
+    onderzoek_id = data.get("onderzoek_id")
 
     if not ervaringsdeskundige_id or not onderzoek_id:
-        return jsonify({"error": "Ontbrekende gegevens"}), 400
-    return Onderzoeksvragen.add_deelname(ervaringsdeskundige_id, onderzoek_id)
-
+        return jsonify({"error:" "Ontbrekende gegevens"}), 400
+    return jsonify({"succes": True, "message": "Deelname geregistreerd!"})
 
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 #@login_required? Nog even kijken of het überhaupt nodig is met API-keys
@@ -116,6 +131,18 @@ def deelnemen():
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         return Onderzoeksvragen.add_onderzoeksvraag(request.form)
+
+        # Genereer een API-sleutel voor het nieuwe onderzoek
+        organisatie_id = 1
+        new_api_key = ApiKeys.create_key(organisatie_id, new_onderzoek_id)
+
+        # Geef de API-sleutel terug aan de gebruiker samen met het onderzoek_id
+        return jsonify({
+            "message": "Onderzoek succesvol aangemaakt",
+            "api_key": new_api_key,
+            "organisatie_id": organisatie_id,
+            "onderzoek_id": new_onderzoek_id
+        }), 201
     return render_template("onderzoeksvraag_aanmaken.html.jinja")
 
 @app.route("/api/get-beperkingen")
@@ -125,27 +152,38 @@ def get_beperkingen():
 
 @app.route("/api/register", methods=["POST"])
 def register_expert():
-    data = request.json
+    data = request.get_json(silent=True)
 
-    required_fields = ["voornaam", "achternaam", "email", "geslacht", "telefoonnummer", "wachtwoord", "beperkingen"]
+    if data is None:
+        return jsonify({"error": "Ongeldige JSON"}), 400
+
+    required_fields = ["voornaam", "achternaam", "email", "geslacht", "telefoonnummer", "wachtwoord"]
+
     for field in required_fields:
         if field not in data or not data[field]:
             return jsonify({"error": f"Veld '{field}' ontbreekt of is leeg"}), 400
 
-    ervaringsdeskundige_id = DatabaseQueries.add_expert(
-        data["voornaam"], data.get("tussenvoegsel", ""), data["achternaam"],
-        data.get("geboortedatum", ""), data["email"], data["geslacht"],
-        data["telefoonnummer"], data["wachtwoord"]
-    )
+    if "beperkingen" not in data or not isinstance(data["beperkingen"], list):
+        data["beperkingen"] = []
 
-    if not ervaringsdeskundige_id:
-        return jsonify({"error": "Kon ervaringsdeskundige niet opslaan"}), 500
+    try:
+        ervaringsdeskundige_id = DatabaseQueries.add_expert(
+            data["voornaam"], data.get("tussenvoegsel", ""), data["achternaam"],
+            data.get("geboortedatum", ""), data["email"], data["geslacht"],
+            data["telefoonnummer"], data["wachtwoord"]
+        )
 
-    for beperking in data["beperkingen"]:
-        DatabaseQueries.link_disability_to_expert(ervaringsdeskundige_id, beperking)
+        if not ervaringsdeskundige_id:
+            return jsonify({"error": "Kon ervaringsdeskundige niet opslaan"}), 500
 
-    return jsonify({"message": "Registratie succesvol", "ervaringsdeskundige_id": ervaringsdeskundige_id}), 201
+        if data["beperkingen"]:
+            for beperking in data["beperkingen"]:
+                DatabaseQueries.link_disability_to_expert(ervaringsdeskundige_id, beperking)
 
+        return jsonify({"message": "Registratie succesvol", "ervaringsdeskundige_id": ervaringsdeskundige_id}), 201
+
+    except Exception as e:
+        return jsonify({"error": "Interne serverfout"}), 500
 
 @app.route("/api/beperkingen")
 def disability():
@@ -206,17 +244,76 @@ def aanmeldingAccepteren(onderzoek_id, user_id):
 @app.route("/api/update-onderzoeksvraag", methods=["PATCH"])
 def update_onderzoeksvraag():
     data = request.json
+@app.route("/api/public/update-onderzoeksvraag", methods=["PATCH"])
+def update_onderzoeksvraag_via_api_key():
+    data = request.get_json()
+    api_key = request.headers.get("Authorization")
+
+    if not api_key or not data:
+        return jsonify({"error": "API key en data zijn vereist"}), 400
+
+    key_record = ApiKeys.get_by_key(api_key.replace("Bearer ", ""))
+    if not key_record:
+        return jsonify({"error": "Ongeldige API key"}), 403
+
     onderzoek_id = data.get("onderzoek_id")
+    if not onderzoek_id or onderzoek_id != key_record["onderzoek_id"]:
+        return jsonify({"error": "Ongeldig of ongelijk onderzoek_id"}), 403
 
-    if not onderzoek_id:
-        return jsonify({"error": "onderzoek_id is vereist"}), 400
-
-    update_result = Onderzoeksvragen.update_onderzoeksvraag(onderzoek_id, data)
-
-    if update_result:
-        return jsonify({"message": "Onderzoeksvraag succesvol bijgewerkt"}), 200
+    success = Onderzoeksvragen.update_onderzoeksvraag(onderzoek_id, data)
+    if success:
+        return jsonify({"message": "Onderzoeksvraag succesvol bijgewerkt via API key"}), 200
     else:
-        return jsonify({"error": "Fout bij updaten van onderzoeksvraag"}), 500
+        return jsonify({"error": "Update mislukt"}), 500
+
+
+
+@app.route("/generate-missing-api-keys", methods=["POST"])
+def generate_missing_api_keys():
+    from models.api_keys import ApiKeys
+    from models.database_connect import RawDatabase
+
+    query = """
+        SELECT o.onderzoek_id, o.organisatie_id
+        FROM onderzoeken o
+        LEFT JOIN api_keys a ON o.onderzoek_id = a.onderzoek_id
+        WHERE a.api_key IS NULL
+    """
+    onderzoeken_zonder_key = RawDatabase.runRawQuery(query)
+
+    for row in onderzoeken_zonder_key:
+        onderzoek_id = row["onderzoek_id"]
+        organisatie_id = row["organisatie_id"]
+        ApiKeys.create_key(organisatie_id, onderzoek_id)
+
+    return jsonify({
+        "message": f"{len(onderzoeken_zonder_key)} API keys gegenereerd"
+    })
+
+@app.route("/api/aanvraag-api-key", methods=["POST"])
+def aanvraag_api_key():
+    data = request.get_json()
+
+    if "onderzoek_id" not in data:
+        return jsonify({"error": "Onderzoek_id is vereist"}), 400
+
+    onderzoek_id = data["onderzoek_id"]
+
+    # Controleer of er al een API-sleutel bestaat voor dit onderzoek
+    api_key_record = ApiKeys.get_by_onderzoek_id(onderzoek_id)
+    if api_key_record:
+        return jsonify({"message": "API sleutel bestaat al", "api_key": api_key_record["api_key"]}), 200
+
+    # Genereert een nieuwe API sleutel voor het onderzoek
+    organisatie_id = data.get("organisatie_id", 1)
+    new_api_key = ApiKeys.create_key(organisatie_id, onderzoek_id)
+
+    return jsonify({
+        "message": "Nieuwe API sleutel gegenereerd",
+        "api_key": new_api_key,
+        "organisatie_id": organisatie_id,
+        "onderzoek_id": onderzoek_id
+    }), 201
 
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
