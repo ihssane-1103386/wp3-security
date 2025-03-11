@@ -271,7 +271,6 @@ def update_onderzoeksvraag_via_api_key():
 @app.route("/generate-missing-api-keys", methods=["POST"])
 def generate_missing_api_keys():
     from models.api_keys import ApiKeys
-    from models.database_connect import RawDatabase
 
     onderzoeken_zonder_key = DatabaseQueries.get_onderzoeken_zonder_api_key()
 
