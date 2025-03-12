@@ -6,6 +6,11 @@
     <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
     {% include '_global_imports.html' %}
     {% block head_scripts %}
+    {% if goedkeuren == "1"%}
+        <title>Inschrijvingen goedkeuren</title>
+    {% else %}
+        <title>Inschrijven onderzoeken</title>
+    {% endif %}
     <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
     {% endblock %}
 
