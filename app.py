@@ -271,15 +271,8 @@ def update_onderzoeksvraag_via_api_key():
 @app.route("/generate-missing-api-keys", methods=["POST"])
 def generate_missing_api_keys():
     from models.api_keys import ApiKeys
-    from models.database_connect import RawDatabase
 
-    query = """
-        SELECT o.onderzoek_id, o.organisatie_id
-        FROM onderzoeken o
-        LEFT JOIN api_keys a ON o.onderzoek_id = a.onderzoek_id
-        WHERE a.api_key IS NULL
-    """
-    onderzoeken_zonder_key = RawDatabase.runRawQuery(query)
+    onderzoeken_zonder_key = DatabaseQueries.get_onderzoeken_zonder_api_key()
 
     for row in onderzoeken_zonder_key:
         onderzoek_id = row["onderzoek_id"]
@@ -324,4 +317,5 @@ def getPendingInschrijvingen(id):
 def getInschrijvingenFiltered(id, status):
     return Inschrijvingen.getInschrijvingen(status, id)
 
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)

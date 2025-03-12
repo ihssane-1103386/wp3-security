@@ -1,5 +1,3 @@
-import sqlite3
-
 from database.database_connection import DatabaseConnection
 from flask import jsonify
 import sqlite3
@@ -183,3 +181,13 @@ class DatabaseQueries:
         result = DatabaseQueries.run_query(query, (email,), fetch_one=True)
 
         return result["rol"] if result else None
+
+    @staticmethod
+    def get_onderzoeken_zonder_api_key():
+        query = """
+            SELECT o.onderzoek_id, o.organisatie_id
+            FROM onderzoeken o
+            LEFT JOIN api_keys a ON o.onderzoek_id = a.onderzoek_id
+            WHERE a.api_key IS NULL
+        """
+        return DatabaseQueries.run_query(query, fetch_all=True)
