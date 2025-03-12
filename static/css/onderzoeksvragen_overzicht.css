@@ -239,3 +239,15 @@ button:hover {
     background-color: #1E1E1E;
     color: white;
 }
+
+
+
+button.decline{
+    background-color: red;
+    color: white;
+}
+
+button.accept{
+    background-color: green;
+    color: white;
+}
