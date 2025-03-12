@@ -25,11 +25,12 @@
     <nav>
         <ul>
             {% if user %}
-            <li><a href="/logout">Uitloggen</a></li>
-            <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
+                <li><a href="/logout">Uitloggen</a></li>
+                <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
             {% endif %}
             {% if role %}
-            <li><a href="/registrations">Registraties</a></li>
+                <li><a href="/inschrijvingen/goedkeuren">Inschrijvingen goedkeuren</a></li>
+                <li><a href="/registrations">Registraties</a></li>
             {% endif %}
             <li><button id="themeToggle" aria-pressed="false">Dark Mode</button></li>
         </ul>
