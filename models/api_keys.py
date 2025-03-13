@@ -30,3 +30,13 @@ class ApiKeys:
             """
         result = RawDatabase.runRawQuery(query, (organisatie_id,))
         return result[0]["api_key"] if result else None
+
+    @staticmethod
+    def get_by_api_key(api_key):
+        query = """
+                SELECT organisatie_id FROM organisaties
+                WHERE api_key = ?
+            """
+        result = RawDatabase.runRawQuery(query, (api_key,))
+        return result[0]["organisatie_id"] if result else None
+
