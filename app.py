@@ -241,6 +241,7 @@ def aanmeldingAccepteren(onderzoek_id, user_id):
 @app.route("/api/update-onderzoeksvraag", methods=["PATCH"])
 def update_onderzoeksvraag():
     data = request.json
+
 @app.route("/api/public/update-onderzoeksvraag", methods=["PATCH"])
 def update_onderzoeksvraag_via_api_key():
     data = request.get_json()
@@ -306,6 +307,29 @@ def generate_missing_api_keys():
     return jsonify({
         "message": f"{len(organisaties_zonder_key)} API keys gegenereerd"
     })
+
+@app.route("/api/aanvraag-api-key", methods=["POST"])
+def aanvraag_api_key():
+    data = request.get_json()
+
+    if "organisatie_id" not in data:
+        return jsonify({"error": "Organisatie_id is vereist"}), 400
+
+    organisatie_id = data["organisatie_id"]
+
+    # Controleer of er al een API-sleutel bestaat voor deze organisatie
+    api_key = ApiKeys.get_by_organisatie_id(organisatie_id)
+    if api_key:
+        return jsonify({"message": "API sleutel bestaat al", "api_key": api_key}), 200
+
+    # Genereer een nieuwe API-sleutel voor deze organisatie
+    new_api_key = ApiKeys.create_key(organisatie_id)
+
+    return jsonify({
+        "message": "Nieuwe API sleutel gegenereerd",
+        "api_key": new_api_key,
+        "organisatie_id": organisatie_id
+    }), 201
 
 
 
