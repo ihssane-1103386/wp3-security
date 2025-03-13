@@ -2,6 +2,7 @@ from database.database_connection import DatabaseConnection
 from flask import jsonify
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
+import secrets
 
 
 class DatabaseQueries:
@@ -201,9 +202,11 @@ class DatabaseQueries:
 
             cursor = conn.cursor()
 
+            api_key = secrets.token_urlsafe(32)
+
             query = """
-            INSERT INTO organisaties (naam, email, telefoonnummer, contactpersoon, beschrijving, website, adres)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO organisaties (naam, email, telefoonnummer, contactpersoon, beschrijving, website, adres, api_key)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             """
 
             cursor.execute(query, (
@@ -213,7 +216,8 @@ class DatabaseQueries:
                 data['contactpersoon'],
                 data['beschrijving'],
                 data['website'],
-                data['adres']
+                data['adres'],
+                api_key
             ))
 
             conn.commit()
