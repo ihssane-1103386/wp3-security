@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, request
 from models.database_connect import RawDatabase
 from models.api_keys import ApiKeys
 
@@ -150,47 +150,46 @@ class Onderzoeksvragen:
             print(f"Error: {errormsg}")
             return jsonify({"error": "Er is iets mis gegaan, probeer het later opnieuw."}), 500
 
-
-
     @staticmethod
-    def update_onderzoeksvraag(onderzoek_id, data):
+    def update_onderzoek_route(onderzoek_id):
         try:
-            # Alleen velden updaten die zijn meegegeven in de aanvraag
-            velden = []
-            waarden = []
+            api_key = request.headers.get('API-Key')
+            if not api_key:
+                return jsonify({"error": "API key is missing"}), 400
 
-            if "titel" in data:
-                velden.append("titel = ?")
-                waarden.append(data["titel"])
+            organisatie_id = ApiKeys.get_by_api_key(api_key)
+            if not organisatie_id:
+                return jsonify({"error": "Invalid API key"}), 403
 
-            if "beschrijving" in data:
-                velden.append("beschrijving = ?")
-                waarden.append(data["beschrijving"])
+            form = request.json
 
-            if "max_deelnemers" in data:
-                velden.append("max_deelnemers = ?")
-                waarden.append(data["max_deelnemers"])
+            titel = form.get("titel")
+            beschrijving = form.get("beschrijving")
+            plaats = form.get("plaats")
+            max_deelnemers = form.get("max_deelnemers")
+            min_leeftijd = form.get("min_leeftijd")
+            max_leeftijd = form.get("max_leeftijd")
+            beloning = form.get("beloning")
+            datum = form.get("datum")
+            datum_tot = form.get("datum_tot")
+            begeleiders = form.get("begeleiders")
 
-            if "beperking_id" in data:
-                velden.append("beperking_id = ?")
-                waarden.append(data["beperking_id"])
+            query = """
+                    UPDATE onderzoeken
+                    SET titel = ?, beschrijving = ?, plaats = ?, max_deelnemers = ?, min_leeftijd = ?, max_leeftijd = ?, beloning = ?, datum = ?, datum_tot = ?, begeleider = ?
+                    WHERE onderzoek_id = ? AND organisatie_id = ?
+                """
+            RawDatabase.runInsertQuery(query, (
+                titel, beschrijving, plaats, max_deelnemers, min_leeftijd, max_leeftijd, beloning, datum,
+                datum_tot, begeleiders, onderzoek_id, organisatie_id
+            ))
 
-            if not velden:
-                return False  # Geen wijzigingen doorgegeven
-
-            waarden.append(onderzoek_id)
-
-            query = f"""
-                UPDATE onderzoeken
-                SET {', '.join(velden)}
-                WHERE onderzoek_id = ?
-            """
-
-            RawDatabase.runInsertQuery(query, tuple(waarden))
-            return True
+            return jsonify({"message": "Onderzoeksvraag updated successfully!"}), 200
 
         except Exception as errormsg:
             print(f"Error: {errormsg}")
-            return False
+            return jsonify({"error": "Something went wrong"}), 500
+
+
 
 
