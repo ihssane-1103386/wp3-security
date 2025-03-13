@@ -227,3 +227,39 @@ class DatabaseQueries:
                 WHERE api_key IS NULL OR api_key = ''
             """
         return DatabaseQueries.run_query(query, fetch_all=True)
+
+    @staticmethod
+    def update_onderzoek(organisatie_id, onderzoek_id, update_data):
+        fields_to_update = []
+        params = []
+
+        # Mapping van toegestane velden
+        allowed_fields = [
+            "beschrijving", "plaats", "max_deelnemers", "datum", "datum_tot",
+            "beloning", "min_leeftijd", "max_leeftijd", "begeleider"
+        ]
+
+        for field in allowed_fields:
+            if field in update_data:
+                fields_to_update.append(f"{field} = ?")
+                params.append(update_data[field])
+
+        if not fields_to_update:
+            return False  # Niks te updaten
+
+        query = f"""
+            UPDATE onderzoeken
+            SET {", ".join(fields_to_update)}
+            WHERE organisatie_id = ? AND onderzoek_id = ?
+        """
+
+        params.extend([organisatie_id, onderzoek_id])
+
+        return DatabaseQueries.run_query(query, tuple(params))
+
+    @staticmethod
+    def get_organisatie_id_by_api_key(api_key):
+        query = """
+            SELECT organisatie_id FROM organisaties WHERE api_key = ?
+        """
+        return DatabaseQueries.run_query(query, (api_key,), fetch_one=True)
