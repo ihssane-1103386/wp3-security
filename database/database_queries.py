@@ -191,3 +191,35 @@ class DatabaseQueries:
             WHERE a.api_key IS NULL
         """
         return DatabaseQueries.run_query(query, fetch_all=True)
+
+    @staticmethod
+    def register_organisatie(data):
+        try:
+            conn = DatabaseConnection.get_connection()
+            if conn is None:
+                raise Exception("Kan geen verbinding maken met de database")
+
+            cursor = conn.cursor()
+
+            query = """
+            INSERT INTO organisaties (naam, email, telefoonnummer, contactpersoon, beschrijving, website, adres)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """
+
+            cursor.execute(query, (
+                data['naam'],
+                data['email'],
+                data['telefoonnummer'],
+                data['contactpersoon'],
+                data['beschrijving'],
+                data['website'],
+                data['adres']
+            ))
+
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+        except sqlite3.Error as e:
+            print(f"SQLite fout: {e}")
+            raise Exception(f"Database fout: {e}")
