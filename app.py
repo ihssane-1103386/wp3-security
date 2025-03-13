@@ -242,28 +242,6 @@ def aanmeldingAccepteren(onderzoek_id, user_id):
 def update_onderzoeksvraag():
     data = request.json
 
-@app.route("/api/public/update-onderzoeksvraag", methods=["PATCH"])
-def update_onderzoeksvraag_via_api_key():
-    data = request.get_json()
-    api_key = request.headers.get("Authorization")
-
-    if not api_key or not data:
-        return jsonify({"error": "API key en data zijn vereist"}), 400
-
-    key_record = ApiKeys.get_by_key(api_key.replace("Bearer ", ""))
-    if not key_record:
-        return jsonify({"error": "Ongeldige API key"}), 403
-
-    onderzoek_id = data.get("onderzoek_id")
-    if not onderzoek_id or onderzoek_id != key_record["onderzoek_id"]:
-        return jsonify({"error": "Ongeldig of ongelijk onderzoek_id"}), 403
-
-    success = Onderzoeksvragen.update_onderzoeksvraag(onderzoek_id, data)
-    if success:
-        return jsonify({"message": "Onderzoeksvraag succesvol bijgewerkt via API key"}), 200
-    else:
-        return jsonify({"error": "Update mislukt"}), 500
-
 
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
@@ -331,6 +309,11 @@ def aanvraag_api_key():
         "organisatie_id": organisatie_id
     }), 201
 
+
+
+@app.route('/update_onderzoeksvraag/<int:onderzoek_id>', methods=['PATCH'])
+def update_onderzoek_route(onderzoek_id):
+    return Onderzoeksvragen.update_onderzoek_route(onderzoek_id)
 
 
 if __name__ == "__main__":
