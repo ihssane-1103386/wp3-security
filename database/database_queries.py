@@ -183,15 +183,6 @@ class DatabaseQueries:
 
         return result["rol"] if result else None
 
-    @staticmethod
-    def get_onderzoeken_zonder_api_key():
-        query = """
-            SELECT o.onderzoek_id, o.organisatie_id
-            FROM onderzoeken o
-            LEFT JOIN api_keys a ON o.onderzoek_id = a.onderzoek_id
-            WHERE a.api_key IS NULL
-        """
-        return DatabaseQueries.run_query(query, fetch_all=True)
 
     @staticmethod
     def register_organisatie(data):
@@ -227,3 +218,12 @@ class DatabaseQueries:
         except sqlite3.Error as e:
             print(f"SQLite fout: {e}")
             raise Exception(f"Database fout: {e}")
+
+    @staticmethod
+    def get_organisaties_zonder_api_key():
+        query = """
+                SELECT organisatie_id
+                FROM organisaties
+                WHERE api_key IS NULL OR api_key = ''
+            """
+        return DatabaseQueries.run_query(query, fetch_all=True)
