@@ -7,8 +7,6 @@ from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
 from functools import wraps
 
-
-
 from models.api_keys import ApiKeys
 
 
@@ -315,6 +313,25 @@ def getPendingInschrijvingen(id):
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>/<int:status>", methods=["GET"])
 def getInschrijvingenFiltered(id, status):
     return Inschrijvingen.getInschrijvingen(status, id)
+
+
+@app.route('/api/register_organisatie', methods=['POST'])
+def register():
+    try:
+        data = request.get_json()
+
+        # Controleer of alle vereiste velden aanwezig zijn
+        required_fields = ['naam', 'email', 'telefoonnummer', 'contactpersoon', 'beschrijving', 'website', 'adres']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Missing required field: {field}'}), 400
+
+        # Roep de database query aan om de organisatie te registreren
+        DatabaseQueries.register_organisatie(data)
+        return jsonify({'message': 'Organisatie succesvol geregistreerd!'}), 201
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 if __name__ == "__main__":
     app.run(debug=True)
