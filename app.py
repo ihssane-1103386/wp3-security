@@ -265,47 +265,6 @@ def update_onderzoeksvraag_via_api_key():
 
 
 
-@app.route("/generate-missing-api-keys", methods=["POST"])
-def generate_missing_api_keys():
-    from models.api_keys import ApiKeys
-
-    onderzoeken_zonder_key = DatabaseQueries.get_onderzoeken_zonder_api_key()
-
-    for row in onderzoeken_zonder_key:
-        onderzoek_id = row["onderzoek_id"]
-        organisatie_id = row["organisatie_id"]
-        ApiKeys.create_key(organisatie_id, onderzoek_id)
-
-    return jsonify({
-        "message": f"{len(onderzoeken_zonder_key)} API keys gegenereerd"
-    })
-
-@app.route("/api/aanvraag-api-key", methods=["POST"])
-def aanvraag_api_key():
-    data = request.get_json()
-
-    if "onderzoek_id" not in data:
-        return jsonify({"error": "Onderzoek_id is vereist"}), 400
-
-    onderzoek_id = data["onderzoek_id"]
-
-    # Controleer of er al een API-sleutel bestaat voor dit onderzoek
-    api_key_record = ApiKeys.get_by_onderzoek_id(onderzoek_id)
-    if api_key_record:
-        return jsonify({"message": "API sleutel bestaat al", "api_key": api_key_record["api_key"]}), 200
-
-    # Genereert een nieuwe API sleutel voor het onderzoek
-    organisatie_id = data.get("organisatie_id", 1)
-    new_api_key = ApiKeys.create_key(organisatie_id, onderzoek_id)
-
-    return jsonify({
-        "message": "Nieuwe API sleutel gegenereerd",
-        "api_key": new_api_key,
-        "organisatie_id": organisatie_id,
-        "onderzoek_id": onderzoek_id
-    }), 201
-
-
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getPendingInschrijvingen(id):
     return Inschrijvingen.getInschrijvingen(0, id)
@@ -332,6 +291,22 @@ def register():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+@app.route("/generate-missing-api-keys", methods=["POST"])
+def generate_missing_api_keys():
+    from models.api_keys import ApiKeys
+
+    organisaties_zonder_key = DatabaseQueries.get_organisaties_zonder_api_key()
+
+    for organisatie in organisaties_zonder_key:
+        organisatie_id = organisatie["organisatie_id"]
+        ApiKeys.create_key(organisatie_id)
+
+    return jsonify({
+        "message": f"{len(organisaties_zonder_key)} API keys gegenereerd"
+    })
+
 
 
 if __name__ == "__main__":
