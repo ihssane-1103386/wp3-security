@@ -20,3 +20,13 @@ class ApiKeys:
         except Exception as e:
             print(f"Error creating API key: {e}")  # Foutmelding als er iets misgaat
             return None
+
+
+    @staticmethod
+    def get_by_organisatie_id(organisatie_id):
+        query = """
+                SELECT api_key FROM organisaties
+                WHERE organisatie_id = ?
+            """
+        result = RawDatabase.runRawQuery(query, (organisatie_id,))
+        return result[0]["api_key"] if result else None
