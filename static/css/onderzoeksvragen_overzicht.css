@@ -28,7 +28,7 @@ table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
-    margin-top: 4%;
+    margin-top: 10px;
 }
 
 td {
@@ -187,19 +187,23 @@ button:hover {
 }
 
 .filter-container {
-    margin: 10px 0;
-    text-align: center;
+    margin-left: 25px;
+    margin-top: 50px;
+    padding: 12px;
+    border-radius: 4px;
 }
 
 .filter-btn {
-    padding: 16px;
-    width: 18%;
+    display: block;
+    padding: 12px;
+    width: 15%;
     font-size: 15px;
     font-weight: bold;
     background-color: #31579f;
     color: white;
     border: none;
     cursor: pointer;
+    text-align: center;
 }
 
 .filter-dropdown {
@@ -208,14 +212,11 @@ button:hover {
     font-size: 15px;
     font-weight: bold;
     color:#172152;
-    margin-top: 9px;
-    margin-left: 42.2%;
-    width: 200px;
-    position: absolute;
     z-index: 1000;
     background-color: white;
     border: 1px solid #31579f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
 }
 
 .dark th {
