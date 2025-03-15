@@ -14,7 +14,7 @@ class Onderzoeksvragen:
             organisatie_id = 1
 
             status = 0  # 0=nieuw, 1=goedgekeurd, 2=afgekeurd, 3=gesloten
-            beschikbaar = 1  # 0 = niet beschikbaar
+            beschikbaar = 1  # 0=niet beschikbaar, 1=beschikbaar
             type_onderzoek_id = int(form.get("type-onderzoek"))
             titel = form.get("onderzoekstitel")
             omschrijving = form.get("omschrijving")
@@ -107,7 +107,14 @@ class Onderzoeksvragen:
     @staticmethod
     def get_vragen():
         query = """ 
-            SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
+            SELECT onderzoeken.onderzoek_id, 
+            onderzoeken.onderzoek_id, 
+            onderzoeken.titel, 
+            onderzoeken.beschrijving, 
+            onderzoeken.max_deelnemers, 
+            onderzoeken.beschikbaar, 
+            onderzoeken.status, 
+            beperkingen.beperking AS beperking FROM onderzoeken
             LEFT JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
             LEFT JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
         """
@@ -122,7 +129,8 @@ class Onderzoeksvragen:
                 'beschrijving': row["beschrijving"],
                 'beperking': row["beperking"],
                 'max_deelnemers': row["max_deelnemers"],
-                'beschikbaar': row["beschikbaar"]
+                'beschikbaar': row["beschikbaar"],
+                'status': row["status"]
             }
             vragen.append(record)
         return vragen

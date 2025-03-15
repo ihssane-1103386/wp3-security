@@ -18,6 +18,12 @@ document.addEventListener("DOMContentLoaded", function () {
     let fullText = '';
     let shortText = '';
 
+    onderzoeksvragen.forEach(vraag => {
+    if (vraag.dataset.beschikbaar !== "1" || vraag.dataset.status !== "1") {
+        vraag.style.display = "none";
+    }
+    });
+
 
     if (addButton) {
         addButton.addEventListener("click", function () {
