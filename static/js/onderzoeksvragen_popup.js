@@ -164,7 +164,17 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then(response => response.json())
                 .then(data => {
-                    alert(data.message || data.error);
+                    if (data.message) {
+                        Swal.fire({
+                            title: "Successvol deelgenomen!",
+                            text: data.message,
+                            icon: "success",
+                            showCloseButton: true,
+                            didOpen: () => {
+
+                            }
+                        })
+                    }
                 })
                 .catch(error => console.error('Error:', error));
         });
