@@ -256,16 +256,27 @@ document.addEventListener("DOMContentLoaded", function () {
                 const researchTable = document.querySelector("#research-status-table tbody");
                 researchTable.innerHTML = "";
 
-                data.forEach(item => {
+
+                if (data.length === 0) {
                     const row = document.createElement("tr");
-                    const onderzoekCell = document.createElement("td");
-                    onderzoekCell.textContent = item.titel;
-                    const statusCell = document.createElement("td");
-                    statusCell.textContent = item.status;
-                    row.appendChild(onderzoekCell);
-                    row.appendChild(statusCell);
+                    const cell = document.createElement("td");
+                    cell.colSpan = "2";
+                    cell.style.textAlign = "center";
+                    cell.textContent = "Je hebt je nog niet ingeschreven voor onderzoeken";
+                    row.appendChild(cell);
                     researchTable.appendChild(row);
-                });
+                } else {
+                    data.forEach(item => {
+                        const row = document.createElement("tr");
+                        const onderzoekCell = document.createElement("td");
+                        onderzoekCell.textContent = item.titel;
+                        const statusCell = document.createElement("td");
+                        statusCell.textContent = item.status;
+                        row.appendChild(onderzoekCell);
+                        row.appendChild(statusCell);
+                        researchTable.appendChild(row);
+                    });
+                }
             })
             .catch(error => console.error("Error fetching mijn onderzoeken:", error));
     }

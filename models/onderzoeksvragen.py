@@ -210,6 +210,9 @@ class Onderzoeksvragen:
                WHERE inschrijvingen.ervaringsdeskundige_id = ?
            """
         results = RawDatabase.runRawQuery(query, (ervaringsdeskundige_id,))
+
+        if results is None:
+            return []
         data = [dict(row) for row in results]
         return data
 
