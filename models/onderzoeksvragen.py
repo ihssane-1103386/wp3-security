@@ -210,10 +210,18 @@ class Onderzoeksvragen:
                WHERE inschrijvingen.ervaringsdeskundige_id = ?
            """
         results = RawDatabase.runRawQuery(query, (ervaringsdeskundige_id,))
+        status_definition = {
+            0: "In afwachting",
+            1: "Goedgekeurd",
+            2: "Afgekeurd",
+        }
 
-        if results is None:
-            return []
-        data = [dict(row) for row in results]
+        data = []
+        for row in results:
+            status_dict = dict(row)
+            status_num = status_dict.get("status")
+            status_dict["status"] = status_definition.get(status_num, "Onbekend")
+            data.append(status_dict)
         return data
 
 
