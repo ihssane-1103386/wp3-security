@@ -10,18 +10,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const popupInschrijvingButton = document.getElementById("bekijk-aanvragen");
     const joinButton = document.getElementById("join");
     const cancelButton = document.getElementById("cancel");
-    const closeButton = document.querySelector(".close");
+    const closeButton = popup.querySelector(".close");
     const addButton = document.getElementById("add-button");
     const filterButton = document.getElementById("filter-button");
     const beperkingFilter = document.getElementById("beperking-filter");
+    const researchButton = document.getElementById("research-button");
+    const researchPopup = document.getElementById("research-popup");
+
 
     let fullText = '';
     let shortText = '';
 
     onderzoeksvragen.forEach(vraag => {
-    if (vraag.dataset.beschikbaar !== "1" || vraag.dataset.status !== "1") {
-        vraag.style.display = "none";
-    }
+        if (vraag.dataset.beschikbaar !== "1" || vraag.dataset.status !== "1") {
+            vraag.style.display = "none";
+        }
     });
 
 
@@ -31,11 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
     let selectedOnderzoekID = null;
 
     onderzoeksvragen.forEach(vraag => {
-        vraag.addEventListener("click", function () {
+        vraag.addEventListener("click", function (event) {
+            event.stopPropagation();
             popupTitel.textContent = this.dataset.title;
 
             let fullText = this.dataset.info;
@@ -71,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
-            if (joinButton){
+            if (joinButton) {
                 joinButton.setAttribute("data-onderzoek-id", this.dataset.onderzoekId);
             }
 
@@ -95,15 +98,15 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".clickable[data-id='" + selectedOnderzoekID + "']").focus();
     });
 
-    window.addEventListener("keydown", function(event) {
+    window.addEventListener("keydown", function (event) {
         if (event.key === "Escape" && popup.style.display === "block") {
             popup.style.display = "none";
             popup.setAttribute("aria-hidden", "false");
-        document.querySelector(".clickable[data-id='" + selectedOnderzoekID + "']").focus();
+            document.querySelector(".clickable[data-id='" + selectedOnderzoekID + "']").focus();
         }
     });
 
-    readMore.addEventListener("keydown", function(event) {
+    readMore.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             this.click();
@@ -111,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    readLess.addEventListener("keydown", function(event) {
+    readLess.addEventListener("keydown", function (event) {
         if (event.key === "Enter" || event.key === " ") {
             event.preventDefault();
             this.click();
@@ -120,7 +123,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    popup.addEventListener("keydown", function(event) {
+    popup.addEventListener("keydown", function (event) {
         if (event.key === "Tab") {
             const focusableElements = popup.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
             const firstElement = focusableElements[0];
@@ -136,7 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
     })
 
 
-    if (cancelButton){
+    if (cancelButton) {
         cancelButton.addEventListener("click", function () {
             popup.style.display = "none";
         });
@@ -206,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-    
+
     if (popupInschrijvingButton) {
         popupInschrijvingButton.addEventListener("click", function () {
             if (selectedOnderzoekID) {
@@ -221,5 +224,30 @@ document.addEventListener("DOMContentLoaded", function () {
             popup.style.display = "none";
         }
     });
-    
+
+    if (researchButton && researchPopup) {
+        researchButton.addEventListener("click", function () {
+            researchPopup.style.display = "block";
+            researchPopup.setAttribute("aria-hidden", "false");
+            researchPopup.querySelector(".close").focus();
+        });
+
+        researchPopup.addEventListener("click", function (event) {
+            if (event.target.classList.contains("close") || event.target === researchPopup) {
+                researchPopup.style.display = "none";
+                researchPopup.setAttribute("aria-hidden", "true");
+            }
+        });
+
+        window.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && researchPopup.style.display === "block") {
+                researchPopup.style.display = "none";
+                researchPopup.setAttribute("aria-hidden", "true");
+                researchButton.focus();
+            }
+        });
+    }
+
+
+
 });
