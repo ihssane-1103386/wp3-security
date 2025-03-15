@@ -13,8 +13,8 @@ class Onderzoeksvragen:
             # Placeholder
             organisatie_id = 1
 
-            status = 0  # 0 = nieuw
-            beschikbaar = 1  # 1 = beschikbaar
+            status = 0  # 0=nieuw, 1=goedgekeurd, 2=afgekeurd, 3=gesloten
+            beschikbaar = 1  # 0 = niet beschikbaar
             type_onderzoek_id = int(form.get("type-onderzoek"))
             titel = form.get("onderzoekstitel")
             omschrijving = form.get("omschrijving")
@@ -108,8 +108,8 @@ class Onderzoeksvragen:
     def get_vragen():
         query = """ 
             SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
-            JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
-            JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
+            LEFT JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
+            LEFT JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
         """
 
         results = RawDatabase.runRawQuery(query)
