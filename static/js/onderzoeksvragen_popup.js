@@ -155,30 +155,37 @@ document.addEventListener("DOMContentLoaded", function () {
             fetch("/deelnemen", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    ervaringsdeskundige_id: 1,
-                    onderzoek_id: onderzoekId
-                })
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                ervaringsdeskundige_id: 1, // Vervang dit door de juiste gebruikers-ID
+                onderzoek_id: onderzoekId
             })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.message) {
-                        Swal.fire({
-                            title: "Successvol deelgenomen!",
-                            text: data.message,
-                            icon: "success",
-                            showCloseButton: true,
-                            didOpen: () => {
-
-                            }
-                        })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                Swal.fire({
+                    title: "Succesvol deelgenomen",
+                    text: data.message,
+                    icon: "success",
+                    showCloseButton: true,
+                    didOpen: () => {
+                        document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                        const icon = document.querySelector('.swal2-icon.swal2-success');
+                        if (icon) {
+                            icon.setAttribute('aria-label', 'Success icoontje');
+                        }
                     }
-                })
-                .catch(error => console.error('Error:', error));
-        });
-    }
+                });
+            } else if (data.error) {
+                Swal.fire({
+                    title: "Fout",
+                    text: data.error,
+                    icon: "error",
+                    showCloseButton: true,
+                    didOpen: () => {
+
 
     if (filterButton) {
         filterButton.addEventListener("click", function () {
