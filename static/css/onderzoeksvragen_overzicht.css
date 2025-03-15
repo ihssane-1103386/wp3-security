@@ -191,12 +191,20 @@ button:hover {
     margin-top: 50px;
     padding: 12px;
     border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .filter-btn {
-    display: block;
     padding: 12px;
-    width: 15%;
+    width: auto;
     font-size: 15px;
     font-weight: bold;
     background-color: #31579f;
@@ -216,7 +224,7 @@ button:hover {
     background-color: white;
     border: 1px solid #31579f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
+    width: 260px;
 }
 
 .dark th {
