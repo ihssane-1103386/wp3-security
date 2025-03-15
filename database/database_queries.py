@@ -1,4 +1,5 @@
 from database.database_connection import DatabaseConnection
+from models.database_connect import RawDatabase
 from flask import jsonify
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -263,3 +264,11 @@ class DatabaseQueries:
             SELECT organisatie_id FROM organisaties WHERE api_key = ?
         """
         return DatabaseQueries.run_query(query, (api_key,), fetch_one=True)
+
+    def get_expert_id_by_email(email):
+        query = ("""SELECT ervaringsdeskundige_id
+                 FROM ervaringsdeskundigen 
+                 WHERE email = ?""")
+        result = RawDatabase.runRawQuery(query, (email,))
+        row = next(iter(result), None)
+        return row["ervaringsdeskundige_id"] if row else None

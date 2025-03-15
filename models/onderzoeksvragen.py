@@ -198,6 +198,19 @@ class Onderzoeksvragen:
             print(f"Error: {errormsg}")
             return jsonify({"error": "Something went wrong"}), 500
 
-
+    @staticmethod
+    def get_mijn_onderzoeken(ervaringsdeskundige_id):
+        query = """
+               SELECT 
+                   onderzoeken.onderzoek_id,
+                   onderzoeken.titel,
+                   inschrijvingen.status
+               FROM inschrijvingen
+               JOIN onderzoeken ON inschrijvingen.onderzoek_id = onderzoeken.onderzoek_id
+               WHERE inschrijvingen.ervaringsdeskundige_id = ?
+           """
+        results = RawDatabase.runRawQuery(query, (ervaringsdeskundige_id,))
+        data = [dict(row) for row in results]
+        return data
 
 

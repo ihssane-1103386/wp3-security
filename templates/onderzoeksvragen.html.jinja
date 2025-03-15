@@ -107,13 +107,28 @@
                 </div>
             </div>
 
-                <div id="research-popup" class="popup" role="dialog" aria-labelledby="research-popup-title"
-                     aria-hidden="true">
-                    <div class="popup-content">
-                        <button class="close" aria-label="Sluit pop-up">&times;</button>
-                        <h2 id="research-popup-title">Mijn Onderzoeken</h2>
-                        <p>Deze pop-up is voor Mijn onderzoeken. Inhoud komt later.</p>
-                    </div>
+            <div id="research-popup" class="popup" role="dialog" aria-labelledby="research-popup-title"
+                 aria-hidden="true">
+                <div class="popup-content">
+                    <button class="close" aria-label="Sluit pop-up">&times;</button>
+                    <h2 id="research-popup-title">Mijn Onderzoeken</h2>
+                    <table id="research-status-table">
+                        <thead>
+                        <tr>
+                            <th>Onderzoek</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for onderzoek in onderzoeken %}
+                            <tr>
+                                <td>{{ onderzoek.title }}</td>
+                                <td>{{ onderzoek.status }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
+            </div>
         </main>
     {% endblock %}

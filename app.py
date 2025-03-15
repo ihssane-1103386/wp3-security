@@ -239,10 +239,17 @@ def aanmeldingAccepteren(onderzoek_id, user_id):
     return Inschrijvingen.inschrijvingAccepteren(onderzoek_id, user_id)
 
 @app.route("/api/update-onderzoeksvraag", methods=["PATCH"])
+
 def update_onderzoeksvraag():
     data = request.json
 
-
+@app.route("/api/mijn-onderzoeken", methods=["GET"])
+@login_required
+def mijn_onderzoeken():
+    email = session.get("user")
+    expert_id = DatabaseQueries.get_expert_id_by_email(email)
+    data = Onderzoeksvragen.get_mijn_onderzoeken(expert_id)
+    return jsonify(data)
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getPendingInschrijvingen(id):

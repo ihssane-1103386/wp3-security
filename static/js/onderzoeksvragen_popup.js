@@ -230,6 +230,7 @@ document.addEventListener("DOMContentLoaded", function () {
             researchPopup.style.display = "block";
             researchPopup.setAttribute("aria-hidden", "false");
             researchPopup.querySelector(".close").focus();
+            loadMijnOnderzoeken();
         });
 
         researchPopup.addEventListener("click", function (event) {
@@ -248,6 +249,25 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function loadMijnOnderzoeken() {
+        fetch("/api/mijn-onderzoeken")
+            .then(response => response.json())
+            .then(data => {
+                const researchTable = document.querySelector("#research-status-table tbody");
+                researchTable.innerHTML = "";
 
+                data.forEach(item => {
+                    const row = document.createElement("tr");
+                    const onderzoekCell = document.createElement("td");
+                    onderzoekCell.textContent = item.titel;
+                    const statusCell = document.createElement("td");
+                    statusCell.textContent = item.status;
+                    row.appendChild(onderzoekCell);
+                    row.appendChild(statusCell);
+                    researchTable.appendChild(row);
+                });
+            })
+            .catch(error => console.error("Error fetching mijn onderzoeken:", error));
+    }
 
 });
