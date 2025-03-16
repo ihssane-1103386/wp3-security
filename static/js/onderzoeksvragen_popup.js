@@ -321,29 +321,43 @@ document.addEventListener("DOMContentLoaded", function () {
             researchPopup.querySelector(".close").focus();
             loadMijnOnderzoeken();
         });
+
+        researchPopup.addEventListener("click", function (event) {
+             if (event.target.classList.contains("close") || event.target === researchPopup) {
+                 researchPopup.style.display = "none";
+                 researchPopup.setAttribute("aria-hidden", "true");
+             }
+         });
+
+         window.addEventListener("keydown", function (event) {
+             if (event.key === "Escape" && researchPopup.style.display === "block") {
+                 researchPopup.style.display = "none";
+                 researchPopup.setAttribute("aria-hidden", "true");
+                 researchButton.focus();
+             }
+         });
     }
 
-    function loadMijnOnderzoeken() {
-        fetch("/api/mijn-onderzoeken")
-            .then(response => response.json())
-            .then(data => {
-                const researchTable = document.querySelector("#research-status-table tbody");
-                researchTable.innerHTML = "";
 
-                if (data.length === 0) {
-                    researchTable.innerHTML = "<tr><td colspan='3'>Geen onderzoeken gevonden</td></tr>";
-                } else {
-                    data.forEach(onderzoek => {
-                        const tr = document.createElement("tr");
-                        tr.innerHTML = `
-                            <td>${onderzoek.titel}</td>
-                            <td>${onderzoek.datum}</td>
-                            <td><button class="btn btn-info" data-onderzoek-id="${onderzoek.id}">Bekijk</button></td>
-                        `;
-                        researchTable.appendChild(tr);
-                    });
-                }
-            })
-            .catch(error => console.error("Error loading mijn onderzoeken:", error));
-    }
+
+        function loadMijnOnderzoeken() {
+         fetch("/api/mijn-onderzoeken")
+             .then(response => response.json())
+             .then(data => {
+                 const researchTable = document.querySelector("#research-status-table tbody");
+                 researchTable.innerHTML = "";
+
+                 data.forEach(item => {
+                     const row = document.createElement("tr");
+                     const onderzoekCell = document.createElement("td");
+                     onderzoekCell.textContent = item.titel;
+                     const statusCell = document.createElement("td");
+                     statusCell.textContent = item.status;
+                     row.appendChild(onderzoekCell);
+                     row.appendChild(statusCell);
+                     researchTable.appendChild(row);
+                 });
+             })
+             .catch(error => console.error("Error fetching mijn onderzoeken:", error));
+     }
 });
