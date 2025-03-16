@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (data.success) {
                     localStorage.setItem("token", data.token); // Opslaan van token
                     if (data.role === "admin") {
-                        window.location.href = "/registrations";
+                        window.location.href = "/overzicht";
                     } else {
                         window.location.href = "/onderzoeksvragen";
                     }
