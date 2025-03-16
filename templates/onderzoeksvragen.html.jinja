@@ -13,13 +13,10 @@
             {% endif %}
             <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
         {% endblock %}
-
     {% endblock %}
     {% block main %}
         </head>
         <body>
-
-
         <main>
             <h1>Onderzoeken</h1>
             {% if role %}
@@ -48,24 +45,26 @@
             </div>
 
             <table>
-                <tr>
-                    <th>Onderzoek</th>
-                    <th>Doelgroep</th>
-                    <th>maximaal aantal deelnemers</th>
-                </tr>
-
-                {% for vraag in vragen %}
-
-                    <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}"
-                        data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}"
-                        data-status="{{ vraag.status }}"
-                        data-onderzoek-id="{{ vraag.onderzoek_id }}" data-id="{{ vraag.onderzoek_id }}" tabindex="0"
-                        role="button" aria-label="Bekijk details voor {{ vraag.titel }}">
-                        <td>{{ vraag.titel }}</td>
-                        <td>{{ vraag.beperking }}</td>
-                        <td>{{ vraag.max_deelnemers }}</td>
+                <thead>
+                    <tr>
+                        <th scope="col">Onderzoek</th>
+                        <th scope="col">Doelgroep</th>
+                        <th scope="col">Maximaal aantal deelnemers</th>
                     </tr>
-                {% endfor %}
+                </thead>
+                <tbody>
+                    {% for vraag in vragen %}
+                        <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}"
+                            data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}"
+                            data-status="{{ vraag.status }}" data-onderzoek-id="{{ vraag.onderzoek_id }}" data-id="{{ vraag.onderzoek_id }}"
+                            tabindex="0" role="button" aria-label="Bekijk details voor {{ vraag.titel }}"
+                            aria-describedby="onderzoek-beschrijving-{{ vraag.onderzoek_id }}">
+                            <td>{{ vraag.titel }}</td>
+                            <td>{{ vraag.beperking }}</td>
+                            <td>{{ vraag.max_deelnemers }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
             </table>
 
             <div class="nav-button">
@@ -91,20 +90,20 @@
 
                     <hr>
 
-                    <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">N/A</span></p>
-                    <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
+                    <p><strong>Maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">N/A</span></p>
+                    <p><strong>Beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
                     <div class="view-more-link-container">
                         <a id="more-info-link" aria-label="Bekijk meer details over dit onderzoek">Bekijk meer details</a>
                     </div>
                     {% if goedkeuren == "1" %}
-                        <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button"
+                        <button id="bekijk-aanvragen" aria-label="Aanmeldingen bekijken knop" class="popup-button"
                                 aria-label="Neem geen deel aan dit onderzoek">Bekijk aanmeldingen
                         </button>
                     {% endif %}
                     {% if user and not role %}
-                        <button id="cancel" class="popup-button" tabindex="0">niet deelnemen</button>
+                        <button id="cancel" class="popup-button" tabindex="0">Niet deelnemen</button>
                         <button id="join" class="popup-button" data-onderzoek-id="" tabindex="0"
-                                aria-label="Neem deel aan dit onderzoek">deelnemen
+                                aria-label="Neem deel aan dit onderzoek">Deelnemen
                         </button>
                     {% endif %}
                 </div>
@@ -117,21 +116,28 @@
                     <h2 id="research-popup-title">Mijn Onderzoeken</h2>
                     <table id="research-status-table">
                         <thead>
-                        <tr>
-                            <th>Onderzoek</th>
-                            <th>Status</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">Onderzoek</th>
+                                <th scope="col">Status</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {% for onderzoek in onderzoeken %}
-                            <tr>
-                                <td>{{ onderzoek.title }}</td>
-                                <td>{{ onderzoek.status }}</td>
-                            </tr>
-                        {% endfor %}
+                            {% for onderzoek in onderzoeken %}
+                                <tr>
+                                    <td>{{ onderzoek.title }}</td>
+                                    <td>{{ onderzoek.status }}</td>
+                                </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         </main>
     {% endblock %}
+
+    {% for vraag in vragen %}
+        <div id="onderzoek-beschrijving-{{ vraag.onderzoek_id }}" style="display:none;">
+            <p>{{ vraag.beschrijving }}</p>
+        </div>
+    {% endfor %}
+</body>
