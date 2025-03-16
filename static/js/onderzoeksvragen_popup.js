@@ -314,6 +314,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    /* Hieronder is de code voor de pop-up voor "Mijn onderzoeken" */
+
     if (researchButton && researchPopup) {
         researchButton.addEventListener("click", function () {
             researchPopup.style.display = "block";
@@ -338,8 +340,6 @@ document.addEventListener("DOMContentLoaded", function () {
          });
     }
 
-
-
         function loadMijnOnderzoeken() {
          fetch("/api/mijn-onderzoeken")
              .then(response => response.json())
@@ -349,12 +349,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                  data.forEach(item => {
                      const row = document.createElement("tr");
+                     row.classList.add("clickable");
+                     row.setAttribute("data-onderzoek-id", item.onderzoek_id);
                      const onderzoekCell = document.createElement("td");
                      onderzoekCell.textContent = item.titel;
                      const statusCell = document.createElement("td");
                      statusCell.textContent = item.status;
                      row.appendChild(onderzoekCell);
                      row.appendChild(statusCell);
+                     row.addEventListener("click", function () {
+                    const onderzoekId = this.getAttribute("data-onderzoek-id");
+                    window.location.href = `/onderzoeksvragen_detail/${onderzoekId}`;
+                });
+
                      researchTable.appendChild(row);
                  });
              })
