@@ -197,7 +197,7 @@ def disability():
 
     return DatabaseQueries.get_disability(query)
 
-@app.route("/registrations")
+@app.route("/overzicht")
 @admin_required
 def registraties():
     return render_template("beheerder_pagina.jinja")

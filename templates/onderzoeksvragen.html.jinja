@@ -32,9 +32,11 @@
                     <button id="filter-button" class="filter-btn" aria-expanded="false"
                             aria-controls="beperking-filter">Filter op beperking
                     </button>
+                    {% if user and not role %}
                     <button id="research-button" class="filter-btn" aria-expanded="false"
                             aria-controls="onderzoeken-filter">Mijn onderzoeken
                     </button>
+                    {% endif %}
                 </div>
                 <select id="beperking-filter" class="filter-dropdown" aria-label="Filter op beperking">
                     <option value="">Alle beperkingen</option>
