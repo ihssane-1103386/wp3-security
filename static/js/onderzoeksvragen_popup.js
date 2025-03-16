@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const beperkingFilter = document.getElementById("beperking-filter");
     const researchButton = document.getElementById("research-button");
     const researchPopup = document.getElementById("research-popup");
+    const moreInfoLink = document.getElementById("more-info-link");
+
 
 
     let fullText = '';
@@ -52,6 +54,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
             popupDeelnemers.textContent = this.dataset.deelnemers;
             popupBeschikbaar.textContent = `${this.dataset.beschikbaar}/${this.dataset.deelnemers}`;
+
+            moreInfoLink.href = `/onderzoeksvragen_detail/${selectedOnderzoekID}`;
+
+            popup.style.display = "block";
+            popup.setAttribute("aria-hidden", "false");
 
             readMore.onclick = function () {
                 popupInfo.textContent = fullText;
@@ -148,8 +155,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (joinButton) {
         joinButton.addEventListener("click", function () {
             const onderzoekId = joinButton.getAttribute("data-onderzoek-id");
-            const formData = new FormData();
-            formData.append("onderzoek_id", onderzoekId);
+            const popup = document.getElementById("popup");
+                if (popup) {
+            popup.style.display = "none";
+        }
 
 
             fetch("/deelnemen", {
@@ -158,7 +167,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                ervaringsdeskundige_id: 1, // Vervang dit door de juiste gebruikers-ID
+                ervaringsdeskundige_id: 1,
                 onderzoek_id: onderzoekId
             })
         })
