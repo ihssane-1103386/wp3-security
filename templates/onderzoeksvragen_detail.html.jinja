@@ -27,8 +27,8 @@
                     <table class="detail-table" role="table" aria-labelledby="onderzoek-title">
                         <thead>
                             <tr>
-                                <th scope="col">Plaats</th>
                                 <th scope="col">Informatie</th>
+                                <th scope="col">Inhoud</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,19 +45,19 @@
                                 <td>{{ onderzoek.min_leeftijd }} - {{ onderzoek.max_leeftijd }} jaar</td>
                             </tr>
                             <tr>
-                                <td scope="row">Datum Onderzoek</td>
+                                <td scope="row">Datum onderzoek</td>
                                 <td>{{ onderzoek.datum.strftime('%a, %d %b %Y') }}</td>
                             </tr>
                             <tr>
-                                <td scope="row">Inschrijf Deadline</td>
+                                <td scope="row">Inschrijf deadline</td>
                                 <td>{{ onderzoek.datum_tot.strftime('%a, %d %b %Y') }}</td>
                             </tr>
                             <tr>
-                                <td scope="row">Max Deelnemers</td>
+                                <td scope="row">Maximaal aantal deelnemers</td>
                                 <td>{{ onderzoek.max_deelnemers }}</td>
                             </tr>
                             <tr>
-                                <td scope="row">Beschikbare Plaatsen</td>
+                                <td scope="row">Beschikbare plaatsen</td>
                                 <td>{{ onderzoek.beschikbaar }}</td>
                             </tr>
                         </tbody>

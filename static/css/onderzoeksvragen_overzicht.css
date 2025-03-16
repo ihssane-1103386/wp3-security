@@ -293,6 +293,13 @@ button.accept{
     border: 1px solid #ddd;
 }
 
+.detail-table td:first-child {
+    background-color: #7A9FC6;
+    color: black;
+    font-weight: bold;
+}
+
+
 .detail-table th {
     background-color: #172152;
     color: white;
@@ -361,8 +368,17 @@ footer {
 }
 
 .dark .detail-table th {
-    background-color: #31579f;
+    background-color: #7A9FC6;
+    color: black;
+    font-weight: bolder;
 }
+
+.dark .detail-table td:first-child {
+    background-color: #172152;
+    color: white;
+    font-weight: bold;
+}
+
 
 .dark .detail-table td {
     background-color: #1E1E1E;
