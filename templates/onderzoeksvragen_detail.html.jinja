@@ -19,44 +19,52 @@
     {% block main %}
         <main>
             <div class="container">
-                <h1>Onderzoek Details</h1>
+                <h1 id="page-title">Onderzoek Details</h1>
 
                 <div class="onderzoek-detail">
-                    <h2>{{ onderzoek.titel }}</h2>
+                    <h2 id="onderzoek-title">{{ onderzoek.titel }}</h2>
 
-                    <table class="detail-table">
-                        <tr>
-                            <th>Plaats</th>
-                            <td>{{ onderzoek.plaats }}</td>
-                        </tr>
-                        <tr>
-                            <th>Beloning</th>
-                            <td>{{ onderzoek.beloning }}</td>
-                        </tr>
-                        <tr>
-                            <th>Leeftijdsvereisten</th>
-                            <td>{{ onderzoek.min_leeftijd }} - {{ onderzoek.max_leeftijd }} jaar</td>
-                        </tr>
-                        <tr>
-                            <th>Datum Onderzoek</th>
-                            <td>{{ onderzoek.datum.strftime('%a, %d %b %Y') }}</td>
-                        </tr>
-                        <tr>
-                            <th>Inschrijf Deadline</th>
-                            <td>{{ onderzoek.datum_tot.strftime('%a, %d %b %Y') }}</td>
-                        </tr>
-                        <tr>
-                            <th>Max Deelnemers</th>
-                            <td>{{ onderzoek.max_deelnemers }}</td>
-                        </tr>
-                        <tr>
-                            <th>Beschikbare Plaatsen</th>
-                            <td>{{ onderzoek.beschikbaar }}</td>
-                        </tr>
+                    <table class="detail-table" role="table" aria-labelledby="onderzoek-title">
+                        <thead>
+                            <tr>
+                                <th scope="col">Plaats</th>
+                                <th scope="col">Informatie</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row">Plaats</td>
+                                <td>{{ onderzoek.plaats }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Beloning</td>
+                                <td>{{ onderzoek.beloning }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Leeftijdsvereisten</td>
+                                <td>{{ onderzoek.min_leeftijd }} - {{ onderzoek.max_leeftijd }} jaar</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Datum Onderzoek</td>
+                                <td>{{ onderzoek.datum.strftime('%a, %d %b %Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Inschrijf Deadline</td>
+                                <td>{{ onderzoek.datum_tot.strftime('%a, %d %b %Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Max Deelnemers</td>
+                                <td>{{ onderzoek.max_deelnemers }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Beschikbare Plaatsen</td>
+                                <td>{{ onderzoek.beschikbaar }}</td>
+                            </tr>
+                        </tbody>
                     </table>
 
                     <div class="buttons">
-                        <a href="/onderzoeksvragen" class="btn btn-secondary">Terug</a>
+                        <a href="/onderzoeksvragen" class="btn btn-secondary" aria-label="Terug naar onderzoeksvragen">Terug</a>
                     </div>
                 </div>
             </div>
