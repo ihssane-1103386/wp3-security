@@ -160,9 +160,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 beperkingFilter.style.display = "block";
                 console.log("Dropdown getoond");
             } else {
-                beperkingFilter.style.display = "none";
+                beperkingFilter.style.display = "block";
                 console.log("Dropdown verborgen");
             }
+        });
+    }
+
+    document.addEventListener("click", function (event) {
+        if (event.target !== filterButton && event.target !== beperkingFilter) {
+            beperkingFilter.style.display = "none";
+        }
+    });
+
+    if (beperkingFilter) {
+        beperkingFilter.addEventListener("change", function () {
+            const geselecteerdeBeperking = this.value.trim().toLowerCase();
+            console.log("Geselecteerde beperking:", geselecteerdeBeperking);
+
+            onderzoeksvragen.forEach(vraag => {
+                const doelgroep = vraag.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
+
+                console.log("Doelgroep:", doelgroep);
+
+                if (geselecteerdeBeperking === "" || doelgroep.includes(geselecteerdeBeperking)) {
+                    vraag.style.display = "";
+                    console.log("Rij getoond:", vraag);
+                } else {
+                    vraag.style.display = "none";
+                    console.log("Rij verborgen:", vraag);
+                }
+            });
         });
     }
 
@@ -277,27 +304,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    if (beperkingFilter) {
-        beperkingFilter.addEventListener("change", function () {
-            const geselecteerdeBeperking = this.value.trim().toLowerCase();
-            console.log("Geselecteerde beperking:", geselecteerdeBeperking);
-
-            onderzoeksvragen.forEach(vraag => {
-                const doelgroep = vraag.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
-
-                console.log("Doelgroep:", doelgroep);
-
-                if (geselecteerdeBeperking === "" || doelgroep.includes(geselecteerdeBeperking)) {
-                    vraag.style.display = "";
-                    console.log("Rij getoond:", vraag);
-                } else {
-                    vraag.style.display = "none";
-                    console.log("Rij verborgen:", vraag);
-                }
-            });
-        });
-    }
-
     if (popupInschrijvingButton) {
         popupInschrijvingButton.addEventListener("click", function () {
             if (selectedOnderzoekID) {
@@ -340,40 +346,36 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    function loadMijnOnderzoeken() {
+        function loadMijnOnderzoeken() {
         fetch("/api/mijn-onderzoeken")
             .then(response => response.json())
             .then(data => {
                 const researchTable = document.querySelector("#research-status-table tbody");
                 researchTable.innerHTML = "";
 
-                data.forEach(item => {
-                    const row = document.createElement("tr");
-                    row.classList.add("clickable");
-                    row.setAttribute("data-onderzoek-id", item.onderzoek_id);
-                    row.setAttribute("tabindex", "0");
-                    row.setAttribute("aria-label", `Bekijk details voor ${item.titel}`);
 
-                    const onderzoekCell = document.createElement("td");
-                    onderzoekCell.textContent = item.titel;
-                    const statusCell = document.createElement("td");
-                    statusCell.textContent = item.status;
-                    row.appendChild(onderzoekCell);
-                    row.appendChild(statusCell);
-                    row.addEventListener("click", function () {
-                        const onderzoekId = this.getAttribute("data-onderzoek-id");
-                        window.location.href = `/onderzoeksvragen_detail/${onderzoekId}`;
-                    });
-                    
-                    row.addEventListener("keydown", function (e) {
-                        if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            this.click();
-                        }
-                    });
+                if (data.length === 0) {
+                    const row = document.createElement("tr");
+                    const cell = document.createElement("td");
+                    cell.colSpan = "2";
+                    cell.style.textAlign = "center";
+                    cell.textContent = "Je hebt je nog niet ingeschreven voor onderzoeken";
+                    row.appendChild(cell);
                     researchTable.appendChild(row);
-                });
+                } else {
+                    data.forEach(item => {
+                        const row = document.createElement("tr");
+                        const onderzoekCell = document.createElement("td");
+                        onderzoekCell.textContent = item.titel;
+                        const statusCell = document.createElement("td");
+                        statusCell.textContent = item.status;
+                        row.appendChild(onderzoekCell);
+                        row.appendChild(statusCell);
+                        researchTable.appendChild(row);
+                    });
+                }
             })
             .catch(error => console.error("Error fetching mijn onderzoeken:", error));
     }
+
 });
