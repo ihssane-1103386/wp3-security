@@ -185,7 +185,33 @@ document.addEventListener("DOMContentLoaded", function () {
                     icon: "error",
                     showCloseButton: true,
                     didOpen: () => {
-
+                        document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                        const icon = document.querySelector('.swal2-icon.swal2-error');
+                        if (icon) {
+                            icon.setAttribute('aria-label', 'Error icoontje');
+                        }
+                    }
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                title: "Fout",
+                text: "Er is een fout opgetreden bij het deelnemen aan het onderzoek.",
+                icon: "error",
+                showCloseButton: true,
+                didOpen: () => {
+                    document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                    const icon = document.querySelector('.swal2-icon.swal2-error');
+                    if (icon) {
+                        icon.setAttribute('aria-label', 'Error icoontje');
+                    }
+                }
+            });
+        });
+    });
+}
 
     if (filterButton) {
         filterButton.addEventListener("click", function () {
