@@ -325,46 +325,55 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         researchPopup.addEventListener("click", function (event) {
-             if (event.target.classList.contains("close") || event.target === researchPopup) {
-                 researchPopup.style.display = "none";
-                 researchPopup.setAttribute("aria-hidden", "true");
-             }
-         });
+            if (event.target.classList.contains("close") || event.target === researchPopup) {
+                researchPopup.style.display = "none";
+                researchPopup.setAttribute("aria-hidden", "true");
+            }
+        });
 
-         window.addEventListener("keydown", function (event) {
-             if (event.key === "Escape" && researchPopup.style.display === "block") {
-                 researchPopup.style.display = "none";
-                 researchPopup.setAttribute("aria-hidden", "true");
-                 researchButton.focus();
-             }
-         });
+        window.addEventListener("keydown", function (event) {
+            if (event.key === "Escape" && researchPopup.style.display === "block") {
+                researchPopup.style.display = "none";
+                researchPopup.setAttribute("aria-hidden", "true");
+                researchButton.focus();
+            }
+        });
     }
 
-        function loadMijnOnderzoeken() {
-         fetch("/api/mijn-onderzoeken")
-             .then(response => response.json())
-             .then(data => {
-                 const researchTable = document.querySelector("#research-status-table tbody");
-                 researchTable.innerHTML = "";
+    function loadMijnOnderzoeken() {
+        fetch("/api/mijn-onderzoeken")
+            .then(response => response.json())
+            .then(data => {
+                const researchTable = document.querySelector("#research-status-table tbody");
+                researchTable.innerHTML = "";
 
-                 data.forEach(item => {
-                     const row = document.createElement("tr");
-                     row.classList.add("clickable");
-                     row.setAttribute("data-onderzoek-id", item.onderzoek_id);
-                     const onderzoekCell = document.createElement("td");
-                     onderzoekCell.textContent = item.titel;
-                     const statusCell = document.createElement("td");
-                     statusCell.textContent = item.status;
-                     row.appendChild(onderzoekCell);
-                     row.appendChild(statusCell);
-                     row.addEventListener("click", function () {
-                    const onderzoekId = this.getAttribute("data-onderzoek-id");
-                    window.location.href = `/onderzoeksvragen_detail/${onderzoekId}`;
+                data.forEach(item => {
+                    const row = document.createElement("tr");
+                    row.classList.add("clickable");
+                    row.setAttribute("data-onderzoek-id", item.onderzoek_id);
+                    row.setAttribute("tabindex", "0");
+                    row.setAttribute("aria-label", `Bekijk details voor ${item.titel}`);
+
+                    const onderzoekCell = document.createElement("td");
+                    onderzoekCell.textContent = item.titel;
+                    const statusCell = document.createElement("td");
+                    statusCell.textContent = item.status;
+                    row.appendChild(onderzoekCell);
+                    row.appendChild(statusCell);
+                    row.addEventListener("click", function () {
+                        const onderzoekId = this.getAttribute("data-onderzoek-id");
+                        window.location.href = `/onderzoeksvragen_detail/${onderzoekId}`;
+                    });
+                    
+                    row.addEventListener("keydown", function (e) {
+                        if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            this.click();
+                        }
+                    });
+                    researchTable.appendChild(row);
                 });
-
-                     researchTable.appendChild(row);
-                 });
-             })
-             .catch(error => console.error("Error fetching mijn onderzoeken:", error));
-     }
+            })
+            .catch(error => console.error("Error fetching mijn onderzoeken:", error));
+    }
 });

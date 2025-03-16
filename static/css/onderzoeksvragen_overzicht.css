@@ -345,6 +345,17 @@ button.accept{
     background-color: #31579f;
 }
 
+.clickable {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.clickable:hover,
+.clickable:focus {
+    background-color: #f0f0f0;
+    outline: none;
+}
+
 footer {
     text-align: center;
     padding: 20px;
