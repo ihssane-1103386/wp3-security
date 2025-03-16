@@ -1,5 +1,38 @@
 # wp3-2025-starter
 Template voor WP3 opdracht "Accessibility Hub". Vul dit document aan zoals beschreven in eisen rondom opleveren (zie ook de [opdracht](CASUS.md)) 
+## Setup
+
+## Computer specifications
+ - Python version 3
+
+### How to set up a virtual environment in Pycharm:
+1. In pycharm click on "File" and then "settings".
+2. Select the project and then "python interpreter".
+3. Click on "add interpreter" and then "add local interpreter".
+4. Choose the name and location on where you wish to put the virtual environment and then click "ok".
+5. Open the terminal in pycharm and check if "(venv)" is noted in front of your commandline of your local drive.
+6. If not then type in the terminal "(path to your venv)\Scripts\activate".
+7. To deactivate, you can type deactivate in the terminal.
+
+### Installing the requirements:
+Type in the terminal:
+> pip install -r requirements.txt
+
+### Open the webpage:
+Click on the <b> app.py </b> file to start the application for our website.
+Click on the link Pycharm provides you and login with a valid username and password.
+In this case we will provide a test username and password here for the teacher to check our website \
+Beware! It is <b> case-sensitive! </b> :
+> <b> Admin </b><br>
+> <b> Username </b>: admin@example.com <br>
+> <b> Password </b>: admin123!
+
+> <b> Non-admin </b> <br>
+> <b> Username: </b> test@example.com <br>
+> <b> Password: </b> test
+
+Sidenotes:
+The "overzicht"-page for admins refresh every minute to retrieve any possible new registrations.
 
 
 # Sources
