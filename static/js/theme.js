@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const savedTheme = getCookie("thema")|| "light";
     setTheme(savedTheme);
 
-    const toggleButton = document.createElement("button");
+    const toggleButton = document.getElementById("themeToggle");
     toggleButton.innerText = savedTheme === "dark" ? "Light Mode" : "Dark Mode";
     toggleButton.id = "themeToggle";
     document.body.appendChild(toggleButton);
