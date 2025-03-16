@@ -57,7 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 readLess.style.display = "none";
 
                 popupDeelnemers.textContent = this.dataset.deelnemers;
-                popupBeschikbaar.textContent = `${this.dataset.beschikbaar}/${this.dataset.deelnemers}`;
+                popupBeschikbaar.textContent = this.dataset.beschikbaar === "1" ? "Open" : "Gesloten";
+
 
                 moreInfoLink.href = `/onderzoeksvragen_detail/${selectedOnderzoekID}`;
 
