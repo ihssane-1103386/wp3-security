@@ -45,3 +45,9 @@ The "overzicht"-page for admins refresh every minute to retrieve any possible ne
 
 ## Flask decorators:
 - https://flask.palletsprojects.com/en/stable/patterns/viewdecorators/
+
+## Alphabetical order Javascript:
+-https://wfernandoaugusto01.medium.com/sorting-data-alphabetically-localecompare-sort-e3d314708f8c
+
+## Accessible buttons
+-https://buttonbuddy.dev/ 

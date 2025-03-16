@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
       })
         .then(response => response.json())
         .then(data => {
+            data.sort((a, b) => a.beperking.localeCompare(b.beperking))
           const select = document.getElementById('beperking');
           data.forEach(beperking => {
             const option = document.createElement('option');

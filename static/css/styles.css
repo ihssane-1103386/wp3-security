@@ -19,7 +19,7 @@ h1 {
 }
 
 .add-btn {
-    background-color: #F3D531;
+    background-color: #c47317;
     border: none;
     border-radius: 8px;
     padding: 10px 15px;
@@ -34,7 +34,7 @@ h1 {
 }
 
 .add-btn-link {
-    color: #192848;
+    color: white;
     text-decoration: none;
     display: inline-block;
     width: 100%;
