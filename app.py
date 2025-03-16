@@ -108,19 +108,25 @@ def inschrijvingen_goedkeuren():
     return render_template("onderzoeksvragen.html.jinja", vragen=vragen, goedkeuren="1")
 
 
-@app.route("/deelnemen", methods=["POST"])
-@login_required
-def deelnemen():
-    data=request.get_json()
-    if not data:
-        return jsonify({"error": "Geen data ontvangen"}), 400
 
-    ervaringsdeskundige_id = data.get("ervaringsdeskundige_id")
-    onderzoek_id = data.get("onderzoek_id")
+@app.route('/onderzoeksvragen_detail/<int:onderzoek_id>')
+def onderzoeksvragen_detail(onderzoek_id):
+    onderzoek = Onderzoeksvragen.get_onderzoek_vraag(onderzoek_id)
+    if onderzoek:
+        return render_template('onderzoeksvragen_detail.html.jinja', onderzoek=onderzoek)
+    else:
+        return "Onderzoeksvraag niet gevonden", 404
+
+@app.route('/deelnemen', methods=['POST'])
+def deelnemen():
+    data = request.get_json()
+    ervaringsdeskundige_id = data.get('ervaringsdeskundige_id')
+    onderzoek_id = data.get('onderzoek_id')
 
     if not ervaringsdeskundige_id or not onderzoek_id:
-        return jsonify({"error:" "Ontbrekende gegevens"}), 400
-    return jsonify({"succes": True, "message": "Deelname geregistreerd!"})
+        return jsonify({"error": "Verplichte velden ontbreken."}), 400
+    response = Onderzoeksvragen.add_deelname(ervaringsdeskundige_id, onderzoek_id)
+    return response
 
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 #@login_required? Nog even kijken of het überhaupt nodig is met API-keys

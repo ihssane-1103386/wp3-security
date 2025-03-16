@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const popupDeelnemers = document.getElementById("popup-max_deelnemers");
     const popupBeschikbaar = document.getElementById("popup-beschikbaar");
     const popupInschrijvingButton = document.getElementById("bekijk-aanvragen");
-    const joinButton = document.getElementById("join");
+    const joinButtonPopup = document.getElementById("join");
+    const deelnemenButtonDetail = document.getElementById("deelnemenButton");
     const cancelButton = document.getElementById("cancel");
     const closeButton = popup.querySelector(".close");
     const addButton = document.getElementById("add-button");
@@ -18,8 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const researchPopup = document.getElementById("research-popup");
     const moreInfoLink = document.getElementById("more-info-link");
 
-
-
     let fullText = '';
     let shortText = '';
 
@@ -28,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
             vraag.style.display = "none";
         }
     });
-
 
     if (addButton) {
         addButton.addEventListener("click", function () {
@@ -41,6 +39,12 @@ document.addEventListener("DOMContentLoaded", function () {
     onderzoeksvragen.forEach(vraag => {
         vraag.addEventListener("click", function (event) {
             event.stopPropagation();
+            const onderzoekId = this.dataset.onderzoekId;
+            console.log("Selected onderzoek ID:", onderzoekId);
+
+            const moreInfoLink = document.getElementById("more-info-link");
+            moreInfoLink.href = `/onderzoeksvragen_detail/${onderzoekId}`;
+
             popupTitel.textContent = this.dataset.title;
 
             let fullText = this.dataset.info;
@@ -68,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 readLess.setAttribute("aria-expanded", "false");
                 readLess.focus();
 
-                joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                joinButtonPopup.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
 
             readLess.onclick = function () {
@@ -79,10 +83,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 readMore.setAttribute("aria-expanded", "true");
                 readMore.focus();
 
-                joinButton.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
+                joinButtonPopup.scrollIntoView({behavior: "smooth", block: "end", inline: "nearest"});
             };
-            if (joinButton) {
-                joinButton.setAttribute("data-onderzoek-id", this.dataset.onderzoekId);
+
+            if (joinButtonPopup) {
+                joinButtonPopup.setAttribute("data-onderzoek-id", this.dataset.onderzoekId);
             }
 
             popup.style.display = "block";
@@ -92,9 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     popup.addEventListener("click", function (event) {
-        if (event.target.classList.contains("lees-meer")) {
-            popupInfo.textContent = onderzoeksvragen[0].dataset.info;
-        } else if (event.target === popup || event.target === closeButton || event.target === cancelButton) {
+        if (event.target === popup || event.target === closeButton || event.target === cancelButton) {
             popup.style.display = "none";
         }
     });
@@ -126,7 +129,6 @@ document.addEventListener("DOMContentLoaded", function () {
             event.preventDefault();
             this.click();
             readMore.focus();
-
         }
     });
 
@@ -134,7 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (event.key === "Tab") {
             const focusableElements = popup.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
             const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements - 1];
+            const lastElement = focusableElements[focusableElements.length - 1];
             if (event.shiftKey && document.activeElement === firstElement) {
                 lastElement.focus();
                 event.preventDefault();
@@ -143,84 +145,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.preventDefault();
             }
         }
-    })
-
+    });
 
     if (cancelButton) {
         cancelButton.addEventListener("click", function () {
             popup.style.display = "none";
         });
     }
-
-    if (joinButton) {
-        joinButton.addEventListener("click", function () {
-            const onderzoekId = joinButton.getAttribute("data-onderzoek-id");
-            const popup = document.getElementById("popup");
-                if (popup) {
-            popup.style.display = "none";
-        }
-
-
-            fetch("/deelnemen", {
-                method: "POST",
-                headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                ervaringsdeskundige_id: 1,
-                onderzoek_id: onderzoekId
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                Swal.fire({
-                    title: "Succesvol deelgenomen",
-                    text: data.message,
-                    icon: "success",
-                    showCloseButton: true,
-                    didOpen: () => {
-                        document.querySelector('.swal2-popup').setAttribute('role', 'alert');
-                        const icon = document.querySelector('.swal2-icon.swal2-success');
-                        if (icon) {
-                            icon.setAttribute('aria-label', 'Success icoontje');
-                        }
-                    }
-                });
-            } else if (data.error) {
-                Swal.fire({
-                    title: "Fout",
-                    text: data.error,
-                    icon: "error",
-                    showCloseButton: true,
-                    didOpen: () => {
-                        document.querySelector('.swal2-popup').setAttribute('role', 'alert');
-                        const icon = document.querySelector('.swal2-icon.swal2-error');
-                        if (icon) {
-                            icon.setAttribute('aria-label', 'Error icoontje');
-                        }
-                    }
-                });
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            Swal.fire({
-                title: "Fout",
-                text: "Er is een fout opgetreden bij het deelnemen aan het onderzoek.",
-                icon: "error",
-                showCloseButton: true,
-                didOpen: () => {
-                    document.querySelector('.swal2-popup').setAttribute('role', 'alert');
-                    const icon = document.querySelector('.swal2-icon.swal2-error');
-                    if (icon) {
-                        icon.setAttribute('aria-label', 'Error icoontje');
-                    }
-                }
-            });
-        });
-    });
-}
 
     if (filterButton) {
         filterButton.addEventListener("click", function () {
@@ -229,17 +160,122 @@ document.addEventListener("DOMContentLoaded", function () {
                 beperkingFilter.style.display = "block";
                 console.log("Dropdown getoond");
             } else {
-                beperkingFilter.style.display = "block";
+                beperkingFilter.style.display = "none";
                 console.log("Dropdown verborgen");
             }
         });
     }
 
-    document.addEventListener("click", function (event) {
-        if (event.target !== filterButton && event.target !== beperkingFilter) {
-            beperkingFilter.style.display = "none";
-        }
-    });
+    if (deelnemenButtonDetail) {
+        deelnemenButtonDetail.addEventListener("click", function () {
+            const onderzoekId = this.getAttribute("data-onderzoek-id");
+            const ervaringsdeskundigeId = localStorage.getItem('ervaringsdeskundigeId');
+
+
+            if (!ervaringsdeskundigeId) {
+                Swal.fire({
+                    title: "Fout",
+                    text: "Je moet ingelogd zijn om deel te nemen.",
+                    icon: "error",
+                    showCloseButton: true,
+                });
+                return;
+            }
+
+            fetch("/deelnemen", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ervaringsdeskundige_id: ervaringsdeskundigeId,
+                    onderzoek_id: onderzoekId
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        Swal.fire({
+                            title: "Succesvol deelgenomen",
+                            text: data.message,
+                            icon: "success",
+                            showCloseButton: true,
+                        });
+                    } else if (data.error) {
+                        Swal.fire({
+                            title: "Fout",
+                            text: data.error,
+                            icon: "error",
+                            showCloseButton: true,
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: "Fout",
+                        text: "Er is een fout opgetreden bij het deelnemen aan het onderzoek.",
+                        icon: "error",
+                        showCloseButton: true,
+                    });
+                });
+        });
+    }
+
+    if (joinButtonPopup) {
+        joinButtonPopup.addEventListener("click", function () {
+            const onderzoekId = this.getAttribute("data-onderzoek-id");
+            const ervaringsdeskundigeId = localStorage.getItem('ervaringsdeskundigeId');
+
+            if (!ervaringsdeskundigeId) {
+                Swal.fire({
+                    title: "Fout",
+                    text: "Je moet ingelogd zijn om deel te nemen.",
+                    icon: "error",
+                    showCloseButton: true,
+                });
+                return;
+            }
+
+            fetch("/deelnemen", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    ervaringsdeskundige_id: ervaringsdeskundigeId,
+                    onderzoek_id: onderzoekId
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message) {
+                        Swal.fire({
+                            title: "Succesvol deelgenomen",
+                            text: data.message,
+                            icon: "success",
+                            showCloseButton: true,
+                        });
+                    } else if (data.error) {
+                        Swal.fire({
+                            title: "Fout",
+                            text: data.error,
+                            icon: "error",
+                            showCloseButton: true,
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: "Fout",
+                        text: "Er is een fout opgetreden bij het deelnemen aan het onderzoek.",
+                        icon: "error",
+                        showCloseButton: true,
+                    });
+                });
+        });
+    }
 
     if (beperkingFilter) {
         beperkingFilter.addEventListener("change", function () {
@@ -271,9 +307,10 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
+
     window.addEventListener("click", function (event) {
-        if (event.target === popup) {
-            popup.style.display = "none";
+        if (event.target === researchPopup) {
+            researchPopup.style.display = "none";
         }
     });
 
@@ -284,21 +321,6 @@ document.addEventListener("DOMContentLoaded", function () {
             researchPopup.querySelector(".close").focus();
             loadMijnOnderzoeken();
         });
-
-        researchPopup.addEventListener("click", function (event) {
-            if (event.target.classList.contains("close") || event.target === researchPopup) {
-                researchPopup.style.display = "none";
-                researchPopup.setAttribute("aria-hidden", "true");
-            }
-        });
-
-        window.addEventListener("keydown", function (event) {
-            if (event.key === "Escape" && researchPopup.style.display === "block") {
-                researchPopup.style.display = "none";
-                researchPopup.setAttribute("aria-hidden", "true");
-                researchButton.focus();
-            }
-        });
     }
 
     function loadMijnOnderzoeken() {
@@ -308,29 +330,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 const researchTable = document.querySelector("#research-status-table tbody");
                 researchTable.innerHTML = "";
 
-
                 if (data.length === 0) {
-                    const row = document.createElement("tr");
-                    const cell = document.createElement("td");
-                    cell.colSpan = "2";
-                    cell.style.textAlign = "center";
-                    cell.textContent = "Je hebt je nog niet ingeschreven voor onderzoeken";
-                    row.appendChild(cell);
-                    researchTable.appendChild(row);
+                    researchTable.innerHTML = "<tr><td colspan='3'>Geen onderzoeken gevonden</td></tr>";
                 } else {
-                    data.forEach(item => {
-                        const row = document.createElement("tr");
-                        const onderzoekCell = document.createElement("td");
-                        onderzoekCell.textContent = item.titel;
-                        const statusCell = document.createElement("td");
-                        statusCell.textContent = item.status;
-                        row.appendChild(onderzoekCell);
-                        row.appendChild(statusCell);
-                        researchTable.appendChild(row);
+                    data.forEach(onderzoek => {
+                        const tr = document.createElement("tr");
+                        tr.innerHTML = `
+                            <td>${onderzoek.titel}</td>
+                            <td>${onderzoek.datum}</td>
+                            <td><button class="btn btn-info" data-onderzoek-id="${onderzoek.id}">Bekijk</button></td>
+                        `;
+                        researchTable.appendChild(tr);
                     });
                 }
             })
-            .catch(error => console.error("Error fetching mijn onderzoeken:", error));
+            .catch(error => console.error("Error loading mijn onderzoeken:", error));
     }
-
 });

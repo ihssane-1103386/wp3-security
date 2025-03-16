@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "base.html.jinja" %}
+
+    {% block head %}
+        {{ super() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/onderzoeksvragen_overzicht.css') }}"/>
+        {% include '_global_imports.html' %}
+        {% block head_scripts %}
+            <title>Onderzoeksvraag Details</title>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
+        {% endblock %}
+    {% endblock %}
+</head>
+<body>
+    {% block main %}
+        <main>
+            <div class="container">
+                <h1>Onderzoek Details</h1>
+
+                <div class="onderzoek-detail">
+                    <h2>{{ onderzoek.titel }}</h2>
+
+                    <table class="detail-table">
+                        <tr>
+                            <th>Plaats</th>
+                            <td>{{ onderzoek.plaats }}</td>
+                        </tr>
+                        <tr>
+                            <th>Beloning</th>
+                            <td>€{{ onderzoek.beloning }}</td>
+                        </tr>
+                        <tr>
+                            <th>Leeftijdsvereisten</th>
+                            <td>{{ onderzoek.min_leeftijd }} - {{ onderzoek.max_leeftijd }} jaar</td>
+                        </tr>
+                        <tr>
+                            <th>Datum Onderzoek</th>
+                            <td>{{ onderzoek.datum.strftime('%a, %d %b %Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Inschrijf Deadline</th>
+                            <td>{{ onderzoek.datum_tot.strftime('%a, %d %b %Y') }}</td>
+                        </tr>
+                        <tr>
+                            <th>Max Deelnemers</th>
+                            <td>{{ onderzoek.max_deelnemers }}</td>
+                        </tr>
+                        <tr>
+                            <th>Beschikbare Plaatsen</th>
+                            <td>{{ onderzoek.beschikbaar }}</td>
+                        </tr>
+                    </table>
+
+                    <div class="buttons">
+                        <button id="deelnemenButton" class="btn btn-primary" data-onderzoek-id="{{ onderzoek.onderzoek_id }}">Deelnemen</button>
+                        <a href="/onderzoeksvragen" class="btn btn-secondary">Terug</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}

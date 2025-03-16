@@ -135,25 +135,33 @@ class Onderzoeksvragen:
             vragen.append(record)
         return vragen
 
-
     @staticmethod
     def add_deelname(ervaringsdeskundige_id, onderzoek_id):
         try:
+            check_query = """
+                SELECT COUNT(*) FROM inschrijvingen WHERE onderzoek_id = ?
+            """
+            current_deelnemers = RawDatabase.runSelectQuery(check_query, (onderzoek_id,))
+            max_query = """
+                SELECT max_deelnemers FROM onderzoeken WHERE onderzoek_id = ?
+            """
+            max_deelnemers = RawDatabase.runSelectQuery(max_query, (onderzoek_id,))
+
+            if current_deelnemers >= max_deelnemers:
+                return jsonify({"error": "Maximaal aantal deelnemers bereikt."}), 400
             query = """ 
                 INSERT INTO inschrijvingen (ervaringsdeskundige_id, onderzoek_id)
                 VALUES(?, ?)
             """
             RawDatabase.runInsertQuery(query, (ervaringsdeskundige_id, onderzoek_id))
-
             update_query = """
                 UPDATE onderzoeken 
-                SET beschikbaar = 0
+                SET beschikbaar = beschikbaar - 1
                 WHERE onderzoek_id = ?
             """
             RawDatabase.runInsertQuery(update_query, (onderzoek_id,))
 
             return jsonify({"message": "Deelname geregistreerd!"}), 200
-
         except Exception as errormsg:
             print(f"Error: {errormsg}")
             return jsonify({"error": "Er is iets mis gegaan, probeer het later opnieuw."}), 500
@@ -223,5 +231,45 @@ class Onderzoeksvragen:
             status_dict["status"] = status_definition.get(status_num, "Onbekend")
             data.append(status_dict)
         return data
+
+
+    @staticmethod
+    def get_onderzoek_vraag(onderzoek_id):
+        query = """ 
+            SELECT onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, 
+            beperkingen.beperking AS beperking, onderzoeken.datum, onderzoeken.datum_tot, 
+            onderzoeken.beloning, onderzoeken.plaats, onderzoeken.min_leeftijd, onderzoeken.max_leeftijd, 
+            onderzoeken.begeleider
+            FROM onderzoeken
+            LEFT JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
+            LEFT JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
+            WHERE onderzoeken.onderzoek_id = ?
+        """
+        result = RawDatabase.runRawQuery(query, (onderzoek_id,))
+
+        from datetime import datetime
+
+        if result:
+            row = dict(result[0])
+
+            onderzoek_vraag = {
+                'onderzoek_id': row["onderzoek_id"],
+                'titel': row["titel"],
+                'beschrijving': row["beschrijving"],
+                'beperking': row.get("beperking", "Geen beperking"),
+                'max_deelnemers': row["max_deelnemers"],
+                'beschikbaar': row["beschikbaar"],
+                'datum': datetime.strptime(row["datum"], '%Y-%m-%d') if row["datum"] else None,
+                'datum_tot': datetime.strptime(row["datum_tot"], '%Y-%m-%d') if row["datum_tot"] else None,
+                'beloning': row["beloning"],
+                'plaats': row["plaats"],
+                'min_leeftijd': row["min_leeftijd"],
+                'max_leeftijd': row["max_leeftijd"],
+                'begeleider': row["begeleider"]
+            }
+            return onderzoek_vraag
+        else:
+            return None
+
 
 
