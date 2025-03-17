@@ -191,3 +191,15 @@ class DatabaseQueries:
             WHERE a.api_key IS NULL
         """
         return DatabaseQueries.run_query(query, fetch_all=True)
+    
+    @staticmethod
+    def get_beperkingen(user):
+        query = """
+            SELECT beperkingen.beperkingen_id,
+                    beperkingen.beperking
+                FROM ervaringsdeskundigen
+                    LEFT JOIN beperkingen_ervaringsdeskundigen ON beperkingen_ervaringsdeskundigen.ervaringsdeskundige_id = ervaringsdeskundigen.ervaringsdeskundige_id
+                    LEFT JOIN beperkingen ON beperkingen.beperkingen_id = beperkingen_ervaringsdeskundigen.beperkingen_id
+                WHERE ervaringsdeskundigen.email = ?
+        """
+        return DatabaseQueries.run_query(query, (user,), fetch_all=True)

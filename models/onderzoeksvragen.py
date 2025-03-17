@@ -1,6 +1,8 @@
 from flask import jsonify
 from models.database_connect import RawDatabase
 from models.api_keys import ApiKeys
+import flask.globals as globals
+import database.database_queries as DatabaseQueries
 
 
 class Onderzoeksvragen:
@@ -106,26 +108,56 @@ class Onderzoeksvragen:
 
     @staticmethod
     def get_vragen():
-        query = """ 
-            SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
-            JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
-            JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
-        """
+        if "user" in globals.session:
+            email = globals.session["user"]
+            if ("role" in globals.session):
+                role = globals.session["role"] or "ervaringsdeskundige"
+            else:
+                role = "ervaringsdeskundige"
+            if role == "ervaringsdeskundige":
+                if "beperkingen" in globals.session:
+                    beperkingen = globals.session["beperkingen"]
+                    beperking_ids = []
+                    for beperking in beperkingen:
+                        beperking_ids.append(beperking["id"])
+                    if beperking_ids != []:
 
-        results = RawDatabase.runRawQuery(query)
-        vragen = []
-        for row in results:
-            row = dict(row)
-            record = {
-                'onderzoek_id': row["onderzoek_id"],
-                'titel': row["titel"],
-                'beschrijving': row["beschrijving"],
-                'beperking': row["beperking"],
-                'max_deelnemers': row["max_deelnemers"],
-                'beschikbaar': row["beschikbaar"]
-            }
-            vragen.append(record)
-        return vragen
+                        query = f"""
+                            SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
+                                JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
+                                JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
+                            WHERE beperkingen_onderzoek.onderzoek_id IN (%s)
+                        """
+                        results = RawDatabase.runRawQuery(query, (tuple(beperking_ids),))
+                        if results is None:
+                            return jsonify({"error": "No results found"}), 404
+                    else:
+                        return jsonify({"Error": "Geen beperkingen gevonden in deze sessie"}), 400
+                else:
+                    return jsonify({"Error": "Geen beperkingen gevonden in deze sessie"}), 400
+            else:
+                query = """
+                    SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
+                    JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
+                    JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
+                """
+                results = RawDatabase.runRawQuery(query)
+
+            vragen = []
+            for row in results:
+                row = dict(row)
+                record = {
+                    'onderzoek_id': row["onderzoek_id"],
+                    'titel': row["titel"],
+                    'beschrijving': row["beschrijving"],
+                    'beperking': row["beperking"],
+                    'max_deelnemers': row["max_deelnemers"],
+                    'beschikbaar': row["beschikbaar"]
+                }
+                vragen.append(record)
+            return vragen, 200
+        else:
+            return jsonify({"Error": "Geen toegang"}), 403
 
 
     @staticmethod

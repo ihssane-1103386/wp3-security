@@ -39,7 +39,7 @@ def get_user_role():
         return jsonify({"role": role or "ervaringsdeskundige"})
     return jsonify({"role": "guest"})
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"]) 
 def login():
     if request.method == "POST":
         if request.content_type != "application/json":
@@ -60,6 +60,18 @@ def login():
 
         if DatabaseQueries.authenticate_user(email, wachtwoord):
             session["user"] = email
+            beperkingen_result = DatabaseQueries.get_beperkingen(email)
+            beperkingen_array = []
+            if beperkingen_result:
+                for item in beperkingen_result:
+                    beperkingen_array.append({
+                        "id": item[0],
+                        "beperking": item[1]
+                    })
+                session["beperkingen"] = beperkingen_array
+            else:
+                session["beperkingen"] = []
+
             return jsonify({"success": True, "message": "Inloggen geslaagd!"})
         else:
             return jsonify({"success": False, "message": "Ongeldig e-mailadres of wachtwoord."})
@@ -98,11 +110,14 @@ def registration_expert():
 @app.route("/onderzoeksvragen")
 @login_required
 def onderzoeksvragen():
-    vragen = Onderzoeksvragen.get_vragen()
-    beperkingen = Onderzoeksvragen.getbeperkingen()
-    beperkingen_lijst = [beperking["beperking"] for beperking in beperkingen]
-    # return jsonify(vragen), 200
-    return render_template("onderzoeksvragen.html.jinja", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0")
+    vragen, status_code = Onderzoeksvragen.get_vragen()
+    if status_code == 200:
+        beperkingen = Onderzoeksvragen.getbeperkingen()
+        beperkingen_lijst = [beperking["beperking"] for beperking in beperkingen]
+        # return jsonify(vragen), 200
+        return render_template("onderzoeksvragen.html.jinja", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0")
+    else:
+        return render_template("onderzoeksvragen.html.jinja", vragen=[], beperkingen=[], goedkeuren="0")
 
 @app.route("/inschrijvingen/goedkeuren")
 @admin_required
