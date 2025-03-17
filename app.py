@@ -39,6 +39,10 @@ def get_user_role():
         return jsonify({"role": role or "ervaringsdeskundige"})
     return jsonify({"role": "guest"})
 
+@app.route("/api/userbeperkingen/<string:email>")
+def getUserBeperkingen(email):
+    return DatabaseQueries.get_user_beperkingen(email)
+
 @app.route("/login", methods=["GET", "POST"]) 
 def login():
     if request.method == "POST":
@@ -60,14 +64,16 @@ def login():
 
         if DatabaseQueries.authenticate_user(email, wachtwoord):
             session["user"] = email
-            beperkingen_result = DatabaseQueries.get_beperkingen(email)
+            beperkingen_result = DatabaseQueries.get_user_beperkingen(email)
             beperkingen_array = []
-            if beperkingen_result:
+            if isinstance(beperkingen_result, list):
+                beperkingen_array = []
                 for item in beperkingen_result:
-                    beperkingen_array.append({
-                        "id": item[0],
-                        "beperking": item[1]
-                    })
+                    if isinstance(item, dict):
+                        beperkingen_array.append({
+                            "id": item["beperkingen_id"],
+                            "beperking": item["beperking"]
+                        })
                 session["beperkingen"] = beperkingen_array
             else:
                 session["beperkingen"] = []

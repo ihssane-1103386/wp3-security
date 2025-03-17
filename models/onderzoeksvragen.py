@@ -114,22 +114,27 @@ class Onderzoeksvragen:
                 role = globals.session["role"] or "ervaringsdeskundige"
             else:
                 role = "ervaringsdeskundige"
+            
+            results = None
+
             if role == "ervaringsdeskundige":
                 if "beperkingen" in globals.session:
                     beperkingen = globals.session["beperkingen"]
-                    beperking_ids = []
-                    for beperking in beperkingen:
-                        beperking_ids.append(beperking["id"])
-                        query = f"""
-                            SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
-                                JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
-                                JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
-                            WHERE beperkingen_onderzoek.onderzoek_id IN (%s)
-                        """
-                        results = RawDatabase.runRawQuery(query, (tuple(beperking_ids),))
-                        if results is None:
-                            return jsonify({"error": "No results found"}), 404
-                        return jsonify({"Error": "Geen beperkingen gevonden in deze sessie"}), 400
+                    beperking_ids = [beperking["id"] for beperking in beperkingen]
+                    
+                    placeholders = ', '.join('?' for _ in tuple(beperking_ids))
+                    
+                    query = f"""
+                        SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking
+                        FROM onderzoeken
+                        JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
+                        JOIN beperkingen ON beperkingen_onderzoek.beperkingen_id = beperkingen.beperkingen_id
+                        WHERE beperkingen_onderzoek.beperkingen_id IN ({placeholders})
+                    """
+                    results = RawDatabase.runRawQuery(query, tuple(beperking_ids))
+                    
+                    if not results:
+                        return jsonify({"error": "No results found"}), 404
                 else:
                     return jsonify({"Error": "Geen beperkingen gevonden in deze sessie"}), 400
             else:
@@ -140,19 +145,22 @@ class Onderzoeksvragen:
                 """
                 results = RawDatabase.runRawQuery(query)
 
-            vragen = []
-            for row in results:
-                row = dict(row)
-                record = {
-                    'onderzoek_id': row["onderzoek_id"],
-                    'titel': row["titel"],
-                    'beschrijving': row["beschrijving"],
-                    'beperking': row["beperking"],
-                    'max_deelnemers': row["max_deelnemers"],
-                    'beschikbaar': row["beschikbaar"]
-                }
-                vragen.append(record)
-            return vragen, 200
+            if results is not None:
+                vragen = []
+                for row in results:
+                    row = dict(row)
+                    record = {
+                        'onderzoek_id': row["onderzoek_id"],
+                        'titel': row["titel"],
+                        'beschrijving': row["beschrijving"],
+                        'beperking': row["beperking"],
+                        'max_deelnemers': row["max_deelnemers"],
+                        'beschikbaar': row["beschikbaar"]
+                    }
+                    vragen.append(record)
+                return vragen, 200
+            else:
+                return jsonify({"Error": "No results found"}), 404
         else:
             return jsonify({"Error": "Geen toegang"}), 403
 

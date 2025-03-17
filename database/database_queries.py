@@ -193,7 +193,7 @@ class DatabaseQueries:
         return DatabaseQueries.run_query(query, fetch_all=True)
     
     @staticmethod
-    def get_beperkingen(user):
+    def get_user_beperkingen(user):
         query = """
             SELECT beperkingen.beperkingen_id,
                     beperkingen.beperking
@@ -202,4 +202,10 @@ class DatabaseQueries:
                     LEFT JOIN beperkingen ON beperkingen.beperkingen_id = beperkingen_ervaringsdeskundigen.beperkingen_id
                 WHERE ervaringsdeskundigen.email = ?
         """
-        return DatabaseQueries.run_query(query, (user,), fetch_all=True)
+        results = DatabaseQueries.run_query(query, (user,), fetch_all=True)
+
+        if results:
+            results_dict = [dict(row) for row in results]
+            return results_dict
+        else:
+            return []
