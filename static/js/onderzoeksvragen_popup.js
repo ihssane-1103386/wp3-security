@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+function updateButtons(){
     const onderzoeksvragen = document.querySelectorAll(".clickable");
     const popup = document.getElementById("popup");
     const popupTitel = document.getElementById("popup-titel");
@@ -216,4 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
     
+}
+document.addEventListener("DOMContentLoaded", function () {
+    updateButtons()
 });

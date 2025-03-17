@@ -290,3 +290,32 @@ function aanmeldingAfwijzen(onderzoek_id, user_id){
         bekijkInschrijvingen(onderzoek_id);
     });
 }
+
+function refreshOnderzoeken(){
+    fetch("/api/onderzoeksvragen/userspecific", {
+        method: "GET"
+    }).then(response => response.json())
+    .then(data =>{
+        console.log(data)
+        var tbody = document.getElementById("onderzoeksvragen")
+        if (Array.isArray(data)){
+            var html = "";
+            var vragen = data;
+            vragen.forEach(vraag => {
+                html += `<tr class="clickable" data-title="${vraag.titel}" data-info="${vraag.beschrijving }" data-deelnemers="${vraag.max_deelnemers }" data-beschikbaar="${ vraag.beschikbaar }"
+                            data-onderzoek-id ="${vraag.onderzoek_id}" data-id="${vraag.onderzoek_id }" tabindex="0" role="button" aria-label="Bekijk details voor ${vraag.titel}">
+                                <td>${vraag.titel}</td>
+                                <td>${vraag.beperking }</td>
+                                <td>${vraag.max_deelnemers}</td>
+                            </tr>`
+            });
+            tbody.innerHTML = html;
+            updateButtons()
+        } else{
+            tbody.innerHTML = ""
+        }
+    }).catch(error => {
+        console.error("Error fetching data:", error);
+        tbody.innerHTML = ""; // Optionally handle error case
+    });
+}

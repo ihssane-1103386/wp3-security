@@ -120,8 +120,6 @@ class Onderzoeksvragen:
                     beperking_ids = []
                     for beperking in beperkingen:
                         beperking_ids.append(beperking["id"])
-                    if beperking_ids != []:
-
                         query = f"""
                             SELECT onderzoeken.onderzoek_id, onderzoeken.onderzoek_id, onderzoeken.titel, onderzoeken.beschrijving, onderzoeken.max_deelnemers, onderzoeken.beschikbaar, beperkingen.beperking AS beperking FROM onderzoeken
                                 JOIN beperkingen_onderzoek ON onderzoeken.onderzoek_id = beperkingen_onderzoek.onderzoek_id
@@ -131,7 +129,6 @@ class Onderzoeksvragen:
                         results = RawDatabase.runRawQuery(query, (tuple(beperking_ids),))
                         if results is None:
                             return jsonify({"error": "No results found"}), 404
-                    else:
                         return jsonify({"Error": "Geen beperkingen gevonden in deze sessie"}), 400
                 else:
                     return jsonify({"Error": "Geen beperkingen gevonden in deze sessie"}), 400

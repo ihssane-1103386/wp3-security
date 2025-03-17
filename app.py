@@ -107,10 +107,20 @@ def registration_expert():
     return render_template("registratie_pagina.html.jinja")
 
 # Route setup for onderzoeksvragen page
+
+@app.route("/api/onderzoeksvragen/userspecific")
+@login_required
+def getOnderzoeksvragen_userSpecific():
+    vragen, status_code = Onderzoeksvragen.get_vragen()
+    if status_code == 200:
+        return vragen, 200
+    else:
+        return jsonify({"Error": "Geen data"}), status_code
+
 @app.route("/onderzoeksvragen")
 @login_required
 def onderzoeksvragen():
-    vragen, status_code = Onderzoeksvragen.get_vragen()
+    vragen, status_code = getOnderzoeksvragen_userSpecific()
     if status_code == 200:
         beperkingen = Onderzoeksvragen.getbeperkingen()
         beperkingen_lijst = [beperking["beperking"] for beperking in beperkingen]

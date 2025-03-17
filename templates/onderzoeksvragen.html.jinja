@@ -34,21 +34,25 @@
         </div>
 
         <table>
-            <tr>
-                <th>Onderzoek</th>
-                <th>Doelgroep</th>
-                <th>maximaal aantal deelnemers</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Onderzoek</th>
+                    <th>Doelgroep</th>
+                    <th>maximaal aantal deelnemers</th>
+                </tr>
+            </thead>
 
-            {% for vraag in vragen %}
-
-            <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}" data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}"
-            data-onderzoek-id ="{{ vraag.onderzoek_id }}" data-id="{{ vraag.onderzoek_id }}" tabindex="0" role="button" aria-label="Bekijk details voor {{ vraag.titel }}">
-                <td>{{ vraag.titel }}</td>
-                <td>{{ vraag.beperking }}</td>
-                <td>{{ vraag.max_deelnemers }}</td>
-            </tr>
-            {% endfor %}
+            <tbody id="onderzoeksvragen">
+                {% for vraag in vragen %}
+    
+                <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}" data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}"
+                data-onderzoek-id ="{{ vraag.onderzoek_id }}" data-id="{{ vraag.onderzoek_id }}" tabindex="0" role="button" aria-label="Bekijk details voor {{ vraag.titel }}">
+                    <td>{{ vraag.titel }}</td>
+                    <td>{{ vraag.beperking }}</td>
+                    <td>{{ vraag.max_deelnemers }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
 
         <div class="nav-button">
@@ -84,4 +88,8 @@
         </div>
     </div>
     </main>
+
+    <script>
+        setInterval(refreshOnderzoeken, 30000);
+    </script>
 {% endblock %}
