@@ -28,7 +28,7 @@ table {
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
-    margin-top: 4%;
+    margin-top: 10px;
 }
 
 td {
@@ -180,20 +180,38 @@ button:hover {
   opacity: 0.8;
 }
 
+.button-container {
+    float: right;
+    margin-right: 25px;
+    margin-top: 60px;
+}
+
 .filter-container {
-    margin: 10px 0;
-    text-align: center;
+    margin-left: 25px;
+    margin-top: 50px;
+    padding: 12px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .filter-btn {
-    padding: 16px;
-    width: 18%;
+    padding: 12px;
+    width: auto;
     font-size: 15px;
     font-weight: bold;
     background-color: #31579f;
     color: white;
     border: none;
     cursor: pointer;
+    text-align: center;
 }
 
 .filter-dropdown {
@@ -202,14 +220,11 @@ button:hover {
     font-size: 15px;
     font-weight: bold;
     color:#172152;
-    margin-top: 9px;
-    margin-left: 42.2%;
-    width: 200px;
-    position: absolute;
     z-index: 1000;
     background-color: white;
     border: 1px solid #31579f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 260px;
 }
 
 .dark th {
@@ -249,5 +264,155 @@ button.decline{
 
 button.accept{
     background-color: green;
+    color: white;
+}
+
+
+/* Onderzoek_Detail Pagina */
+.onderzoek-detail {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 90%;
+    text-align: center;
+    margin-left: 200px;
+}
+
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 1.2em;
+}
+
+.detail-table th,
+.detail-table td {
+    padding: 15px;
+    border: 1px solid #ddd;
+}
+
+.detail-table td:first-child {
+    background-color: #7A9FC6;
+    color: black;
+    font-weight: bold;
+}
+
+
+.detail-table th {
+    background-color: #172152;
+    color: white;
+    font-weight: bold;
+}
+
+.detail-table td {
+    background-color: #f9f9f9;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 12px 25px;
+    font-size: 1.2em;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary {
+    background-color: #172152;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #31579f;
+}
+
+.btn-secondary {
+    background-color: #172152;
+    color: white;
+    font-weight: bold;
+}
+
+.btn-secondary:hover {
+    background-color: #31579f;
+}
+
+.clickable {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.clickable:hover,
+.clickable:focus {
+    background-color: #f0f0f0;
+    outline: none;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 1em;
+    background-color: #172152;
+    color: white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 100px;
+}
+
+/* Dark mode voor detail*/
+.dark body {
+    background-color: #1E1E1E;
+    color: white;
+}
+
+.dark .onderzoek-detail {
+    background-color: #1E1E1E;
+    color: white;
+}
+
+.dark .detail-table th {
+    background-color: #7A9FC6;
+    color: black;
+    font-weight: bolder;
+}
+
+.dark .detail-table td:first-child {
+    background-color: #172152;
+    color: white;
+    font-weight: bold;
+}
+
+
+.dark .detail-table td {
+    background-color: #1E1E1E;
+}
+
+.dark .btn-primary {
+    background-color: #31579f;
+    color: white;
+}
+
+.dark .btn-primary:hover {
+    background-color: #172152;
+    color: white;
+}
+
+.dark .btn-secondary {
+    background-color: #7A9FC6;
+    color: black;
+    font-weight: bold;
+}
+
+.dark .btn-secondary:hover{
+    background-color: #172152;
     color: white;
 }

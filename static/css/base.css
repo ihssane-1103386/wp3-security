@@ -16,11 +16,16 @@ header img {
     height: 45px;
 }
 
+header nav {
+    flex: 1;
+}
+
 header nav ul {
     list-style: none;
     margin: 0;
     padding: 0;
     display: flex;
+    justify-content: flex-end;
 }
 
 header nav ul li {
@@ -97,7 +102,7 @@ footer ul li a:hover {
 }
 
 .dark a {
-  color: #dd8a2e;
+  color: white;
 }
 
 #themeToggle {
@@ -112,12 +117,6 @@ footer ul li a:hover {
     font-family: 'Poppins', sans-serif;
     font-weight: bold;
     font-size: 20px;
-}
-
-#themeToggle {
-    position: absolute;
-    top: 10px;
-    right: 390px;
 }
 
 .dark #themeToggle {

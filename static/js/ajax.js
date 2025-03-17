@@ -13,6 +13,11 @@ function onderzoekPopup(id){
         confirmButtonAriaLabel: "Ok",
         didOpen: () => {
             document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+            
+            const icon = document.querySelector('.swal2-icon.swal2-info');
+            if (icon) {
+                icon.setAttribute('aria-label', 'Informatie Icoontje');
+            }
         }
       });
 }
@@ -46,6 +51,10 @@ function bekijkInschrijvingen(id) {
                         showCloseButton: true,
                         didOpen: () => {
                             document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                            const icon = document.querySelector('.swal2-icon.swal2-error');
+                            if (icon) {
+                                icon.setAttribute('aria-label', 'Error icoontje');
+                            }
                         }
                     });
                 }
@@ -73,6 +82,11 @@ function bekijkInschrijvingen(id) {
                 showCloseButton: true,
                 didOpen: () => {
                     document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                    
+                    const icon = document.querySelector('.swal2-icon.swal2-error');
+                    if (icon) {
+                        icon.setAttribute('aria-label', 'Error Icoontje');
+                    }
                 }
             });
             return;
@@ -105,6 +119,11 @@ function bekijkInschrijvingen(id) {
                 width: "70%",
                 didOpen: () => {
                     document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                    
+                    const icon = document.querySelector('.swal2-icon.swal2-info');
+                    if (icon) {
+                        icon.setAttribute('aria-label', 'Informatie icoontje');
+                    }
                 }
             });
         }
@@ -120,6 +139,11 @@ function bekijkInschrijvingen(id) {
                 showCloseButton: true,
                 didOpen: () => {
                     document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                    
+                    const icon = document.querySelector('.swal2-icon.swal2-error');
+                    if (icon) {
+                        icon.setAttribute('aria-label', 'Error icoontje');
+                    }
                 }
             });
         }
@@ -142,6 +166,11 @@ function aanmeldingAccepteren(onderzoek_id, user_id){
                     showCloseButton: true,
                     didOpen: () => {
                         document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                        
+                        const icon = document.querySelector('.swal2-icon.swal2-error');
+                        if (icon) {
+                            icon.setAttribute('aria-label', 'Error icoontje');
+                        }
                     }
                 });
                 return null;
@@ -167,6 +196,11 @@ function aanmeldingAccepteren(onderzoek_id, user_id){
                 showCloseButton: true,
                 didOpen: () => {
                     document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                    
+                    const icon = document.querySelector('.swal2-icon.swal2-error');
+                    if (icon) {
+                        icon.setAttribute('aria-label', 'Error icoontje');
+                    }
                 }
             });
             return;
@@ -185,6 +219,11 @@ function aanmeldingAccepteren(onderzoek_id, user_id){
             showCloseButton: true,
             didOpen: () => {
                 document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                
+                const icon = document.querySelector('.swal2-icon.swal2-success');
+                if (icon) {
+                    icon.setAttribute('aria-label', 'Success icoontje');
+                }
             }
         });
         return;
@@ -201,6 +240,10 @@ function aanmeldingAccepteren(onderzoek_id, user_id){
                 showCloseButton: true,
                 didOpen: () => {
                     document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                    const icon = document.querySelector('.swal2-icon.swal2-error');
+                    if (icon) {
+                        icon.setAttribute('aria-label', 'Error icoontje');
+                    }
                 }
             });
         }
@@ -224,6 +267,11 @@ function aanmeldingAfwijzen(onderzoek_id, user_id){
                     showCloseButton: true,
                     didOpen: () => {
                         document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                        const icon = document.querySelector('.swal2-icon.swal2-error');
+
+                        if (icon) {
+                            icon.setAttribute('aria-label', 'Error icoontje');
+                        }
                     }
                 });
                 return null;
@@ -249,6 +297,10 @@ function aanmeldingAfwijzen(onderzoek_id, user_id){
                 showCloseButton: true,
                 didOpen: () => {
                     document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                    const icon = document.querySelector('.swal2-icon.swal2-error');
+                    if (icon) {
+                        icon.setAttribute('aria-label', 'Error icoontje');
+                    }
                 }
             });
             return;
@@ -267,6 +319,10 @@ function aanmeldingAfwijzen(onderzoek_id, user_id){
             showCloseButton: true,
             didOpen: () => {
                 document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                const icon = document.querySelector('.swal2-icon.swal2-success');
+                if (icon) {
+                    icon.setAttribute('aria-label', 'Success icoontje');
+                }
             }
         });
         return;
@@ -283,6 +339,10 @@ function aanmeldingAfwijzen(onderzoek_id, user_id){
                 showCloseButton: true,
                 didOpen: () => {
                     document.querySelector('.swal2-popup').setAttribute('role', 'alert');
+                    const icon = document.querySelector('.swal2-icon.swal2-error');
+                    if (icon) {
+                        icon.setAttribute('aria-label', 'Error icoontje');
+                    }
                 }
             });
         }

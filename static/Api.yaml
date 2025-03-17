@@ -1,0 +1,153 @@
+openapi: 3.0.0
+info:
+  title: Onderzoek API
+  version: 1.0.0
+paths:
+  /api/update-onderzoeksvraag:
+    patch:
+      summary: Werk de onderzoeksvraag bij
+      description: Werk de gegevens van een specifieke onderzoeksvraag bij.
+      parameters:
+        - name: onderzoek_id
+          in: path
+          description: Het ID van de onderzoeksvraag die bijgewerkt moet worden.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Gegevens voor het bijwerken van een onderzoeksvraag
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                titel:
+                  type: string
+                beschrijving:
+                  type: string
+                plaats:
+                  type: string
+                max_deelnemers:
+                  type: integer
+                min_leeftijd:
+                  type: integer
+                max_leeftijd:
+                  type: integer
+                beloning:
+                  type: string
+                datum:
+                  type: string
+                  format: date
+                datum_tot:
+                  type: string
+                  format: date
+                begeleiders:
+                  type: string
+      responses:
+        '200':
+          description: Onderzoeksvraag succesvol bijgewerkt
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Onderzoeksvraag succesvol bijgewerkt
+        '400':
+          description: Fout bij het verwerken van het verzoek
+        '403':
+          description: Onjuiste API-sleutel
+        '500':
+          description: Interne serverfout
+
+  /api/register_organisatie:
+    post:
+      summary: Registreer een nieuwe organisatie
+      description: Voeg een nieuwe organisatie toe aan het systeem.
+      requestBody:
+        description: Gegevens voor de registratie van een organisatie
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                naam:
+                  type: string
+                email:
+                  type: string
+                telefoonnummer:
+                  type: string
+                contactpersoon:
+                  type: string
+                beschrijving:
+                  type: string
+                website:
+                  type: string
+                adres:
+                  type: string
+      responses:
+        '201':
+          description: Organisatie succesvol geregistreerd
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Organisatie succesvol geregistreerd!
+        '400':
+          description: Vereiste velden ontbreken in de aanvraag
+        '500':
+          description: Interne serverfout
+
+components:
+  schemas:
+    Onderzoeksvraag:
+      type: object
+      properties:
+        onderzoek_id:
+          type: integer
+        titel:
+          type: string
+        beschrijving:
+          type: string
+        plaats:
+          type: string
+        max_deelnemers:
+          type: integer
+        min_leeftijd:
+          type: integer
+        max_leeftijd:
+          type: integer
+        beloning:
+          type: string
+        datum:
+          type: string
+          format: date
+        datum_tot:
+          type: string
+          format: date
+        begeleiders:
+          type: string
+    Organisatie:
+      type: object
+      properties:
+        naam:
+          type: string
+        email:
+          type: string
+        telefoonnummer:
+          type: string
+        contactpersoon:
+          type: string
+        beschrijving:
+          type: string
+        website:
+          type: string
+        adres:
+          type: string
+

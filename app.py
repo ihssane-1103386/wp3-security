@@ -1,5 +1,4 @@
-import json
-from flask import Flask, jsonify, url_for, render_template, request, redirect, session, flash
+from flask import Flask, jsonify, url_for, render_template, request, redirect, session
 from flask_session import Session
 from models.inschrijvingen import Inschrijvingen
 from models.onderzoeksvragen import Onderzoeksvragen
@@ -7,8 +6,6 @@ from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
 from functools import wraps
-
-
 
 from models.api_keys import ApiKeys
 
@@ -142,19 +139,25 @@ def inschrijvingen_goedkeuren():
     return render_template("onderzoeksvragen.html.jinja", vragen=vragen, goedkeuren="1")
 
 
-@app.route("/deelnemen", methods=["POST"])
-@login_required
-def deelnemen():
-    data=request.get_json()
-    if not data:
-        return jsonify({"error": "Geen data ontvangen"}), 400
 
-    ervaringsdeskundige_id = data.get("ervaringsdeskundige_id")
-    onderzoek_id = data.get("onderzoek_id")
+@app.route('/onderzoeksvragen_detail/<int:onderzoek_id>')
+def onderzoeksvragen_detail(onderzoek_id):
+    onderzoek = Onderzoeksvragen.get_onderzoek_vraag(onderzoek_id)
+    if onderzoek:
+        return render_template('onderzoeksvragen_detail.html.jinja', onderzoek=onderzoek)
+    else:
+        return "Onderzoeksvraag niet gevonden", 404
+
+@app.route('/deelnemen', methods=['POST'])
+def deelnemen():
+    data = request.get_json()
+    ervaringsdeskundige_id = data.get('ervaringsdeskundige_id')
+    onderzoek_id = data.get('onderzoek_id')
 
     if not ervaringsdeskundige_id or not onderzoek_id:
-        return jsonify({"error:" "Ontbrekende gegevens"}), 400
-    return jsonify({"succes": True, "message": "Deelname geregistreerd!"})
+        return jsonify({"error": "Verplichte velden ontbreken."}), 400
+    response = Onderzoeksvragen.add_deelname(ervaringsdeskundige_id, onderzoek_id)
+    return response
 
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
 #@login_required? Nog even kijken of het überhaupt nodig is met API-keys
@@ -225,7 +228,7 @@ def disability():
 
     return DatabaseQueries.get_disability(query)
 
-@app.route("/registrations")
+@app.route("/overzicht")
 @admin_required
 def registraties():
     return render_template("beheerder_pagina.jinja")
@@ -273,72 +276,17 @@ def aanmeldingAccepteren(onderzoek_id, user_id):
     return Inschrijvingen.inschrijvingAccepteren(onderzoek_id, user_id)
 
 @app.route("/api/update-onderzoeksvraag", methods=["PATCH"])
+
 def update_onderzoeksvraag():
     data = request.json
-@app.route("/api/public/update-onderzoeksvraag", methods=["PATCH"])
-def update_onderzoeksvraag_via_api_key():
-    data = request.get_json()
-    api_key = request.headers.get("Authorization")
 
-    if not api_key or not data:
-        return jsonify({"error": "API key en data zijn vereist"}), 400
-
-    key_record = ApiKeys.get_by_key(api_key.replace("Bearer ", ""))
-    if not key_record:
-        return jsonify({"error": "Ongeldige API key"}), 403
-
-    onderzoek_id = data.get("onderzoek_id")
-    if not onderzoek_id or onderzoek_id != key_record["onderzoek_id"]:
-        return jsonify({"error": "Ongeldig of ongelijk onderzoek_id"}), 403
-
-    success = Onderzoeksvragen.update_onderzoeksvraag(onderzoek_id, data)
-    if success:
-        return jsonify({"message": "Onderzoeksvraag succesvol bijgewerkt via API key"}), 200
-    else:
-        return jsonify({"error": "Update mislukt"}), 500
-
-
-
-@app.route("/generate-missing-api-keys", methods=["POST"])
-def generate_missing_api_keys():
-    from models.api_keys import ApiKeys
-
-    onderzoeken_zonder_key = DatabaseQueries.get_onderzoeken_zonder_api_key()
-
-    for row in onderzoeken_zonder_key:
-        onderzoek_id = row["onderzoek_id"]
-        organisatie_id = row["organisatie_id"]
-        ApiKeys.create_key(organisatie_id, onderzoek_id)
-
-    return jsonify({
-        "message": f"{len(onderzoeken_zonder_key)} API keys gegenereerd"
-    })
-
-@app.route("/api/aanvraag-api-key", methods=["POST"])
-def aanvraag_api_key():
-    data = request.get_json()
-
-    if "onderzoek_id" not in data:
-        return jsonify({"error": "Onderzoek_id is vereist"}), 400
-
-    onderzoek_id = data["onderzoek_id"]
-
-    # Controleer of er al een API-sleutel bestaat voor dit onderzoek
-    api_key_record = ApiKeys.get_by_onderzoek_id(onderzoek_id)
-    if api_key_record:
-        return jsonify({"message": "API sleutel bestaat al", "api_key": api_key_record["api_key"]}), 200
-
-    # Genereert een nieuwe API sleutel voor het onderzoek
-    organisatie_id = data.get("organisatie_id", 1)
-    new_api_key = ApiKeys.create_key(organisatie_id, onderzoek_id)
-
-    return jsonify({
-        "message": "Nieuwe API sleutel gegenereerd",
-        "api_key": new_api_key,
-        "organisatie_id": organisatie_id,
-        "onderzoek_id": onderzoek_id
-    }), 201
-
+@app.route("/api/mijn-onderzoeken", methods=["GET"])
+@login_required
+def mijn_onderzoeken():
+    email = session.get("user")
+    expert_id = DatabaseQueries.get_expert_id_by_email(email)
+    data = Onderzoeksvragen.get_mijn_onderzoeken(expert_id)
+    return jsonify(data)
 
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>", methods=["GET"])
 def getPendingInschrijvingen(id):
@@ -347,6 +295,70 @@ def getPendingInschrijvingen(id):
 @app.route("/api/onderzoeken/inschrijvingen/<int:id>/<int:status>", methods=["GET"])
 def getInschrijvingenFiltered(id, status):
     return Inschrijvingen.getInschrijvingen(status, id)
+
+
+@app.route('/api/register_organisatie', methods=['POST'])
+def register():
+    try:
+        data = request.get_json()
+
+        # Controleer of alle vereiste velden aanwezig zijn
+        required_fields = ['naam', 'email', 'telefoonnummer', 'contactpersoon', 'beschrijving', 'website', 'adres']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Missing required field: {field}'}), 400
+
+        # Roep de database query aan om de organisatie te registreren
+        DatabaseQueries.register_organisatie(data)
+        return jsonify({'message': 'Organisatie succesvol geregistreerd!'}), 201
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
+@app.route("/generate-missing-api-keys", methods=["POST"])
+def generate_missing_api_keys():
+    from models.api_keys import ApiKeys
+
+    organisaties_zonder_key = DatabaseQueries.get_organisaties_zonder_api_key()
+
+    for organisatie in organisaties_zonder_key:
+        organisatie_id = organisatie["organisatie_id"]
+        ApiKeys.create_key(organisatie_id)
+
+    return jsonify({
+        "message": f"{len(organisaties_zonder_key)} API keys gegenereerd"
+    })
+
+@app.route("/api/aanvraag-api-key", methods=["POST"])
+def aanvraag_api_key():
+    data = request.get_json()
+
+    if "organisatie_id" not in data:
+        return jsonify({"error": "Organisatie_id is vereist"}), 400
+
+    organisatie_id = data["organisatie_id"]
+
+    # Controleer of er al een API-sleutel bestaat voor deze organisatie
+    api_key = ApiKeys.get_by_organisatie_id(organisatie_id)
+    if api_key:
+        return jsonify({"message": "API sleutel bestaat al", "api_key": api_key}), 200
+
+    # Genereer een nieuwe API-sleutel voor deze organisatie
+    new_api_key = ApiKeys.create_key(organisatie_id)
+
+    return jsonify({
+        "message": "Nieuwe API sleutel gegenereerd",
+        "api_key": new_api_key,
+        "organisatie_id": organisatie_id
+    }), 201
+
+
+
+@app.route('/update_onderzoeksvraag/<int:onderzoek_id>', methods=['PATCH'])
+def update_onderzoek_route(onderzoek_id):
+    return Onderzoeksvragen.update_onderzoek_route(onderzoek_id)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,37 +1,50 @@
 <head>
-{% extends "base.html.jinja" %}
+    {% extends "base.html.jinja" %}
 
-{% block head %}
-    {{ super() }}
-    <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
-    {% include '_global_imports.html' %}
-    {% block head_scripts %}
-    <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
+    {% block head %}
+        {{ super() }}
+        <link rel="stylesheet" href="../static/css/onderzoeksvragen_overzicht.css"/>
+        {% include '_global_imports.html' %}
+        {% block head_scripts %}
+            {% if goedkeuren == "1" %}
+                <title>Inschrijvingen goedkeuren</title>
+            {% else %}
+                <title>Inschrijven onderzoeken</title>
+            {% endif %}
+            <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
+        {% endblock %}
     {% endblock %}
+    {% block main %}
+        </head>
+        <body>
+        <main>
+            <h1>Onderzoeken</h1>
+            {% if role %}
+                <div class="button-container">
+                    <button id="add-button" class="add-btn" aria-label="Voeg een nieuwe onderzoeksvraag toe">
+                        Onderzoeksvraag toevoegen
+                    </button>
+                </div>
+            {% endif %}
 
-{% endblock %}
-{%  block main %}
-</head>
-<body>
-
-
-    <main>
-        <h1>Onderzoeken</h1>
-        <div class="search-container">
-            <input type="text" name="search" placeholder="Zoek een trefwoord.." class="search-input" aria-label="Zoek een trefwoord">
-            <button type="submit" class="search-button" aria-label="Zoek op">Zoeken</button>
-            <button id="add-button" class="add-btn" aria-label="Voeg een nieuwe onderzoeksvraag toe">+</button>
-        </div>
-
-    <div class="filter-container">
-            <button id="filter-button" class="filter-btn" aria-expanded="false" aria-controls="beperking-filter">Filter op beperking</button>
-            <select id="beperking-filter" class="filter-dropdown" aria-label="Filter op beperking">
-                <option value="">Alle beperkingen</option>
-                {% for beperking in beperkingen %}
-                    <option value="{{ beperking }}">{{ beperking }}</option>
-                {% endfor %}
-            </select>
-        </div>
+            <div class="filter-container">
+                <div class="filter-buttons">
+                    <button id="filter-button" class="filter-btn" aria-expanded="false"
+                            aria-controls="beperking-filter">Filter op beperking
+                    </button>
+                    {% if user and not role %}
+                    <button id="research-button" class="filter-btn" aria-expanded="false"
+                            aria-controls="onderzoeken-filter">Mijn onderzoeken
+                    </button>
+                    {% endif %}
+                </div>
+                <select id="beperking-filter" class="filter-dropdown" aria-label="Filter op beperking">
+                    <option value="">Alle beperkingen</option>
+                    {% for beperking in beperkingen %}
+                        <option value="{{ beperking }}">{{ beperking }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
         <table>
             <thead>
@@ -46,7 +59,9 @@
                 {% for vraag in vragen %}
     
                 <tr class="clickable" data-title="{{ vraag.titel }}" data-info="{{ vraag.beschrijving }}" data-deelnemers="{{ vraag.max_deelnemers }}" data-beschikbaar="{{ vraag.beschikbaar }}"
-                data-onderzoek-id ="{{ vraag.onderzoek_id }}" data-id="{{ vraag.onderzoek_id }}" tabindex="0" role="button" aria-label="Bekijk details voor {{ vraag.titel }}">
+                data-onderzoek-id ="{{ vraag.onderzoek_id }}" data-status="{{ vraag.status }}" data-id="{{ vraag.onderzoek_id }}" 
+                tabindex="0" role="button" aria-label="Bekijk details voor {{ vraag.titel }}" 
+                aria-describedby="onderzoek-beschrijving-{{ vraag.onderzoek_id }}>
                     <td>{{ vraag.titel }}</td>
                     <td>{{ vraag.beperking }}</td>
                     <td>{{ vraag.max_deelnemers }}</td>
@@ -55,41 +70,77 @@
             </tbody>
         </table>
 
-        <div class="nav-button">
-            <a id="prev" href="#" aria-label="Vorige 10 onderzoeksvragen">
-                <button>Vorige 10</button>
-            </a>
-            <a id="next" href="#" aria-label="Volgende 10 onderzoeksvragen">
-                <button>Volgende 10</button>
-            </a>
+            <div class="nav-button">
+                <a id="prev" href="#" aria-label="Vorige 10 onderzoeksvragen">
+                    <button>Vorige 10</button>
+                </a>
+                <a id="next" href="#" aria-label="Volgende 10 onderzoeksvragen">
+                    <button>Volgende 10</button>
+                </a>
+            </div>
+
+            <div id="popup" class="popup" role="dialog" aria-labelledby="popup-titel">
+                <div class="popup-content">
+                    <button class="close" aria-label="Sluit pop-up">&times;</button>
+                    <h2 id="popup-titel">Onderzoeksvraag</h2>
+                    <p class="popup-info-short" id="popup-info">
+                        <span id="popup-info-text"></span>
+                        <span class="read-more" id="read-more" tabindex="0" role="button" aria-expanded="false"
+                              aria-controls="popup-info-text">Lees meer</span>
+                        <span class="read-less" id="read-less" tabindex="0" role="button" aria-expanded="true"
+                              aria-controls="popup-info-text">Lees minder</span>
+                    </p>
+
+                    <hr>
+
+                    <p><strong>Maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">N/A</span></p>
+                    <p><strong>Status: </strong><span id="popup-beschikbaar">N/A</span></p>
+                    <div class="view-more-link-container">
+                        <a id="more-info-link" aria-label="Bekijk meer details over dit onderzoek">Bekijk meer details</a>
+                    </div>
+                    {% if goedkeuren == "1" %}
+                        <button id="bekijk-aanvragen" aria-label="Aanmeldingen bekijken knop" class="popup-button"
+                                aria-label="Neem geen deel aan dit onderzoek">Bekijk aanmeldingen
+                        </button>
+                    {% endif %}
+                    {% if user and not role %}
+                        <button id="cancel" class="popup-button" tabindex="0">Niet deelnemen</button>
+                        <button id="join" class="popup-button" data-onderzoek-id="" tabindex="0"
+                                aria-label="Neem deel aan dit onderzoek">Deelnemen
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div id="research-popup" class="popup" role="dialog" aria-labelledby="research-popup-title"
+                 aria-hidden="true">
+                <div class="popup-content">
+                    <button class="close" aria-label="Sluit pop-up">&times;</button>
+                    <h2 id="research-popup-title">Mijn Onderzoeken</h2>
+                    <table id="research-status-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Onderzoek</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for onderzoek in onderzoeken %}
+                                <tr>
+                                    <td>{{ onderzoek.title }}</td>
+                                    <td>{{ onderzoek.status }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+
+    {% for vraag in vragen %}
+        <div id="onderzoek-beschrijving-{{ vraag.onderzoek_id }}" style="display:none;">
+            <p>{{ vraag.beschrijving }}</p>
         </div>
-
-        <div id="popup" class="popup" role="dialog" aria-labelledby="popup-titel">
-        <div class="popup-content">
-            <button class="close" aria-label="Sluit pop-up">&times;</button>
-            <h2 id="popup-titel">Onderzoeksvraag</h2>
-            <p class="popup-info-short" id="popup-info">
-                <span id="popup-info-text"></span>
-                <span class="read-more" id="read-more" tabindex="0" role="button" aria-expanded="false" aria-controls="popup-info-text">Lees meer</span>
-                <span class="read-less" id="read-less" tabindex="0" role="button" aria-expanded="true" aria-controls="popup-info-text">Lees minder</span>
-        </p>
-
-            <hr>
-
-            <p><strong>maximaal aantal deelnemers: </strong><span id="popup-max_deelnemers">N/A</span></p>
-            <p><strong>beschikbare plaatsen: </strong><span id="popup-beschikbaar">N/A</span></p>
-            {% if goedkeuren == "1"%}
-                <button id="bekijk-aanvragen" aria-label="aanmeldingen bekijken knop" class="popup-button" aria-label="Neem geen deel aan dit onderzoek">Bekijk aanmeldingen</button>
-                {% endif %}
-            {% if user and not role %}
-                <button id="cancel" class="popup-button" tabindex="0">niet deelnemen</button>
-                <button id="join" class="popup-button" data-onderzoek-id="" tabindex="0" aria-label="Neem deel aan dit onderzoek">deelnemen</button>
-        {% endif %}
-        </div>
-    </div>
-    </main>
-
-    <script>
-        setInterval(refreshOnderzoeken, 30000);
-    </script>
-{% endblock %}
+    {% endfor %}
+</body>

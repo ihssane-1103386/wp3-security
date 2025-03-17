@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends "base.html.jinja" %}
+
+    {% block head %}
+        {{ super() }}
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/onderzoeksvragen_overzicht.css') }}"/>
+        {% include '_global_imports.html' %}
+        {% block head_scripts %}
+            <title>Onderzoeksvraag Details</title>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="{{ url_for('static', filename='js/onderzoeksvragen_popup.js') }}"></script>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+        {% endblock %}
+    {% endblock %}
+</head>
+<body>
+    {% block main %}
+        <main>
+            <div class="container">
+                <h1 id="page-title">Onderzoek Details</h1>
+
+                <div class="onderzoek-detail">
+                    <h2 id="onderzoek-title">{{ onderzoek.titel }}</h2>
+
+                    <table class="detail-table" role="table" aria-labelledby="onderzoek-title">
+                        <thead>
+                            <tr>
+                                <th scope="col">Informatie</th>
+                                <th scope="col">Inhoud</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td scope="row">Plaats</td>
+                                <td>{{ onderzoek.plaats }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Beloning</td>
+                                <td>{{ onderzoek.beloning }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Leeftijdsvereisten</td>
+                                <td>{{ onderzoek.min_leeftijd }} - {{ onderzoek.max_leeftijd }} jaar</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Datum onderzoek</td>
+                                <td>{{ onderzoek.datum.strftime('%a, %d %b %Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Inschrijf deadline</td>
+                                <td>{{ onderzoek.datum_tot.strftime('%a, %d %b %Y') }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Maximaal aantal deelnemers</td>
+                                <td>{{ onderzoek.max_deelnemers }}</td>
+                            </tr>
+                            <tr>
+                                <td scope="row">Status</td>
+                                <td>{{ onderzoek.status }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="buttons">
+                        <a href="/onderzoeksvragen" class="btn btn-secondary" aria-label="Terug naar onderzoeksvragen">Terug</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    {% endblock %}
+</body>
+</html>

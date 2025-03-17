@@ -1,7 +1,9 @@
 from database.database_connection import DatabaseConnection
+from models.database_connect import RawDatabase
 from flask import jsonify
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
+import secrets
 
 
 class DatabaseQueries:
@@ -182,15 +184,94 @@ class DatabaseQueries:
 
         return result["rol"] if result else None
 
+
     @staticmethod
-    def get_onderzoeken_zonder_api_key():
+    def register_organisatie(data):
+        try:
+            conn = DatabaseConnection.get_connection()
+            if conn is None:
+                raise Exception("Kan geen verbinding maken met de database")
+
+            cursor = conn.cursor()
+
+            api_key = secrets.token_urlsafe(32)
+
+            query = """
+            INSERT INTO organisaties (naam, email, telefoonnummer, contactpersoon, beschrijving, website, adres, api_key)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """
+
+            cursor.execute(query, (
+                data['naam'],
+                data['email'],
+                data['telefoonnummer'],
+                data['contactpersoon'],
+                data['beschrijving'],
+                data['website'],
+                data['adres'],
+                api_key
+            ))
+
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+        except sqlite3.Error as e:
+            print(f"SQLite fout: {e}")
+            raise Exception(f"Database fout: {e}")
+
+    @staticmethod
+    def get_organisaties_zonder_api_key():
         query = """
-            SELECT o.onderzoek_id, o.organisatie_id
-            FROM onderzoeken o
-            LEFT JOIN api_keys a ON o.onderzoek_id = a.onderzoek_id
-            WHERE a.api_key IS NULL
-        """
+                SELECT organisatie_id
+                FROM organisaties
+                WHERE api_key IS NULL OR api_key = ''
+            """
         return DatabaseQueries.run_query(query, fetch_all=True)
+
+    @staticmethod
+    def update_onderzoek(organisatie_id, onderzoek_id, update_data):
+        fields_to_update = []
+        params = []
+
+        # Mapping van toegestane velden
+        allowed_fields = [
+            "beschrijving", "plaats", "max_deelnemers", "datum", "datum_tot",
+            "beloning", "min_leeftijd", "max_leeftijd", "begeleider"
+        ]
+
+        for field in allowed_fields:
+            if field in update_data:
+                fields_to_update.append(f"{field} = ?")
+                params.append(update_data[field])
+
+        if not fields_to_update:
+            return False  # Niks te updaten
+
+        query = f"""
+            UPDATE onderzoeken
+            SET {", ".join(fields_to_update)}
+            WHERE organisatie_id = ? AND onderzoek_id = ?
+        """
+
+        params.extend([organisatie_id, onderzoek_id])
+
+        return DatabaseQueries.run_query(query, tuple(params))
+
+    @staticmethod
+    def get_organisatie_id_by_api_key(api_key):
+        query = """
+            SELECT organisatie_id FROM organisaties WHERE api_key = ?
+        """
+        return DatabaseQueries.run_query(query, (api_key,), fetch_one=True)
+
+    def get_expert_id_by_email(email):
+        query = ("""SELECT ervaringsdeskundige_id
+                 FROM ervaringsdeskundigen 
+                 WHERE email = ?""")
+        result = RawDatabase.runRawQuery(query, (email,))
+        row = next(iter(result), None)
+        return row["ervaringsdeskundige_id"] if row else None
     
     @staticmethod
     def get_user_beperkingen(user):

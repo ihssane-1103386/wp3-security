@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let formData = new FormData(form);
         // stuurt de form data naar de server
         fetch(form.action, {
-            method: form.method,
+            method: 'POST',
             body: formData
         })
             .then(function (response) {
@@ -22,9 +22,12 @@ document.addEventListener('DOMContentLoaded', function() {
             })
     });
 
-      fetch('/api/get-beperkingen')
+      fetch('/api/get-beperkingen', {
+          method: 'GET'
+      })
         .then(response => response.json())
         .then(data => {
+            data.sort((a, b) => a.beperking.localeCompare(b.beperking))
           const select = document.getElementById('beperking');
           data.forEach(beperking => {
             const option = document.createElement('option');
