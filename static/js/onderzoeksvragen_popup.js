@@ -383,7 +383,7 @@ function updateButtons(){
         }
 
     }
-)
 
 document.addEventListener("DOMContentLoaded", function () {
     updateButtons()
+})

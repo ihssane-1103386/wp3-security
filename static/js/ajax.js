@@ -363,7 +363,7 @@ function refreshOnderzoeken(){
             var vragen = data;
             vragen.forEach(vraag => {
                 html += `<tr class="clickable" data-title="${vraag.titel}" data-info="${vraag.beschrijving }" data-deelnemers="${vraag.max_deelnemers }" data-beschikbaar="${ vraag.beschikbaar }"
-                            data-onderzoek-id ="${vraag.onderzoek_id}" data-id="${vraag.onderzoek_id }" tabindex="0" role="button" aria-label="Bekijk details voor ${vraag.titel}">
+                            data-onderzoek-id ="${vraag.onderzoek_id}" data-status="${vraag.status}" data-id="${vraag.onderzoek_id }" tabindex="0" role="button" aria-label="Bekijk details voor ${vraag.titel}">
                                 <td>${vraag.titel}</td>
                                 <td>${vraag.beperking }</td>
                                 <td>${vraag.max_deelnemers}</td>
