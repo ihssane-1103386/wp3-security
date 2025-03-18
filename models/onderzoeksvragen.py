@@ -1,4 +1,4 @@
-from flask import jsonify, request
+from flask import jsonify, request, session
 from models.database_connect import RawDatabase
 from models.api_keys import ApiKeys
 import flask.globals as globals
@@ -7,13 +7,10 @@ import database.database_queries as DatabaseQueries
 
 class Onderzoeksvragen:
     @staticmethod
-    def add_onderzoeksvraag(form):
+    def add_onderzoeksvraag(form, organisatie_id):
         try:
             # Print de ontvangen formulierdata
             print(f"Received form data: {form}")
-
-            # Placeholder
-            organisatie_id = 1
 
             status = 0  # 0=nieuw, 1=goedgekeurd, 2=afgekeurd, 3=gesloten
             beschikbaar = 1  # 0=niet beschikbaar, 1=beschikbaar
@@ -38,25 +35,25 @@ class Onderzoeksvragen:
             beloning = form.get("beloning")
 
             query = """
-                INSERT INTO onderzoeken (
-                    organisatie_id,
-                    status,
-                    beschikbaar,
-                    type_onderzoek_id,
-                    titel, 
-                    beschrijving, 
-                    plaats, 
-                    max_deelnemers, 
-                    min_leeftijd, 
-                    max_leeftijd, 
-                    begeleider,
-                    datum, 
-                    datum_tot, 
-                    beloning,
-                    creatie_datum
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-            """
+                       INSERT INTO onderzoeken (
+                           organisatie_id,
+                           status,
+                           beschikbaar,
+                           type_onderzoek_id,
+                           titel, 
+                           beschrijving, 
+                           plaats, 
+                           max_deelnemers, 
+                           min_leeftijd, 
+                           max_leeftijd, 
+                           begeleider,
+                           datum, 
+                           datum_tot, 
+                           beloning,
+                           creatie_datum
+                       )
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                   """
             new_onderzoek_id = RawDatabase.runInsertQuery(query, (
                 organisatie_id,
                 status,
@@ -84,9 +81,9 @@ class Onderzoeksvragen:
             # Voeg beperking toe als die bestaat
             if beperkingen_id:
                 query_intersect = """
-                    INSERT INTO beperkingen_onderzoek (onderzoek_id, beperkingen_id)
-                    VALUES (?, ?)
-                """
+                           INSERT INTO beperkingen_onderzoek (onderzoek_id, beperkingen_id)
+                           VALUES (?, ?)
+                       """
                 RawDatabase.runInsertQuery(query_intersect, (new_onderzoek_id, beperkingen_id))
 
             # Return onderzoek_id, api_key, organisatie_id in de response

@@ -26,7 +26,7 @@ def notFound(e):
 
 @app.context_processor
 def inject_user():
-    return dict(user=session.get("user"), role=session.get("role"))
+    return dict(user=session.get("user"), role=session.get("role"), org=session.get("org"))
 
 @app.route("/api/get_user_role", methods=["GET"])
 def get_user_role():
@@ -98,12 +98,32 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def org_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("org"):
+            return redirect(url_for("org_login_form"))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route("/logout")
 def logout():
     session.pop("user", None)
     session.pop("role", None)
+    session.pop("org", None)
     return redirect("/login")
 
+@app.route('/org-login-form', methods=['GET'])
+def org_login_form():
+    return render_template("org_login.html")
+
+@app.route('/org-login', methods=['POST'])
+def org_login():
+    org_id, error, status = ApiKeys.validate_api_key(request.form)
+    if error:
+        return jsonify(error), status
+    session["org"] = org_id
+    return redirect("/aanmaken-onderzoeksvraag")
 
 @app.route("/rd", methods=["GET", "POST"])
 def registration_expert():
@@ -160,11 +180,11 @@ def deelnemen():
     return response
 
 @app.route("/aanmaken-onderzoeksvraag", methods=["GET", "POST"])
-#@login_required? Nog even kijken of het überhaupt nodig is met API-keys
-@admin_required
+@org_required
 def aanmaken_onderzoeksvraag():
     if request.method == "POST":
-        return Onderzoeksvragen.add_onderzoeksvraag(request.form)
+        org_id = session.get("org")
+        return Onderzoeksvragen.add_onderzoeksvraag(request.form, org_id)
 
         # Genereer een API-sleutel voor het nieuwe onderzoek
         organisatie_id = 1
@@ -234,17 +254,17 @@ def registraties():
     return render_template("beheerder_pagina.jinja")
 
 
-@app.route("/api/registrations/<table_name>", methods=["GET"])
+@app.route("/api/overzicht/<table_name>", methods=["GET"])
 def getRegistration(table_name):
     return Registrations.getRegistration(table_name)
 
 
-@app.route("/api/registrations/<table_name>/<id>", methods=["GET"])
+@app.route("/api/overzicht/<table_name>/<id>", methods=["GET"])
 def getRegistrationDetails(table_name, id):
     return Registrations.getRegistrationDetails(table_name, id)
 
 
-@app.route("/api/registrations/<table_name>/status", methods=["PATCH"])
+@app.route("/api/overzicht/<table_name>/status", methods=["PATCH"])
 def updateRegistrationStatus(table_name):
     data = request.get_json()
     registration_id = data.get('id')
@@ -308,13 +328,9 @@ def register():
             if field not in data:
                 return jsonify({'error': f'Missing required field: {field}'}), 400
 
-        api_key = DatabaseQueries.register_organisatie(data)
-
-        return jsonify({
-            'message': 'Organisatie succesvol geregistreerd!',
-            'api_key': api_key,
-            'note': 'Bewaar deze API key goed, je hebt deze nodig voor toekomstige API-aanvragen.'
-        }), 201
+        # Roep de database query aan om de organisatie te registreren
+        DatabaseQueries.register_organisatie(data)
+        return jsonify({'message': 'Organisatie succesvol geregistreerd!'}), 201
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500

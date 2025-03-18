@@ -53,7 +53,7 @@ function updateTableHeader(tableName) {
 
 function loadRegistrations(tableName) {
     updateTableHeader(tableName);
-    fetch(`/api/registrations/${tableName}`)
+    fetch(`/api/overzicht/${tableName}`)
         .then(response => response.json())
         .then(data => {
             const tbody = document.getElementById("registrationsTable");
@@ -107,7 +107,7 @@ function loadRegistrations(tableName) {
 }
 
 function showPopup(tableName, id) {
-    fetch(`/api/registrations/${tableName}/${id}`)
+    fetch(`/api/overzicht/${tableName}/${id}`)
         .then(response => response.json())
         .then(data => {
             if (data && data.length > 0) {
@@ -136,7 +136,7 @@ function showPopup(tableName, id) {
                     document.getElementById('popupDisabilities').textContent = "";
                     document.getElementById('popupPhoneNumber').textContent = `Max deelnemers: ${registration.max_deelnemers}`;
                     let begeleiderStatus;
-                    if (registration.begeleider == 1) {
+                    if (registration.begeleider === 1) {
                       begeleiderStatus = "Ja";
                     } else {
                       begeleiderStatus = "Nee";
@@ -156,7 +156,7 @@ function showPopup(tableName, id) {
 }
 
 function processRegistration(tableName, id, status) {
-    fetch(`/api/registrations/${tableName}/status`, {
+    fetch(`/api/overzicht/${tableName}/status`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json"
