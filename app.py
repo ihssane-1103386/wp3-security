@@ -102,7 +102,15 @@ def org_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not session.get("org"):
-            return redirect(url_for("org_login_form"))
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def user_org(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("org") or session.get("user"):
+            return redirect(url_for("login"))
         return f(*args, **kwargs)
     return decorated_function
 
@@ -132,7 +140,7 @@ def registration_expert():
 # Route setup for onderzoeksvragen page
 
 @app.route("/api/onderzoeksvragen/userspecific")
-@login_required
+@user_org
 def getOnderzoeksvragen_userSpecific():
     vragen, status_code = Onderzoeksvragen.get_vragen()
     if status_code == 200:
@@ -141,7 +149,7 @@ def getOnderzoeksvragen_userSpecific():
         return jsonify({"Error": "Geen data"}), status_code
 
 @app.route("/onderzoeksvragen")
-@login_required
+@user_org
 def onderzoeksvragen():
     vragen, status_code = getOnderzoeksvragen_userSpecific()
     if status_code == 200:
