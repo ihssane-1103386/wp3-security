@@ -81,7 +81,7 @@ def login():
 
     return render_template("login.html.jinja")
 
-
+#decorator voor ervaringsdeskundige
 def user_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -90,6 +90,7 @@ def user_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+#decorator voor beheerder
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -98,6 +99,7 @@ def admin_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+#decorator voor organisatie
 def org_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -106,6 +108,7 @@ def org_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+#decorator voor alle ingelogde gebruikers
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
