@@ -82,7 +82,7 @@ def login():
     return render_template("login.html.jinja")
 
 
-def login_required(f):
+def user_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not session.get("user"):
@@ -106,10 +106,10 @@ def org_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-def user_org(f):
+def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not session.get("org") or session.get("user"):
+        if not (session.get("org") or session.get("user") or session.get("role")):
             return redirect(url_for("login"))
         return f(*args, **kwargs)
     return decorated_function
@@ -140,7 +140,7 @@ def registration_expert():
 # Route setup for onderzoeksvragen page
 
 @app.route("/api/onderzoeksvragen/userspecific")
-@user_org
+@login_required
 def getOnderzoeksvragen_userSpecific():
     vragen, status_code = Onderzoeksvragen.get_vragen()
     if status_code == 200:
@@ -149,7 +149,7 @@ def getOnderzoeksvragen_userSpecific():
         return jsonify({"Error": "Geen data"}), status_code
 
 @app.route("/onderzoeksvragen")
-@user_org
+@login_required
 def onderzoeksvragen():
     vragen, status_code = getOnderzoeksvragen_userSpecific()
     if status_code == 200:
@@ -309,7 +309,7 @@ def update_onderzoeksvraag():
     data = request.json
 
 @app.route("/api/mijn-onderzoeken", methods=["GET"])
-@login_required
+@user_required
 def mijn_onderzoeken():
     email = session.get("user")
     expert_id = DatabaseQueries.get_expert_id_by_email(email)
