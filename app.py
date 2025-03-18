@@ -308,9 +308,15 @@ def register():
             if field not in data:
                 return jsonify({'error': f'Missing required field: {field}'}), 400
 
+        api_key = DatabaseQueries.register_organisatie(data)
+
         # Roep de database query aan om de organisatie te registreren
         DatabaseQueries.register_organisatie(data)
-        return jsonify({'message': 'Organisatie succesvol geregistreerd!'}), 201
+        return jsonify({
+            'message': 'Organisatie succesvol geregistreerd!',
+            'api_key': api_key,
+            'note': 'Bewaar deze API key goed, je hebt deze nodig voor toekomstige API-aanvragen.'
+        }), 201
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
