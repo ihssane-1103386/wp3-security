@@ -310,8 +310,6 @@ def register():
 
         api_key = DatabaseQueries.register_organisatie(data)
 
-        # Roep de database query aan om de organisatie te registreren
-        DatabaseQueries.register_organisatie(data)
         return jsonify({
             'message': 'Organisatie succesvol geregistreerd!',
             'api_key': api_key,
