@@ -1,4 +1,6 @@
+console.log("form submitted via js")
 document.addEventListener("DOMContentLoaded", function () {
+
     const form = document.querySelector("#login-page");
 
     form.addEventListener("submit", function (event) {

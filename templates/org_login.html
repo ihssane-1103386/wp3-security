@@ -1,0 +1,27 @@
+{% extends "base.html.jinja" %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="../static/css/login.css"/>
+    <link rel="stylesheet" href="../static/css/stylesheet.css"/>
+    {% include '_global_imports.html' %}
+    <title>Inloggen als organisatie</title>
+{% endblock %}
+
+{% block main %}
+<body>
+<form id="org-login" class="login-page" action="/org-login" method="POST">
+    <h1>Organisatie Login</h1>
+
+    <label for="api_key">API Key</label>
+    <input type="text" name="api_key" id="api_key" placeholder="Voer hier uw API key in" required
+           aria-describedby="api-key-help"/>
+    <span id="api-key-help" class="sr-only">Voer hier uw unieke API key in</span>
+
+    <button type="submit" aria-label="Login">Login met API Key</button>
+</form>
+</body>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %} 

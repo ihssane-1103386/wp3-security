@@ -85,6 +85,10 @@ form {
     gap: 15px;
 }
 
+form p {
+    margin: 0;
+}
+
 label {
     font-weight: bold;
     text-align: left;
@@ -94,7 +98,7 @@ label {
 }
 
 input {
-    width: 100%;
+    width: 94%;
     padding: 12px;
     border: 1px solid #D1D5DB;
     border-radius: 6px;
