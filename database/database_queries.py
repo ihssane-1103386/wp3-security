@@ -216,6 +216,8 @@ class DatabaseQueries:
             cursor.close()
             conn.close()
 
+            return api_key
+
         except sqlite3.Error as e:
             print(f"SQLite fout: {e}")
             raise Exception(f"Database fout: {e}")
