@@ -47,10 +47,8 @@ class ApiKeys:
         api_key = form_data.get("api_key")
         if not api_key:
             return None, {'success': False, 'message': 'API key mist.'}, 400
-        # Get the row from the database
         row = DatabaseQueries.get_organisatie_id_by_api_key(api_key)
         if not row:
             return None, {'success': False, 'message': 'API key is niet valide.'}, 400
-        # Extract the actual organization ID (assuming it's an integer or string)
         org_id = row["organisatie_id"]
         return org_id, None, None

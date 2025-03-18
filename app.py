@@ -125,7 +125,7 @@ def logout():
 def org_login_form():
     return render_template("org_login.html")
 
-@app.route('/org-login', methods=['POST'])
+@app.route('/api/org-login', methods=['POST'])
 def org_login():
     org_id, error, status = ApiKeys.validate_api_key(request.form)
     if error:
