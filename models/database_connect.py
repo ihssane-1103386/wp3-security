@@ -48,4 +48,3 @@ class RawDatabase(Database):
         except sqlite3.Error as e:
             print("SQLite error:", e)
             return None
-            return jsonify({"error": "Something went wrong"})

@@ -21,39 +21,32 @@ class Onderzoeksvragen:
             aantal_deelnemers = int(form.get("aantal-deelnemers"))
             min_leeftijd = int(form.get("min-leeftijd"))
             max_leeftijd = int(form.get("max-leeftijd"))
-
-            # Hier moet de wijziging plaatsvinden voor de 'beperking' waarde:
-            beperkingen_id_str = form.get("beperking")
-            if beperkingen_id_str == 'undefined' or not beperkingen_id_str:
-                beperkingen_id = None  # of een andere standaardwaarde
-            else:
-                beperkingen_id = int(beperkingen_id_str)
-
+            beperkingen_id = int(form.get("beperking"))
             begeleiders = form.get("begeleiders")
             startdatum = form.get("startdatum")
             einddatum = form.get("einddatum")
             beloning = form.get("beloning")
 
             query = """
-                       INSERT INTO onderzoeken (
-                           organisatie_id,
-                           status,
-                           beschikbaar,
-                           type_onderzoek_id,
-                           titel, 
-                           beschrijving, 
-                           plaats, 
-                           max_deelnemers, 
-                           min_leeftijd, 
-                           max_leeftijd, 
-                           begeleider,
-                           datum, 
-                           datum_tot, 
-                           beloning,
-                           creatie_datum
-                       )
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-                   """
+                            INSERT INTO onderzoeken (
+                                organisatie_id,
+                                status,
+                                beschikbaar,
+                                type_onderzoek_id,
+                                titel, 
+                                beschrijving, 
+                                plaats, 
+                                max_deelnemers, 
+                                min_leeftijd, 
+                                max_leeftijd, 
+                                begeleider,
+                                datum, 
+                                datum_tot, 
+                                beloning,
+                                creatie_datum
+                            )
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+                        """
             new_onderzoek_id = RawDatabase.runInsertQuery(query, (
                 organisatie_id,
                 status,
@@ -71,37 +64,45 @@ class Onderzoeksvragen:
                 beloning
             ))
 
-            # Genereer een API-sleutel
-            api_key = ApiKeys.create_key(organisatie_id, new_onderzoek_id)
-            if api_key:
-                print(f"API Key created: {api_key}")
-            else:
-                print("Error creating API key")
-
-            # Voeg beperking toe als die bestaat
             if beperkingen_id:
                 query_intersect = """
-                           INSERT INTO beperkingen_onderzoek (onderzoek_id, beperkingen_id)
-                           VALUES (?, ?)
-                       """
+                                INSERT INTO beperkingen_onderzoek (onderzoek_id, beperkingen_id)
+                                VALUES (?, ?)
+                            """
                 RawDatabase.runInsertQuery(query_intersect, (new_onderzoek_id, beperkingen_id))
 
-            # Return onderzoek_id, api_key, organisatie_id in de response
-            return jsonify({
-                "message": "Onderzoeksvraag added successfully!",
-                "onderzoek_id": new_onderzoek_id,
-                "api_key": api_key,
-                "organisatie_id": organisatie_id
-            }), 200
+            return jsonify({"message": "Onderzoeksvraag added successfully!"}), 200
 
         except Exception as errormsg:
             print(f"Error: {errormsg}")
             return jsonify({"error": "Something went wrong"}), 500
 
+    """ # Hier moet de wijziging plaatsvinden voor de 'beperking' waarde:
+    beperkingen_id_str = form.get("beperking")
+    if beperkingen_id_str == 'undefined' or not beperkingen_id_str:
+        beperkingen_id = None  # of een andere standaardwaarde
+    else:
+        beperkingen_id = int(beperkingen_id_str)
+
+    # Genereer een API-sleutel
+    api_key = ApiKeys.create_key(organisatie_id, new_onderzoek_id)
+    if api_key:
+        print(f"API Key created: {api_key}")
+    else:
+        print("Error creating API key")
+
+     # Return onderzoek_id, api_key, organisatie_id in de response
+                return jsonify({
+                    "message": "Onderzoeksvraag added successfully!",
+                    "onderzoek_id": new_onderzoek_id,
+                    "api_key": api_key,
+                    "organisatie_id": organisatie_id
+                }), 200"""
+
     @staticmethod
     def getbeperkingen():
         beperkingen = RawDatabase.runRawQuery("SELECT * FROM beperkingen")
-        return [{"beperking": row[1]} for row in beperkingen]
+        return [{"beperkingen_id": row[0], "beperking": row[1]} for row in beperkingen]
 
     @staticmethod
     def get_vragen():

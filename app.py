@@ -196,8 +196,9 @@ def aanmaken_onderzoeksvraag():
     if request.method == "POST":
         org_id = session.get("org")
         return Onderzoeksvragen.add_onderzoeksvraag(request.form, org_id)
+    return render_template("onderzoeksvraag_aanmaken.html.jinja")
 
-        # Genereer een API-sleutel voor het nieuwe onderzoek
+"""     # Genereer een API-sleutel voor het nieuwe onderzoek
         organisatie_id = 1
         new_api_key = ApiKeys.create_key(organisatie_id, new_onderzoek_id)
 
@@ -208,7 +209,8 @@ def aanmaken_onderzoeksvraag():
             "organisatie_id": organisatie_id,
             "onderzoek_id": new_onderzoek_id
         }), 201
-    return render_template("onderzoeksvraag_aanmaken.html.jinja")
+"""
+
 
 @app.route("/api/get-beperkingen")
 def get_beperkingen():
