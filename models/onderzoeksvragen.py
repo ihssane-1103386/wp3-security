@@ -77,27 +77,7 @@ class Onderzoeksvragen:
             print(f"Error: {errormsg}")
             return jsonify({"error": "Something went wrong"}), 500
 
-    """ # Hier moet de wijziging plaatsvinden voor de 'beperking' waarde:
-    beperkingen_id_str = form.get("beperking")
-    if beperkingen_id_str == 'undefined' or not beperkingen_id_str:
-        beperkingen_id = None  # of een andere standaardwaarde
-    else:
-        beperkingen_id = int(beperkingen_id_str)
 
-    # Genereer een API-sleutel
-    api_key = ApiKeys.create_key(organisatie_id, new_onderzoek_id)
-    if api_key:
-        print(f"API Key created: {api_key}")
-    else:
-        print("Error creating API key")
-
-     # Return onderzoek_id, api_key, organisatie_id in de response
-                return jsonify({
-                    "message": "Onderzoeksvraag added successfully!",
-                    "onderzoek_id": new_onderzoek_id,
-                    "api_key": api_key,
-                    "organisatie_id": organisatie_id
-                }), 200"""
 
     @staticmethod
     def getbeperkingen():
@@ -301,3 +281,59 @@ class Onderzoeksvragen:
 
 
 
+    @staticmethod
+    def api_add_onderzoek():
+        try:
+            api_key = request.headers.get('API-Key')
+            if not api_key:
+                return jsonify({"error": "API key ontbreekt"}), 400
+
+            organisatie_id = ApiKeys.get_by_api_key(api_key)
+            if not organisatie_id:
+                return jsonify({"error": "Ongeldige API key"}), 403
+
+            data = request.json
+            print(f"Ontvangen data via API: {data}")
+
+            status = 0
+            beschikbaar = 1
+            type_onderzoek_id = int(data.get("type_onderzoek_id"))
+            titel = data.get("titel")
+            omschrijving = data.get("omschrijving")
+            plaats = data.get("plaats")
+            aantal_deelnemers = int(data.get("max_deelnemers"))
+            min_leeftijd = int(data.get("min_leeftijd"))
+            max_leeftijd = int(data.get("max_leeftijd"))
+            beperkingen_id = int(data.get("beperkingen_id"))
+            begeleiders = data.get("begeleider")
+            startdatum = data.get("datum")
+            einddatum = data.get("datum_tot")
+            beloning = data.get("beloning")
+
+            query = """
+                INSERT INTO onderzoeken (
+                    organisatie_id, status, beschikbaar, type_onderzoek_id, titel, beschrijving,
+                    plaats, max_deelnemers, min_leeftijd, max_leeftijd, begeleider,
+                    datum, datum_tot, beloning, creatie_datum
+                )
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
+            """
+
+            new_onderzoek_id = RawDatabase.runInsertQuery(query, (
+                organisatie_id, status, beschikbaar, type_onderzoek_id, titel, omschrijving,
+                plaats, aantal_deelnemers, min_leeftijd, max_leeftijd, begeleiders,
+                startdatum, einddatum, beloning
+            ))
+
+            if beperkingen_id:
+                intersect_query = """
+                    INSERT INTO beperkingen_onderzoek (onderzoek_id, beperkingen_id)
+                    VALUES (?, ?)
+                """
+                RawDatabase.runInsertQuery(intersect_query, (new_onderzoek_id, beperkingen_id))
+
+            return jsonify({"message": "Onderzoek succesvol toegevoegd via API!"}), 201
+
+        except Exception as e:
+            print(f"API Error: {e}")
+            return jsonify({"error": "Er is iets mis gegaan bij het verwerken van de aanvraag."}), 500

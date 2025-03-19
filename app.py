@@ -380,6 +380,23 @@ def aanvraag_api_key():
 
 
 
+@app.route('/api/onderzoek', methods=['POST'])
+def api_add_onderzoek():
+    try:
+        api_key = request.headers.get('API-Key')
+        if not api_key:
+            return jsonify({"error": "API key ontbreekt"}), 400
+
+        organisatie_id = ApiKeys.get_by_api_key(api_key)
+        if not organisatie_id:
+            return jsonify({"error": "Ongeldige API-sleutel"}), 403
+
+        form = request.get_json()
+        return Onderzoeksvragen.add_onderzoeksvraag(form, organisatie_id)
+    except Exception as e:
+        print(f"Fout bij aanmaken onderzoek via API: {e}")
+        return jsonify({"error": "Interne serverfout"}), 500
+
 @app.route('/update_onderzoeksvraag/<int:onderzoek_id>', methods=['PATCH'])
 def update_onderzoek_route(onderzoek_id):
     return Onderzoeksvragen.update_onderzoek_route(onderzoek_id)
