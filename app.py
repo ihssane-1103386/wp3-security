@@ -159,15 +159,15 @@ def onderzoeksvragen():
         beperkingen = Onderzoeksvragen.getbeperkingen()
         beperkingen_lijst = [beperking["beperking"] for beperking in beperkingen]
         # return jsonify(vragen), 200
-        return render_template("onderzoeksvragen.html.jinja", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0")
+        return render_template("onderzoeksvragen.html.jinja", vragen=vragen, beperkingen=beperkingen_lijst, goedkeuren="0", user=session.get("user_id"))
     else:
-        return render_template("onderzoeksvragen.html.jinja", vragen=[], beperkingen=[], goedkeuren="0")
+        return render_template("onderzoeksvragen.html.jinja", vragen=[], beperkingen=[], goedkeuren="0", user=session.get("user_id"))
 
 @app.route("/inschrijvingen/goedkeuren")
 @admin_required
 def inschrijvingen_goedkeuren():
     vragen = Onderzoeksvragen.get_vragen()
-    return render_template("onderzoeksvragen.html.jinja", vragen=vragen, goedkeuren="1")
+    return render_template("onderzoeksvragen.html.jinja", vragen=vragen, goedkeuren="1", user=session.get("user_id"))
 
 
 
