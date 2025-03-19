@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const successMessageContainer = document.getElementById("success-message");
     const adminToggle = document.getElementById("admin-toggle");
     const adminSwitch = document.getElementById("admin-checkbox");
+    const geboortedatumInput = document.getElementById("geboortedatum");
     let isSubmitting = false;
     let selectedBeperkingen = [];
     let selectedIndex = -1;
@@ -15,6 +16,87 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
     window.formEventListenerAdded = true;
+
+    createParentSection();
+
+    function createParentSection() {
+        if (document.getElementById("ouder-section")) {
+            return;
+        }
+
+        const ouderSection = document.createElement("div");
+        ouderSection.id = "ouder-section";
+        ouderSection.className = "ouder-section";
+        ouderSection.style.display = "none";
+
+        ouderSection.innerHTML = `
+            <h3>Ouder/Voogd Informatie</h3>
+            <div class="form-group">
+                <label for="ouder-naam">Naam Ouder/Voogd</label>
+                <input type="text" id="ouder-naam" name="ouder-naam" placeholder="Volledige naam" aria-required="false" aria-describedby="ouder-naam-help">
+                <span id="ouder-naam-help" class="sr-only">Vul de volledige naam van uw ouder of voogd in.</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="ouder-email">E-mail Ouder/Voogd</label>
+                <input type="email" id="ouder-email" name="ouder-email" placeholder="voorbeeld@email.com" aria-required="false" aria-describedby="ouder-email-help">
+                <span id="ouder-email-help" class="sr-only">Vul het e-mailadres van uw ouder of voogd in.</span>
+            </div>
+            
+            <div class="form-group">
+                <label for="ouder-telefoon">Telefoon Ouder/Voogd</label>
+                <input type="tel" id="ouder-telefoon" name="ouder-telefoon" placeholder="06-12345678" aria-required="false" aria-describedby="ouder-telefoon-help">
+                <span id="ouder-telefoon-help" class="sr-only">Vul het telefoonnummer van uw ouder of voogd in.</span>
+            </div>
+        `;
+    }
+
+    function checkAge() {
+        if (!geboortedatumInput.value) return;
+
+        const birthdate = new Date(geboortedatumInput.value);
+        const today = new Date();
+
+        let age = today.getFullYear() - birthdate.getFullYear();
+        const monthDiff = today.getMonth() - birthdate.getMonth();
+
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthdate.getDate())) {
+            age--;
+        }
+
+        const ouderSection = document.getElementById("ouder-section");
+        const ouderNaam = document.getElementById("ouder-naam");
+        const ouderEmail = document.getElementById("ouder-email");
+        const ouderTelefoon = document.getElementById("ouder-telefoon");
+
+        if (age < 18) {
+            ouderSection.style.display = "block";
+
+            ouderNaam.setAttribute("required", "");
+            ouderNaam.setAttribute("aria-required", "true");
+            ouderEmail.setAttribute("required", "");
+            ouderEmail.setAttribute("aria-required", "true");
+            ouderTelefoon.setAttribute("required", "");
+            ouderTelefoon.setAttribute("aria-required", "true");
+        } else {
+            ouderSection.style.display = "none";
+
+            ouderNaam.removeAttribute("required");
+            ouderNaam.setAttribute("aria-required", "false");
+            ouderEmail.removeAttribute("required");
+            ouderEmail.setAttribute("aria-required", "false");
+            ouderTelefoon.removeAttribute("required");
+            ouderTelefoon.setAttribute("aria-required", "false");
+        }
+    }
+
+    if (geboortedatumInput) {
+        geboortedatumInput.addEventListener("change", checkAge);
+
+        if (geboortedatumInput.value) {
+            checkAge();
+        }
+    }
 
     fetch("/api/get_user_role")
         .then(response => response.json())
@@ -49,6 +131,11 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("form").reset();
         selectedBeperkingen = [];
         updateSelectedBeperkingen();
+
+        const ouderSection = document.getElementById("ouder-section");
+        if (ouderSection) {
+            ouderSection.style.display = "none";
+        }
     }
 
     form.addEventListener("submit", function (event) {
@@ -81,6 +168,13 @@ document.addEventListener("DOMContentLoaded", function () {
             wachtwoord: wachtwoord,
             isAdmin: adminSwitch ? adminSwitch.checked : false
         };
+
+        const ouderSection = document.getElementById("ouder-section");
+        if (ouderSection && ouderSection.style.display !== "none") {
+            formData.ouder_naam = getValue("ouder-naam");
+            formData.ouder_email = getValue("ouder-email");
+            formData.ouder_telefoon = getValue("ouder-telefoon");
+        }
 
        fetch("/api/register", {
             method: "POST",
