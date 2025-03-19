@@ -113,6 +113,20 @@ input:focus, button:focus {
     box-shadow: 0 0 6px rgba(79, 70, 229, 0.6);
 }
 
+#ouder-section {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border-left: 4px solid #4F46E5;
+}
+
+#ouder-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
 /* Button */
 button {
     width: 100%;
@@ -242,4 +256,12 @@ footer ul li a:hover {
 
 .dark a:hover {
     color: #294d8b
+}
+
+#ouder-section-dark {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #23457C;
+    border-radius: 5px;
+    border-left: 4px solid white;
 }
