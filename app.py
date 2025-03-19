@@ -198,18 +198,6 @@ def aanmaken_onderzoeksvraag():
         return Onderzoeksvragen.add_onderzoeksvraag(request.form, org_id)
     return render_template("onderzoeksvraag_aanmaken.html.jinja")
 
-"""     # Genereer een API-sleutel voor het nieuwe onderzoek
-        organisatie_id = 1
-        new_api_key = ApiKeys.create_key(organisatie_id, new_onderzoek_id)
-
-        # Geef de API-sleutel terug aan de gebruiker samen met het onderzoek_id
-        return jsonify({
-            "message": "Onderzoek succesvol aangemaakt",
-            "api_key": new_api_key,
-            "organisatie_id": organisatie_id,
-            "onderzoek_id": new_onderzoek_id
-        }), 201
-"""
 
 
 @app.route("/api/get-beperkingen")
@@ -341,9 +329,13 @@ def register():
             if field not in data:
                 return jsonify({'error': f'Missing required field: {field}'}), 400
 
-        # Roep de database query aan om de organisatie te registreren
-        DatabaseQueries.register_organisatie(data)
-        return jsonify({'message': 'Organisatie succesvol geregistreerd!'}), 201
+        api_key = DatabaseQueries.register_organisatie(data)
+
+        return jsonify({
+            'message': 'Organisatie succesvol geregistreerd!',
+            'api_key': api_key,
+            'note': 'Bewaar deze API key goed, je hebt deze nodig voor toekomstige API-aanvragen.'
+        }), 201
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
