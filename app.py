@@ -416,5 +416,16 @@ def get_onderzoeken():
     return jsonify({"onderzoeken": org_onderzoeken}), 200
 
 
+@app.route("/api/get-deelnemers/<int:onderzoek_id>", methods=["GET"])
+def get_deelnemers(onderzoek_id):
+    api_key = request.headers.get('API-Key')
+    if not api_key:
+        return jsonify({"error": "API key ontbreekt"}), 400
+    organisatie_id = ApiKeys.get_by_api_key(api_key)
+    if not organisatie_id:
+        return jsonify({"error": "API key is niet valide"}), 403
+    deelnemers = DatabaseQueries.get_deelnemers_by_onderzoek(onderzoek_id, organisatie_id)
+    return jsonify({"deelnemers": deelnemers}), 200
+
 if __name__ == "__main__":
     app.run(debug=True)

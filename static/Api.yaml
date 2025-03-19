@@ -67,6 +67,7 @@ paths:
   /update_onderzoeksvraag/{id}:
     patch:
       summary: "Onderzoeksvraag aanpassen"
+      description: "Bij beschikbaar staat 0 voor open en 1 voor gesloten."
       operationId: "updateOnderzoek"
       parameters:
         - name: id
@@ -103,17 +104,8 @@ paths:
                   format: date
                 begeleiders:
                   type: string
-              required:
-                - titel
-                - beschrijving
-                - plaats
-                - max_deelnemers
-                - min_leeftijd
-                - max_leeftijd
-                - beloning
-                - datum
-                - datum_tot
-                - begeleider
+                beschikbaar:
+                  type: integer
             examples:
               example1:
                 summary: "Voorbeeld update onderzoek"
@@ -128,6 +120,7 @@ paths:
                   datum: "2025-09-01"
                   datum_tot: "2025-10-01"
                   begeleider: "Nee"
+                  beschikbaar: 0
       responses:
         '200':
           description: "Onderzoeksvraag succesvol bijgewerkt"
@@ -223,7 +216,6 @@ paths:
   /api/get-onderzoeken:
     get:
       summary: "Alle onderzoeken ophalen"
-      description: "Retourneert alle onderzoeken die behoren tot de organisatie, geïdentificeerd via de API-sleutel in de request headers."
       parameters:
         - name: API-Key
           in: header
@@ -266,6 +258,66 @@ paths:
                         creatie_datum: "2025-03-19"
         '400':
           description: "API-sleutel ontbreekt in de aanvraag"
+        '403':
+          description: "Ongeldige API-sleutel"
+        '500':
+          description: "Interne serverfout"
+      security:
+        - ApiKeyAuth: []
+
+  /api/get-deelnemers/{onderzoek_id}:
+    get:
+      summary: "Deelnemers ophalen voor een onderzoek"
+      description: "Alleen goedgekeurde deelnemers worden weergegeven."
+      parameters:
+        - name: onderzoek_id
+          in: path
+          description: Het ID van het onderzoek waarvoor de deelnemers worden opgevraagd.
+          required: true
+          schema:
+            type: integer
+        - name: API-Key
+          in: header
+          description: "De API-sleutel die aan de organisatie is gekoppeld."
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "Deelnemers succesvol opgehaald"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  deelnemers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        voornaam:
+                          type: string
+                        tussenvoegsel:
+                          type: string
+                        achternaam:
+                          type: string
+                        telefoonnummer:
+                          type: string
+              examples:
+                example1:
+                  summary: "Succesvolle response"
+                  value:
+                    deelnemers:
+                      - voornaam: "Jan"
+                        tussenvoegsel: "van"
+                        achternaam: "Dijk"
+                        telefoonnummer: "0612345678"
+                      - voornaam: "Piet"
+                        tussenvoegsel: ""
+                        achternaam: "Jansen"
+                        telefoonnummer: "0698765432"
+        '400':
+          description: "API-sleutel of onderzoek_id ontbreekt in de aanvraag"
         '403':
           description: "Ongeldige API-sleutel"
         '500':

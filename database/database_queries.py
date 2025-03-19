@@ -317,3 +317,17 @@ class DatabaseQueries:
            """
         result = RawDatabase.runRawQuery(query, (organisatie_id,))
         return [dict(row) for row in result]
+
+    @staticmethod
+    def get_deelnemers_by_onderzoek(onderzoek_id, organisatie_id):
+        query = """
+            SELECT voornaam, tussenvoegsel, achternaam, telefoonnummer
+            FROM ervaringsdeskundigen
+            JOIN inschrijvingen ON ervaringsdeskundigen.ervaringsdeskundige_id = inschrijvingen.ervaringsdeskundige_id
+            JOIN onderzoeken ON inschrijvingen.onderzoek_id = onderzoeken.onderzoek_id
+            WHERE inschrijvingen.onderzoek_id = ? 
+              AND onderzoeken.organisatie_id = ?
+              AND inschrijvingen.status = 1 
+        """ #Alle deelnemers die niet goedgekeurd zijn worden niet meegenomen
+        result = RawDatabase.runRawQuery(query, (onderzoek_id, organisatie_id))
+        return [dict(row) for row in result] if result else []
