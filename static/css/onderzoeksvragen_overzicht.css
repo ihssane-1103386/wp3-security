@@ -226,7 +226,7 @@ button:hover {
     font-size: 15px;
     font-weight: bold;
     color: #172152;
-    z-index: 1000;
+    z-index: 2;
     background-color: white;
     border: 1px solid #31579f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
