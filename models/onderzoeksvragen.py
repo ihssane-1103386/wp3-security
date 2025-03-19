@@ -2,6 +2,7 @@ from flask import jsonify, request, session
 from models.database_connect import RawDatabase
 from models.api_keys import ApiKeys
 import flask.globals as globals
+import datetime
 import database.database_queries as DatabaseQueries
 
 
@@ -167,10 +168,11 @@ class Onderzoeksvragen:
             if current_deelnemers >= max_deelnemers:
                 return jsonify({"error": "Maximaal aantal deelnemers bereikt."}), 400
             query = """ 
-                INSERT INTO inschrijvingen (ervaringsdeskundige_id, onderzoek_id)
-                VALUES(?, ?)
+                INSERT INTO inschrijvingen (ervaringsdeskundige_id, onderzoek_id, datum, status)
+                VALUES(?, ?, ?, ?)
             """
-            RawDatabase.runInsertQuery(query, (ervaringsdeskundige_id, onderzoek_id))
+            print('inserted')
+            RawDatabase.runRawQuery(query, (ervaringsdeskundige_id, onderzoek_id, datetime.datetime.now().replace(microsecond=0), 0))
             update_query = """
                 UPDATE onderzoeken 
                 SET beschikbaar = beschikbaar - 1

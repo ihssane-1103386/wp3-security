@@ -225,6 +225,8 @@ function updateButtons(){
                 })
                     .then(response => response.json())
                     .then(data => {
+                        console.log(data);
+                        console.log("hoi");
                         if (data.message) {
                             Swal.fire({
                                 title: "Succesvol deelgenomen",
