@@ -28,9 +28,11 @@
                 <li><a href="/overzicht">Overzicht</a></li>
                 <li><a href="/inschrijvingen/goedkeuren">Inschrijvingen goedkeuren</a></li>
             {% endif %}
-            {% if user or org %}
+            {% if user %}
                 <li><a href="/onderzoeksvragen">Onderzoeken</a></li>
-                <li><a href="/logout">Uitloggen</a></li>
+            {% endif %}
+            {% if user or org %}
+            <li><a href="/logout">Uitloggen</a></li>
             {% endif %}
 
             <li class="theme-toggle"><button id="themeToggle" aria-pressed="false">Dark Mode</button></li>

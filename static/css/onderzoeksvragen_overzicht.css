@@ -420,3 +420,13 @@ footer {
     background-color: #172152;
     color: white;
 }
+
+.dark #research-status-table tbody tr:hover {
+    background-color: #444444;
+}
+
+.dark .clickable:hover,
+.clickable:focus {
+    background-color: #444444;
+    outline: none;
+}
