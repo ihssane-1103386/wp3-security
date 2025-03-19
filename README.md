@@ -1,5 +1,5 @@
 # wp3-2025-starter
-Template voor WP3 opdracht "Accessibility Hub". Vul dit document aan zoals beschreven in eisen rondom opleveren (zie ook de [opdracht](CASUS.md)) 
+
 ## Setup
 
 ## Computer specifications
@@ -31,8 +31,13 @@ Beware! It is <b> case-sensitive! </b> :
 > <b> Username: </b> test@example.com <br>
 > <b> Password: </b> test
 
-Sidenotes:
-The "overzicht"-page for admins refresh every minute to retrieve any possible new registrations.
+> <b> Organisation </b> <br>
+> <b> Company: </b> InclusiDesign <br>
+> <b> API-key: </b> J6mXIR1vADqIbOnsPfxgRZLYd8U7hnJIhOwRkh9q6DQ
+
+>Sidenotes:
+>- The "overzicht"-page for admins refresh every minute to retrieve any possible new registrations.
+>- There is a webbased login-page for organisations with their API-key, but there are also API endpoints to do an API call with (see Api.yaml file).
 
 
 # Sources
