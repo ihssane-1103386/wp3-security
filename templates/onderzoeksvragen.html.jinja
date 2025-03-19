@@ -11,6 +11,10 @@
             {% else %}
                 <title>Inschrijven onderzoeken</title>
             {% endif %}
+            <script>
+                const ervaringsdeskundigeId = {{ user | tojson | default("null", true) }};
+                console.log(ervaringsdeskundigeId)
+            </script>
             <script defer src="../static/js/onderzoeksvragen_popup.js"></script>
         {% endblock %}
     {% endblock %}

@@ -1,6 +1,7 @@
 from database.database_connection import DatabaseConnection
 from models.database_connect import RawDatabase
-from flask import jsonify
+from flask import jsonify, session
+from flask_session import Session
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
@@ -11,7 +12,7 @@ class DatabaseQueries:
     @staticmethod
     def authenticate_user(email, wachtwoord):
         sql_query = """
-                SELECT wachtwoord FROM ervaringsdeskundigen WHERE email = ?
+                SELECT ervaringsdeskundige_id, wachtwoord FROM ervaringsdeskundigen WHERE email = ?
             """
         conn = DatabaseConnection.get_connection()
         if conn is None:
@@ -22,8 +23,8 @@ class DatabaseQueries:
                 cursor = conn.cursor()
                 cursor.execute(sql_query, (email,))
                 user = cursor.fetchone()
-
                 if user and check_password_hash(user["wachtwoord"], wachtwoord):
+                    session["user_id"] = user["ervaringsdeskundige_id"]
                     return True
                 return False
         except sqlite3.Error as e:
@@ -147,9 +148,9 @@ class DatabaseQueries:
 
         if not medewerker:
             return None
-
+        
+        session["user_id"] = medewerker["id"]
         wachtwoord_hash = medewerker["wachtwoord_hash"]
-
         if check_password_hash(wachtwoord_hash, wachtwoord):
             return {"id": medewerker["id"], "rol": medewerker["rol"]}
         return None

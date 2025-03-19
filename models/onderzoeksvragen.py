@@ -149,11 +149,20 @@ class Onderzoeksvragen:
             check_query = """
                 SELECT COUNT(*) FROM inschrijvingen WHERE onderzoek_id = ?
             """
-            current_deelnemers = RawDatabase.runSelectQuery(check_query, (onderzoek_id,))
+            current_deelnemers = len(RawDatabase.runRawQuery(check_query, (onderzoek_id,))) or 0
+            # current_deelnemers = RawDatabase.runSelectQuery(check_query, (onderzoek_id,))
             max_query = """
                 SELECT max_deelnemers FROM onderzoeken WHERE onderzoek_id = ?
             """
-            max_deelnemers = RawDatabase.runSelectQuery(max_query, (onderzoek_id,))
+            
+            result = RawDatabase.runRawQuery(max_query, (onderzoek_id,))
+
+            if result:
+                max_deelnemers = result[0]["max_deelnemers"]
+            else:
+                max_deelnemers = 0
+
+            print(f"current_deelnemers = {current_deelnemers} max_deelnemers = {max_deelnemers}")
 
             if current_deelnemers >= max_deelnemers:
                 return jsonify({"error": "Maximaal aantal deelnemers bereikt."}), 400
