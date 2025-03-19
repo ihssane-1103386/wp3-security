@@ -1,21 +1,79 @@
 openapi: 3.0.0
 info:
-  title: Onderzoek API
-  version: 1.0.0
+  title: API
+  version: "1"
+
 paths:
-  /api/update-onderzoeksvraag:
+  /api/register_organisatie:
+    post:
+      summary: "Registeer een organisatie"
+      operationId: "registerOrganisatie"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                naam:
+                  type: string
+                email:
+                  type: string
+                telefoonnummer:
+                  type: string
+                contactpersoon:
+                  type: string
+                beschrijving:
+                  type: string
+                website:
+                  type: string
+                adres:
+                  type: string
+              required:
+                - naam
+                - email
+                - telefoonnummer
+                - contactpersoon
+                - beschrijving
+                - website
+                - adres
+            examples:
+              example1:
+                summary: "Voorbeeld registratie"
+                value:
+                  naam: "Api test A"
+                  email: "contact@orgorg.com"
+                  telefoonnummer: "316463488"
+                  contactpersoon: "Rob Jansen"
+                  beschrijving: "Dit is een voorbeeldorganisatie"
+                  website: "www.organisatie3.com"
+                  adres: "Straatnaam 3, 1354 AB, Rotterdam"
+      responses:
+        '200':
+          description: "Organisatie succesvol geregistreerd"
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: "Succesvolle registratie response"
+                  value:
+                    api_key: "GVTsTGyvgtyozZfTWs-FG3d5DOm--xbsS4tGCE6hhss"
+                    message: "Organisatie succesvol geregistreerd!"
+                    note: "Bewaar deze API key goed, je hebt deze nodig voor toekomstige API-aanvragen."
+      security:
+        - ApiKeyAuth: []  # Beveiliging per endpoint
+
+  /update_onderzoeksvraag/{id}:
     patch:
-      summary: Werk de onderzoeksvraag bij
-      description: Werk de gegevens van een specifieke onderzoeksvraag bij.
+      summary: "Werk een onderzoeksvraag bij"
+      operationId: "updateOnderzoek"
       parameters:
-        - name: onderzoek_id
+        - name: id
           in: path
-          description: Het ID van de onderzoeksvraag die bijgewerkt moet worden.
           required: true
           schema:
             type: integer
       requestBody:
-        description: Gegevens voor het bijwerken van een onderzoeksvraag
         required: true
         content:
           application/json:
@@ -44,110 +102,147 @@ paths:
                   format: date
                 begeleiders:
                   type: string
+              required:
+                - titel
+                - beschrijving
+                - plaats
+                - max_deelnemers
+                - min_leeftijd
+                - max_leeftijd
+                - beloning
+                - datum
+                - datum_tot
+                - begeleiders
+            examples:
+              example1:
+                summary: "Voorbeeld update onderzoek"
+                value:
+                  titel: "Test Onderzoek"
+                  beschrijving: "Dit is een testonderzoek"
+                  plaats: "Assen"
+                  max_deelnemers: 15
+                  min_leeftijd: 50
+                  max_leeftijd: 65
+                  beloning: "Ja"
+                  datum: "2025-09-01"
+                  datum_tot: "2025-10-01"
+                  begeleiders: "Nee"
       responses:
         '200':
-          description: Onderzoeksvraag succesvol bijgewerkt
+          description: "Onderzoeksvraag succesvol bijgewerkt"
           content:
             application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Onderzoeksvraag succesvol bijgewerkt
-        '400':
-          description: Fout bij het verwerken van het verzoek
-        '403':
-          description: Onjuiste API-sleutel
-        '500':
-          description: Interne serverfout
+              examples:
+                example1:
+                  summary: "Succesvolle update response"
+                  value:
+                    message: "Onderzoeksvraag succesvol bijgewerkt"
+      security:
+        - ApiKeyAuth: []  # Beveiliging per endpoint
 
-  /api/register_organisatie:
+  /add_onderzoek:
     post:
-      summary: Registreer een nieuwe organisatie
-      description: Voeg een nieuwe organisatie toe aan het systeem.
+      summary: "Voeg een nieuw onderzoek toe"
+      operationId: "addOnderzoek"
       requestBody:
-        description: Gegevens voor de registratie van een organisatie
         required: true
         content:
           application/json:
             schema:
               type: object
               properties:
-                naam:
+                type_onderzoek:
+                  type: integer
+                onderzoekstitel:
                   type: string
-                email:
+                omschrijving:
                   type: string
-                telefoonnummer:
+                plaats:
                   type: string
-                contactpersoon:
+                aantal_deelnemers:
+                  type: integer
+                min_leeftijd:
+                  type: integer
+                max_leeftijd:
+                  type: integer
+                beperking:
+                  type: integer
+                begeleiders:
                   type: string
-                beschrijving:
+                startdatum:
                   type: string
-                website:
+                  format: date
+                einddatum:
                   type: string
-                adres:
+                  format: date
+                beloning:
                   type: string
+              required:
+                - type_onderzoek
+                - onderzoekstitel
+                - omschrijving
+                - plaats
+                - aantal_deelnemers
+                - min_leeftijd
+                - max_leeftijd
+                - beperking
+                - begeleiders
+                - startdatum
+                - einddatum
+                - beloning
+            examples:
+              example1:
+                summary: "Voorbeeld onderzoek toevoegen"
+                value:
+                  type_onderzoek: 1
+                  onderzoekstitel: "Onderzoek via API"
+                  omschrijving: "Test via Bruno"
+                  plaats: "Utrecht"
+                  aantal_deelnemers: 10
+                  min_leeftijd: 18
+                  max_leeftijd: 65
+                  beperking: 2
+                  begeleiders: "Nee"
+                  startdatum: "2025-04-01"
+                  einddatum: "2025-06-01"
+                  beloning: "Ja"
       responses:
-        '201':
-          description: Organisatie succesvol geregistreerd
+        '200':
+          description: "Onderzoek succesvol toegevoegd"
+          content:
+            application/json:
+              examples:
+                example1:
+                  summary: "Succesvolle toevoeging response"
+                  value:
+                    message: "Onderzoek succesvol toegevoegd"
+      security:
+        - ApiKeyAuth: []  # Beveiliging per endpoint
+
+  /example-array:
+    get:
+      summary: "Voorbeeld van een lijst"
+      operationId: "exampleArray"
+      responses:
+        '200':
+          description: "Lijst van items"
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Organisatie succesvol geregistreerd!
-        '400':
-          description: Vereiste velden ontbreken in de aanvraag
-        '500':
-          description: Interne serverfout
+                type: array
+                items:
+                  type: string
+              examples:
+                example1:
+                  summary: "Voorbeeld array response"
+                  value:
+                    - "Item 1"
+                    - "Item 2"
+                    - "Item 3"
 
 components:
-  schemas:
-    Onderzoeksvraag:
-      type: object
-      properties:
-        onderzoek_id:
-          type: integer
-        titel:
-          type: string
-        beschrijving:
-          type: string
-        plaats:
-          type: string
-        max_deelnemers:
-          type: integer
-        min_leeftijd:
-          type: integer
-        max_leeftijd:
-          type: integer
-        beloning:
-          type: string
-        datum:
-          type: string
-          format: date
-        datum_tot:
-          type: string
-          format: date
-        begeleiders:
-          type: string
-    Organisatie:
-      type: object
-      properties:
-        naam:
-          type: string
-        email:
-          type: string
-        telefoonnummer:
-          type: string
-        contactpersoon:
-          type: string
-        beschrijving:
-          type: string
-        website:
-          type: string
-        adres:
-          type: string
-
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Api-Key  # Definieer de beveiliging in de componenten sectie
