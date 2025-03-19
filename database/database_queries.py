@@ -70,7 +70,8 @@ class DatabaseQueries:
         return jsonify(beperkingen)
 
     @staticmethod
-    def add_expert(voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, wachtwoord):
+    def add_expert(voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, wachtwoord,
+                   naam_ouder_voogd=None, email_ouder_voogd=None, telefoon_ouder_voogd=None):
         conn = DatabaseConnection.get_connection()
         if conn is None:
             return None
@@ -88,11 +89,14 @@ class DatabaseQueries:
 
                 sql_query = """
                     INSERT INTO ervaringsdeskundigen 
-                    (voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, wachtwoord)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    (voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, wachtwoord,
+                    naam_ouder_voogd, email_ouder_voogd, telefoon_ouder_voogd)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """
                 cursor.execute(sql_query, (
-                voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer, hashed_password))
+                    voornaam, tussenvoegsel, achternaam, geboortedatum, email, geslacht, telefoonnummer,
+                    hashed_password,
+                    naam_ouder_voogd, email_ouder_voogd, telefoon_ouder_voogd))
                 ervaringsdeskundige_id = cursor.lastrowid
 
                 return ervaringsdeskundige_id
