@@ -199,6 +199,7 @@ button:hover {
 .filter-buttons {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
 }
 
@@ -215,16 +216,20 @@ button:hover {
 }
 
 .filter-dropdown {
-    display: none;
-    padding: 10px;
+    margin: 0 auto 0;
+    padding: 12px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: fit-content;
     font-size: 15px;
     font-weight: bold;
-    color:#172152;
+    color: #172152;
     z-index: 1000;
     background-color: white;
     border: 1px solid #31579f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 260px;
 }
 
 .dark th {
