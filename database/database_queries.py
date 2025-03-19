@@ -292,3 +292,27 @@ class DatabaseQueries:
             return results_dict
         else:
             return []
+
+    @staticmethod
+    def get_onderzoeken_by_organisatie(organisatie_id):
+        query = """
+               SELECT onderzoek_id, 
+               organisatie_id, 
+               status, beschikbaar, 
+               type_onderzoek_id,
+               titel, 
+               beschrijving, 
+               plaats, 
+               max_deelnemers, 
+               min_leeftijd, 
+               max_leeftijd,
+               begeleider, 
+               datum, 
+               datum_tot, 
+               beloning, 
+               creatie_datum
+               FROM onderzoeken
+               WHERE organisatie_id = ?
+           """
+        result = RawDatabase.runRawQuery(query, (organisatie_id,))
+        return [dict(row) for row in result]

@@ -401,6 +401,19 @@ def api_add_onderzoek():
 def update_onderzoek_route(onderzoek_id):
     return Onderzoeksvragen.update_onderzoek_route(onderzoek_id)
 
+@app.route("/api/get-onderzoeken", methods=["GET"])
+def get_onderzoeken():
+    api_key = request.headers.get('API-Key')
+    if not api_key:
+        return jsonify({"error": "API key is missing"}), 400
+    #passende organisatie_id wordt gezocht bij de API-key
+    organisatie_id = ApiKeys.get_by_api_key(api_key)
+    if not organisatie_id:
+        return jsonify({"error": "Invalid API key"}), 403
+    #juiste onderzoeken worden opgehaald en weergegeven in JSON
+    org_onderzoeken = DatabaseQueries.get_onderzoeken_by_organisatie(organisatie_id)
+    return jsonify({"onderzoeken": org_onderzoeken}), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)
