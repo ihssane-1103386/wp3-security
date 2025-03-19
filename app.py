@@ -208,6 +208,7 @@ def get_beperkingen():
 @app.route("/api/register", methods=["POST"])
 def register_expert():
     data = request.get_json(silent=True)
+    print("Registration data received:", data)
 
     if data is None:
         return jsonify({"error": "Ongeldige JSON"}), 400
@@ -225,7 +226,8 @@ def register_expert():
         ervaringsdeskundige_id = DatabaseQueries.add_expert(
             data["voornaam"], data.get("tussenvoegsel", ""), data["achternaam"],
             data.get("geboortedatum", ""), data["email"], data["geslacht"],
-            data["telefoonnummer"], data["wachtwoord"]
+            data["telefoonnummer"], data["wachtwoord"],
+            data.get("ouder_naam"), data.get("ouder_email"), data.get("ouder_telefoon")
         )
 
         if not ervaringsdeskundige_id:
