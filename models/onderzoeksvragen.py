@@ -186,28 +186,33 @@ class Onderzoeksvragen:
                 return jsonify({"error": "Invalid API key"}), 403
 
             form = request.json
+            if not form:
+                return jsonify({"error": "JSON payload mist"}), 404
 
-            titel = form.get("titel")
-            beschrijving = form.get("beschrijving")
-            plaats = form.get("plaats")
-            max_deelnemers = form.get("max_deelnemers")
-            min_leeftijd = form.get("min_leeftijd")
-            max_leeftijd = form.get("max_leeftijd")
-            beloning = form.get("beloning")
-            datum = form.get("datum")
-            datum_tot = form.get("datum_tot")
-            begeleiders = form.get("begeleiders")
+            aanpasbare_gegevens = [
+                "titel", "beschrijving", "plaats", "max_deelnemers",
+                "min_leeftijd", "max_leeftijd", "beloning", "datum",
+                "datum_tot", "begeleider", "beschikbaar"
+            ]
 
-            query = """
+            updates = []
+            waardes = []
+
+            for gegevens in aanpasbare_gegevens:
+                if gegevens in form:
+                    updates.append(f"{gegevens} = ?")
+                    waardes.append(form[gegevens])
+
+            if not updates:
+                return jsonify({"error": "No updates found"}), 404
+
+            waardes.extend([onderzoek_id, organisatie_id])
+            query = f"""
                     UPDATE onderzoeken
-                    SET titel = ?, beschrijving = ?, plaats = ?, max_deelnemers = ?, min_leeftijd = ?, max_leeftijd = ?, beloning = ?, datum = ?, datum_tot = ?, begeleider = ?
+                    SET {', '.join(updates)}
                     WHERE onderzoek_id = ? AND organisatie_id = ?
                 """
-            RawDatabase.runInsertQuery(query, (
-                titel, beschrijving, plaats, max_deelnemers, min_leeftijd, max_leeftijd, beloning, datum,
-                datum_tot, begeleiders, onderzoek_id, organisatie_id
-            ))
-
+            RawDatabase.runInsertQuery(query, tuple(waardes))
             return jsonify({"message": "Onderzoeksvraag updated successfully!"}), 200
 
         except Exception as errormsg:

@@ -113,7 +113,7 @@ paths:
                 - beloning
                 - datum
                 - datum_tot
-                - begeleiders
+                - begeleider
             examples:
               example1:
                 summary: "Voorbeeld update onderzoek"
@@ -127,7 +127,7 @@ paths:
                   beloning: "Ja"
                   datum: "2025-09-01"
                   datum_tot: "2025-10-01"
-                  begeleiders: "Nee"
+                  begeleider: "Nee"
       responses:
         '200':
           description: "Onderzoeksvraag succesvol bijgewerkt"
