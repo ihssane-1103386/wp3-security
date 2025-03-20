@@ -61,3 +61,10 @@ Beware! It is <b> case-sensitive! </b> :
 
 ## Accessible buttons
 -https://buttonbuddy.dev/ 
+
+## Chatgpt
+-https://chatgpt.com/
+
+
+# Extra's
+-When you register a new person trough the registration page the disabilities wil pop up automatic when you write it. 
