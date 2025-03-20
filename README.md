@@ -43,7 +43,7 @@ Beware! It is <b> case-sensitive! </b> :
 >Sidenotes:
 >- The "overzicht"-page for admins refresh every minute to retrieve any possible new registrations.
 >- There is a webbased login-page for organisations with their API-key, but there are also API endpoints to do an API call with (see Api.yaml file).
-
+>- -When you register a new person trough the registration page the disabilities wil pop up automatic when you write it. 
 
 # Sources
 
@@ -58,6 +58,12 @@ Beware! It is <b> case-sensitive! </b> :
 
 ### Alphabetical order Javascript:
 - https://wfernandoaugusto01.medium.com/sorting-data-alphabetically-localecompare-sort-e3d314708f8c
+
+## Accessible buttons
+-https://buttonbuddy.dev/ 
+
+## Chatgpt
+-https://chatgpt.com/
 
 ### Set interval:
 - https://www.w3schools.com/jsref/met_win_setinterval.asp
