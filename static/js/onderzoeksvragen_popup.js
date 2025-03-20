@@ -1,3 +1,4 @@
+let isJoinButtonListenerAdded = false;
 function updateButtons(){
     const onderzoeksvragen = document.querySelectorAll(".clickable");
     const popup = document.getElementById("popup");
@@ -256,58 +257,62 @@ function updateButtons(){
         }
 
         if (joinButtonPopup) {
-            joinButtonPopup.addEventListener("click", function () {
-                const onderzoekId = this.getAttribute("data-onderzoek-id");
-                // const ervaringsdeskundigeId = localStorage.getItem('ervaringsdeskundigeId');
+            if (!isJoinButtonListenerAdded) {
+                joinButtonPopup.addEventListener("click", function () {
+                    const onderzoekId = this.getAttribute("data-onderzoek-id");
+                    // const ervaringsdeskundigeId = localStorage.getItem('ervaringsdeskundigeId');
 
-                if (!ervaringsdeskundigeId) {
-                    Swal.fire({
-                        title: "Fout",
-                        text: "Je moet ingelogd zijn om deel te nemen.",
-                        icon: "error",
-                        showCloseButton: true,
-                    });
-                    return;
-                }
-
-                fetch("/deelnemen", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        ervaringsdeskundige_id: ervaringsdeskundigeId,
-                        onderzoek_id: onderzoekId
-                    })
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.message) {
-                            Swal.fire({
-                                title: "Succesvol deelgenomen",
-                                text: data.message,
-                                icon: "success",
-                                showCloseButton: true,
-                            });
-                        } else if (data.error) {
-                            Swal.fire({
-                                title: "Fout",
-                                text: data.error,
-                                icon: "error",
-                                showCloseButton: true,
-                            });
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
+                    if (!ervaringsdeskundigeId) {
                         Swal.fire({
                             title: "Fout",
-                            text: "Er is een fout opgetreden bij het deelnemen aan het onderzoek.",
+                            text: "Je moet ingelogd zijn om deel te nemen.",
                             icon: "error",
                             showCloseButton: true,
                         });
-                    });
-            });
+                        return;
+                    }
+                    document.getElementById("popup").style.display = "none";
+    
+                    fetch("/deelnemen", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            ervaringsdeskundige_id: ervaringsdeskundigeId,
+                            onderzoek_id: onderzoekId
+                        })
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.message) {
+                                Swal.fire({
+                                    title: "Succesvol deelgenomen",
+                                    text: data.message,
+                                    icon: "success",
+                                    showCloseButton: true,
+                                });
+                            } else if (data.error) {
+                                Swal.fire({
+                                    title: "Fout",
+                                    text: data.error,
+                                    icon: "error",
+                                    showCloseButton: true,
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire({
+                                title: "Fout",
+                                text: "Er is een fout opgetreden bij het deelnemen aan het onderzoek.",
+                                icon: "error",
+                                showCloseButton: true,
+                            });
+                        });
+                });
+                isJoinButtonListenerAdded = true;
+            }
         }
 
         if (popupInschrijvingButton) {

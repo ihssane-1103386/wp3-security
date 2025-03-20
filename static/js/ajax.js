@@ -376,6 +376,6 @@ function refreshOnderzoeken(){
         }
     }).catch(error => {
         console.error("Error fetching data:", error);
-        tbody.innerHTML = ""; // Optionally handle error case
+        tbody.innerHTML = "";
     });
 }
