@@ -369,15 +369,19 @@ function updateButtons(){
                         row.appendChild(cell);
                         researchTable.appendChild(row);
                     } else {
-                        data.forEach(item => {
-                            const row = document.createElement("tr");
-                            const onderzoekCell = document.createElement("td");
-                            onderzoekCell.textContent = item.titel;
-                            const statusCell = document.createElement("td");
-                            statusCell.textContent = item.status;
-                            row.appendChild(onderzoekCell);
-                            row.appendChild(statusCell);
-                            researchTable.appendChild(row);
+                       data.forEach(item => {
+                        const row = document.createElement("tr");
+                        row.style.cursor = "pointer";
+                        row.addEventListener("click", function () {
+                            window.location.href = `/onderzoeksvragen_detail/${item.onderzoek_id}`;
+                        });
+                        const onderzoekCell = document.createElement("td");
+                        onderzoekCell.textContent = item.titel;
+                        const statusCell = document.createElement("td");
+                        statusCell.textContent = item.status;
+                        row.appendChild(onderzoekCell);
+                        row.appendChild(statusCell);
+                        researchTable.appendChild(row);
                         });
                     }
                 })
