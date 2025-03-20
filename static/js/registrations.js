@@ -4,7 +4,7 @@ let currentTable = 'registraties';
 document.addEventListener("DOMContentLoaded", function () {
     loadRegistrations('registraties');
     // Refresh rate of page
-    setInterval(() => loadRegistrations(currentTable), 10000);
+    setInterval(() => loadRegistrations(currentTable), 60000);
 
     // Keeps track of which table is being clicked
     document.getElementById('registratieBtn').addEventListener('click', function(){
