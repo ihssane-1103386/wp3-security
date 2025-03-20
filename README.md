@@ -59,10 +59,10 @@ Beware! It is <b> case-sensitive! </b> :
 ### Alphabetical order Javascript:
 - https://wfernandoaugusto01.medium.com/sorting-data-alphabetically-localecompare-sort-e3d314708f8c
 
-## Accessible buttons
+### Accessible buttons
 -https://buttonbuddy.dev/ 
 
-## Chatgpt
+### Chatgpt
 -https://chatgpt.com/
 
 ### Set interval:
