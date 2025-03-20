@@ -61,10 +61,10 @@ Beware! It is <b> case-sensitive! </b> :
 - https://wfernandoaugusto01.medium.com/sorting-data-alphabetically-localecompare-sort-e3d314708f8c
 
 ### Accessible buttons
--https://buttonbuddy.dev/ 
+- https://buttonbuddy.dev/ 
 
 ### Chatgpt
--https://chatgpt.com/
+- https://chatgpt.com/
 
 ### Set interval:
 - https://www.w3schools.com/jsref/met_win_setinterval.asp
