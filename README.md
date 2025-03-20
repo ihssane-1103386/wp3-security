@@ -85,7 +85,6 @@ Beware! It is <b> case-sensitive! </b> :
 
 ### Javascript tutorials:
 - https://youtu.be/Ihy0QziLDf0?si=NYW_wAxSoKvDPqoc
-- https://www.w3schools.com/js/js_scope.asp
 - https://www.w3schools.com/jsref/jsref_filter.asp
 - https://www.youtube.com/watch?v=PkZNo7MFNFg
 
