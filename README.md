@@ -29,10 +29,12 @@ Beware! It is <b> case-sensitive! </b> :
 
 > <b> Non-admin </b> <br>
 > <b> Username: </b> test@example.com <br>
-> <b> Password: </b> test <br> <br>
+> <b> Password: </b> test <br>
+> <b> Beperking: </b> blind <br><br>
 > <b> Non-admin 2 </b> <br>
 > <b> Username: </b> noa.vandermeer@example.com <br>
-> <b> Password: </b> test
+> <b> Password: </b> test <br>
+> <b> Beperking: </b> reuma
 
 > <b> Organisation </b> <br>
 > <b> Company: </b> InclusiDesign <br>
