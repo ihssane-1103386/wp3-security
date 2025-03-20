@@ -47,17 +47,29 @@ Beware! It is <b> case-sensitive! </b> :
 
 # Sources
 
-## Flask routing tutorial
+### Flask routing tutorial
 - https://youtu.be/XTLg6TLfy7M?si=sqep1b3MUGJ-w2YV
 
-## Ajax with plain javascript
+### Ajax with plain javascript
 - https://dev.to/nikola/making-ajax-calls-in-pure-javascript-the-old-way-ed5
 
-## Flask decorators:
+### Flask decorators:
 - https://flask.palletsprojects.com/en/stable/patterns/viewdecorators/
 
-## Alphabetical order Javascript:
--https://wfernandoaugusto01.medium.com/sorting-data-alphabetically-localecompare-sort-e3d314708f8c
+### Alphabetical order Javascript:
+- https://wfernandoaugusto01.medium.com/sorting-data-alphabetically-localecompare-sort-e3d314708f8c
 
-## Accessible buttons
--https://buttonbuddy.dev/ 
+### Set interval:
+- https://www.w3schools.com/jsref/met_win_setinterval.asp
+
+### Accessible buttons:
+- https://buttonbuddy.dev/ 
+
+### API Javascript:
+- https://www.freecodecamp.org/news/make-api-calls-in-javascript/
+
+### Headers in Flask:
+- https://stackoverflow.com/questions/29386995/how-to-get-http-headers-in-flask
+
+### Option Javascript:
+- https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement/Option
