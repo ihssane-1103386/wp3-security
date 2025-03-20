@@ -49,6 +49,7 @@ Beware! It is <b> case-sensitive! </b> :
 
 ### Flask routing tutorial
 - https://youtu.be/XTLg6TLfy7M?si=sqep1b3MUGJ-w2YV
+- https://www.youtube.com/watch?v=mCy52I4exTU&t=498s
 
 ### Ajax with plain javascript
 - https://dev.to/nikola/making-ajax-calls-in-pure-javascript-the-old-way-ed5
@@ -73,9 +74,21 @@ Beware! It is <b> case-sensitive! </b> :
 
 ### API Javascript:
 - https://www.freecodecamp.org/news/make-api-calls-in-javascript/
+- https://www.w3schools.com/jsref/api_fetch.asp
 
 ### Headers in Flask:
 - https://stackoverflow.com/questions/29386995/how-to-get-http-headers-in-flask
+- https://www.youtube.com/watch?v=mCy52I4exTU&t=498s
 
 ### Option Javascript:
 - https://developer.mozilla.org/en-US/docs/Web/API/HTMLOptionElement/Option
+
+### Javascript tutorials:
+- https://youtu.be/Ihy0QziLDf0?si=NYW_wAxSoKvDPqoc
+- https://www.w3schools.com/js/js_scope.asp
+- https://www.w3schools.com/jsref/jsref_filter.asp
+- https://www.youtube.com/watch?v=PkZNo7MFNFg
+
+### Accessibility Guidelines:
+- https://www.w3schools.com/accessibility/accessibility_role_name_value.php
+- https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Structuring_content/Table_accessibility
