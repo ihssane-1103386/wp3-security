@@ -3,7 +3,7 @@
 ## Setup
 
 ## Computer specifications
- - Python version 3
+ - Python version 3.12
 
 ### How to set up a virtual environment in Pycharm:
 1. In pycharm click on "File" and then "settings".
