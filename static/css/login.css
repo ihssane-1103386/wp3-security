@@ -170,6 +170,7 @@ footer {
     position: page;
     bottom: 0;
     width: 100%;
+    margin-top: 80px;
 }
 
 footer ul {
