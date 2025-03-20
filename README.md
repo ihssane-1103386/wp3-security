@@ -29,6 +29,9 @@ Beware! It is <b> case-sensitive! </b> :
 
 > <b> Non-admin </b> <br>
 > <b> Username: </b> test@example.com <br>
+> <b> Password: </b> test <br> <br>
+> <b> Non-admin 2 </b> <br>
+> <b> Username: </b> noa.vandermeer@example.com <br>
 > <b> Password: </b> test
 
 > <b> Organisation </b> <br>
