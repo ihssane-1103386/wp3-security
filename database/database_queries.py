@@ -3,6 +3,7 @@ from models.database_connect import RawDatabase
 from flask import jsonify, session
 from flask_session import Session
 import sqlite3
+#import werkzeug en wachtwoord generator+check die de hash maakt en controleert voor authenticatie
 from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
 
@@ -23,6 +24,8 @@ class DatabaseQueries:
                 cursor = conn.cursor()
                 cursor.execute(sql_query, (email,))
                 user = cursor.fetchone()
+                #wachtwoord check voor het authenticeren van gebruikers.
+                #de gehashte wachtwoord wordt vergeleken met de ww die de gebruiker invoert.
                 if user and check_password_hash(user["wachtwoord"], wachtwoord):
                     session["user_id"] = user["ervaringsdeskundige_id"]
                     return True
@@ -85,7 +88,7 @@ class DatabaseQueries:
                 if cursor.fetchone():
                     print(f"FOUT: E-mailadres {email} bestaat al in de database.")  # Debugging
                     return None
-
+                #Deze regel maakt van het gewone wachtwoord een hash.
                 hashed_password = generate_password_hash(wachtwoord)
 
                 sql_query = """
@@ -154,7 +157,10 @@ class DatabaseQueries:
             return None
         
         session["user_id"] = medewerker["id"]
+        #wachtwoord van de medewerker wordt gehasht.
         wachtwoord_hash = medewerker["wachtwoord_hash"]
+        # wachtwoord check voor het authenticeren van een medewerker.
+        # de gehashte wachtwoord wordt vergeleken met de ww die de medewerker invoert.
         if check_password_hash(wachtwoord_hash, wachtwoord):
             return {"id": medewerker["id"], "rol": medewerker["rol"]}
         return None
@@ -168,6 +174,7 @@ class DatabaseQueries:
             return None
 
         rol_id = rol_result["id"]
+        #wachtwoord van een nieuwe medewerker wordt gehasht.
         wachtwoord_hash = generate_password_hash(wachtwoord)
 
         query = """
