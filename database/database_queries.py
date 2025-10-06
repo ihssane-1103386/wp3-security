@@ -6,6 +6,13 @@ import sqlite3
 #import werkzeug en wachtwoord generator+check die de hash maakt en controleert voor authenticatie
 from werkzeug.security import generate_password_hash, check_password_hash
 import secrets
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+PEPPER = os.getenv("PEPPER_KEY")
+
+print("PEPPER KEY:", PEPPER)
 
 
 class DatabaseQueries:
@@ -26,7 +33,7 @@ class DatabaseQueries:
                 user = cursor.fetchone()
                 #wachtwoord check voor het authenticeren van gebruikers.
                 #de gehashte wachtwoord wordt vergeleken met de ww die de gebruiker invoert.
-                if user and check_password_hash(user["wachtwoord"], wachtwoord):
+                if user and check_password_hash(user["wachtwoord"], wachtwoord + PEPPER):
                     session["user_id"] = user["ervaringsdeskundige_id"]
                     return True
                 return False
@@ -89,7 +96,7 @@ class DatabaseQueries:
                     print(f"FOUT: E-mailadres {email} bestaat al in de database.")  # Debugging
                     return None
                 #Deze regel maakt van het gewone wachtwoord een hash.
-                hashed_password = generate_password_hash(wachtwoord)
+                hashed_password = generate_password_hash(wachtwoord + PEPPER)
 
                 sql_query = """
                     INSERT INTO ervaringsdeskundigen 
@@ -161,7 +168,7 @@ class DatabaseQueries:
         wachtwoord_hash = medewerker["wachtwoord_hash"]
         # wachtwoord check voor het authenticeren van een medewerker.
         # de gehashte wachtwoord wordt vergeleken met de ww die de medewerker invoert.
-        if check_password_hash(wachtwoord_hash, wachtwoord):
+        if check_password_hash(wachtwoord_hash, wachtwoord + PEPPER):
             return {"id": medewerker["id"], "rol": medewerker["rol"]}
         return None
 
@@ -175,7 +182,7 @@ class DatabaseQueries:
 
         rol_id = rol_result["id"]
         #wachtwoord van een nieuwe medewerker wordt gehasht.
-        wachtwoord_hash = generate_password_hash(wachtwoord)
+        wachtwoord_hash = generate_password_hash(wachtwoord + PEPPER)
 
         query = """
             INSERT INTO medewerkers (voornaam, achternaam, email, wachtwoord_hash, rol_id)
