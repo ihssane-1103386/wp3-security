@@ -25,6 +25,7 @@
 
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
+            <!--Missing Anti-clickjacking Header-->
             <button type="submit" aria-label="Inloggen">Inloggen</button>
             <p>Heb je nog geen account? <a href="/rd" aria-label="Ga naar de registratiepagina">Registreer hier</a></p>
             <p>Inloggen als organisatie? <a href="/org-login-form" id="org-login" aria-label="Inloggen als organisatie">Klik
