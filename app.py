@@ -30,6 +30,11 @@ def set_clickjacking_headers(response):
     response.headers['Content-Security-Policy'] = "frame-ancestors 'none';"
     return response
 
+@app.after_request
+def remove_server_header(response):
+    response.headers["Server"] = "SecureServer"
+    return response
+
 @app.context_processor
 def inject_user():
     return dict(user=session.get("user"), role=session.get("role"), org=session.get("org"))
