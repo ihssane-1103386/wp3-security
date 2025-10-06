@@ -24,6 +24,12 @@ def homepagina():
 def notFound(e):
     return render_template("pagina-niet-gevonden.html"), 404
 
+@app.after_request
+def set_clickjacking_headers(response):
+    response.headers['X-Frame-Options'] = 'DENY'
+    response.headers['Content-Security-Policy'] = "frame-ancestors 'none';"
+    return response
+
 @app.context_processor
 def inject_user():
     return dict(user=session.get("user"), role=session.get("role"), org=session.get("org"))
