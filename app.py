@@ -32,7 +32,7 @@ def set_clickjacking_headers(response):
 
 @app.after_request
 def remove_server_header(response):
-    response.headers["Server"] = "SecureServer"
+    response.headers.pop("Server", None)
     return response
 
 @app.context_processor
