@@ -13,7 +13,6 @@
         <form id="login-page" class="login-page" action="/login" method="POST">
             <h1>Inloggen</h1>
 
-            <!--Gebrek aan Anti-CSRF Tokens-->
             <label for="email">E-mailadres</label>
             <input type="email" name="email" id="email" placeholder="Uw e-mailadres" required
                    aria-describedby="email-help"/>
@@ -23,6 +22,8 @@
             <input type="password" name="password" id="password" placeholder="Uw wachtwoord" required
                    aria-describedby="password-help"/>
             <span id="password-help" class="sr-only">Uw wachtwoord moet minimaal 5 tekens lang zijn</span>
+
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <button type="submit" aria-label="Inloggen">Inloggen</button>
             <p>Heb je nog geen account? <a href="/rd" aria-label="Ga naar de registratiepagina">Registreer hier</a></p>
