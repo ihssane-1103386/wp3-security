@@ -23,6 +23,7 @@
                    aria-describedby="password-help"/>
             <span id="password-help" class="sr-only">Uw wachtwoord moet minimaal 5 tekens lang zijn</span>
 
+            <!--anti-csrf token toegevoegd-->
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
             <!--Missing Anti-clickjacking Header-->

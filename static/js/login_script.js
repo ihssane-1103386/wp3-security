@@ -13,11 +13,15 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Vul alle velden in.");
             return;
         }
-
+        const csrfToken = document.querySelector('input[name="csrf_token"]').value;
         fetch("/login", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({email: email, password: password})
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                csrf_token: csrfToken
+            })
         })
             .then(response => response.json())
             .then(data => {

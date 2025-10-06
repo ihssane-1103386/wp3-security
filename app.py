@@ -6,6 +6,7 @@ from models.onderzoeken import onderzoeken
 from database.database_queries import DatabaseQueries
 from models.registraties import Registrations
 from functools import wraps
+import secrets
 
 from models.api_keys import ApiKeys
 
@@ -53,6 +54,12 @@ def getUserBeperkingen(email):
 
 @app.route("/login", methods=["GET", "POST"]) 
 def login():
+    if request.method == "GET":
+        if 'csrf_token' not in session:
+            session['csrf_token'] = secrets.token_hex(16)
+        return render_template("login.html.jinja", csrf_token=session['csrf_token'])
+
+
     if request.method == "POST":
         if request.content_type != "application/json":
             return jsonify({"success": False, "message": "Invalid request format. Use JSON."}), 415
@@ -60,6 +67,8 @@ def login():
         data = request.get_json()
         if not data:
             return jsonify({"success": False, "message": "Invalid JSON request."}), 400
+        if data.get("csrf_token") != session.get("csrf_token"):
+            return jsonify({"success": False, "message": "CSRF token mismatch!"}), 403
 
         email = data.get("email")
         wachtwoord = data.get("password")
@@ -68,6 +77,8 @@ def login():
         if medewerker:
             session["user"] = email
             session["role"] = medewerker["rol"]
+            session.pop('csrf_token', None)
+            session['csrf_token'] = secrets.token_hex(16)
             return jsonify({"success": True, "message": "Inloggen als medewerker gelukt!", "role": medewerker["rol"]})
 
         if DatabaseQueries.authenticate_user(email, wachtwoord):
@@ -85,6 +96,8 @@ def login():
                 session["beperkingen"] = beperkingen_array
             else:
                 session["beperkingen"] = []
+            session.pop('csrf_token', None)
+            session['csrf_token'] = secrets.token_hex(16)
 
             return jsonify({"success": True, "message": "Inloggen geslaagd!"})
         else:
